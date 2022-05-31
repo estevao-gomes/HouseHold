@@ -1,3 +1,5 @@
+import { Check, X } from 'phosphor-react';
+
 interface TaskProps {
   task: {
     title: string;
@@ -9,9 +11,15 @@ interface TaskProps {
 export function Task({ task }: TaskProps) {
   return (
     <>
-      <div className="col-span-6">{task.title}</div>
-      <div className="col-span-1">C</div>
-      <div className="col-span-1">X</div>
+      <span className="col-span-6 bg-blue-500 text-white font-bold p-2 min-w-[280px] text-center">
+        {task.title}
+      </span>
+      <button className="col-span-1">
+        <Check size={32} />
+      </button>
+      <button className="col-span-1 text-red-500">
+        <X size={32} />
+      </button>
     </>
   );
 }

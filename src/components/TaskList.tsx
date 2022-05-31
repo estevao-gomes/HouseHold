@@ -23,7 +23,7 @@ const tasks = [
 
 export function TaskList() {
   return (
-    <div className="grid grid-cols-8 gap-4 mt-8 justify-center justify-items-center">
+    <div className="grid grid-cols-8 gap-4 mt-8 justify-center justify-items-center items-center">
       {tasks.map((task) => {
         return (
           <Task task={task} key={task.id}/>
