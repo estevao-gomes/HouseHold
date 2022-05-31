@@ -1,8 +1,12 @@
 import { Listbox } from '@headlessui/react';
 import { useState } from 'react';
 
-export function DateSelection() {
-  const [date, setDate] = useState(new Date());
+interface DateSelectionProps {
+  date: Date;
+  onDateChange: (newDate: Date) => void;
+}
+
+export function DateSelection({ date, onDateChange }: DateSelectionProps) {
   const [daysInMonth, setDaysInMonth] = useState(
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
   );
@@ -10,26 +14,24 @@ export function DateSelection() {
   const currentYear = new Date().getFullYear();
 
   function handleDaySet(day: number) {
-    setDate((date) => {
-      return new Date(date.getFullYear(), date.getMonth(), day);
-    })
-    console.log(date) 
+    var newDate = new Date(date.getFullYear(), date.getMonth(), day);
+    onDateChange(newDate);
   }
 
   function handleMonthSet(month: number) {
     var newDaysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
-    setDate((date) => {
-      return new Date(date.getFullYear(), month, date.getDate() > newDaysInMonth ? newDaysInMonth : date.getDate());
-    });
-    setDaysInMonth(newDaysInMonth)
-    console.log(date)
+    onDateChange(
+      new Date(
+        date.getFullYear(),
+        month,
+        date.getDate() > newDaysInMonth ? newDaysInMonth : date.getDate()
+      )
+    );
+    setDaysInMonth(newDaysInMonth);
   }
 
   function handleYearSet(year: number) {
-    setDate((date) => {
-      return new Date(year, date.getMonth(), date.getDate());
-    })
-    console.log(date) 
+    onDateChange(new Date(year, date.getMonth(), date.getDate()));
   }
 
   return (
@@ -43,8 +45,8 @@ export function DateSelection() {
           <Listbox.Options className="absolute max-h-[100px] overflow-auto">
             {[...Array(daysInMonth).keys()].map((day) => {
               return (
-                <Listbox.Option key={day} value={day+1}>
-                  {day+1}
+                <Listbox.Option key={day} value={day + 1}>
+                  {day + 1}
                 </Listbox.Option>
               );
             })}
@@ -53,12 +55,12 @@ export function DateSelection() {
       </Listbox>
       <Listbox value={date.getMonth()} onChange={handleMonthSet}>
         <div className="relative text-center">
-          <Listbox.Button>{date.getMonth()+1}</Listbox.Button>
+          <Listbox.Button>{date.getMonth() + 1}</Listbox.Button>
           <Listbox.Options className="absolute max-h-[100px] overflow-auto">
             {[...Array(12).keys()].map((month) => {
               return (
                 <Listbox.Option key={month} value={month}>
-                  {month+1}
+                  {month + 1}
                 </Listbox.Option>
               );
             })}
@@ -69,13 +71,15 @@ export function DateSelection() {
         <div className="relative text-center">
           <Listbox.Button>{date.getFullYear()}</Listbox.Button>
           <Listbox.Options className="absolute max-h-[100px] overflow-auto">
-            {[...Array(currentYear+1).keys()].filter((year) => year > 1989).map((year) => {
-              return (
-                <Listbox.Option key={year} value={year}>
-                  {year}
-                </Listbox.Option>
-              );
-            })}
+            {[...Array(currentYear + 1).keys()]
+              .filter((year) => year > 1989)
+              .map((year) => {
+                return (
+                  <Listbox.Option key={year} value={year}>
+                    {year}
+                  </Listbox.Option>
+                );
+              })}
           </Listbox.Options>
         </div>
       </Listbox>
