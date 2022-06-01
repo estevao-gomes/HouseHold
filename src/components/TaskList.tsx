@@ -1,32 +1,33 @@
+import { useEffect, useState } from 'react';
 import { Task } from './Task';
+import { TaskInterface } from '../interfaces/TaskInterface';
+import axios from 'axios';
 
-const tasks = [
-  {
-    title: 'Task 1',
-    isChecked: false,
-    description: 'Task 1 description to be inserted',
-    id: 1,
-  },
-  {
-    title: 'Task 2',
-    isChecked: false,
-    description: 'Task 2 description to be inserted',
-    id: 2
-  },
-  {
-    title: 'Task 3',
-    isChecked: false,
-    description: 'Task 3 description to be inserted',
-    id: 3
-  },
-];
+//const axios = require('axios').default;
+
+interface apiTasks {
+  tasks: TaskInterface[];
+}
 
 export function TaskList() {
+  let [tasks, setTasks] = useState<TaskInterface[]>([]);
+
+  useEffect(() => {
+    axios.get<apiTasks>('api/tasks').then((response) => {
+      console.log(response.data.tasks);
+      setTasks(response.data.tasks);
+    });
+  }, []);
+
+  function handleTaskChecked() {}
+
   return (
-    <div className="grid grid-cols-8 gap-4 mt-8 justify-center justify-items-center items-center">
+    <div className="grid grid-cols-8 gap-4 mt-8 mx-24 justify-center justify-items-center items-center">
       {tasks.map((task) => {
         return (
-          <Task task={task} key={task.id}/>
-        )})}
+          <Task title={task.title} key={task.id} isChecked={task.isChecked} />
+        );
+      })}
     </div>
-  )};
+  );
+}

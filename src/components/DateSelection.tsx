@@ -42,7 +42,7 @@ export function DateSelection({ date, onDateChange }: DateSelectionProps) {
       <Listbox value={date.getDate()} onChange={handleDaySet}>
         <div className="relative text-center">
           <Listbox.Button>{date.getDate()}</Listbox.Button>
-          <Listbox.Options className="absolute max-h-[100px] overflow-auto">
+          <Listbox.Options className="absolute max-h-[100px] overflow-auto bg-slate-200">
             {[...Array(daysInMonth).keys()].map((day) => {
               return (
                 <Listbox.Option key={day} value={day + 1}>
