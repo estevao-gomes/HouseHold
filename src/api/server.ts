@@ -29,7 +29,28 @@ export function makeServer({ environment = 'test' } = {}) {
         title: 'Balanço 3',
         isChecked: false,
         description: 'Task 3',
-        date: new Date('2022, 30, 04'),
+        date: new Date('2022, 12, 04'),
+      });
+      server.create('task', {
+        id: 4,
+        title: 'Balanço 4',
+        isChecked: false,
+        description: 'Task 4',
+        date: new Date(),
+      });
+      server.create('task', {
+        id: 5,
+        title: 'Balanço 5',
+        isChecked: true,
+        description: 'Task 5',
+        date: new Date(),
+      });
+      server.create('task', {
+        id: 6,
+        title: 'Balanço 6',
+        isChecked: false,
+        description: 'Task 6',
+        date: new Date('2022, 12, 04'),
       });
     },
 
@@ -47,6 +68,12 @@ export function makeServer({ environment = 'test' } = {}) {
         let tasks = schema.tasks.find(id);
 
         return tasks.update(newAttrs);
+      });
+
+      this.delete('/tasks/:id', (schema, request) => {
+        let id = request.params.id;
+
+        return schema.tasks.find(id).destroy();
       });
     },
   });

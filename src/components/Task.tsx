@@ -6,12 +6,24 @@ type TaskProps = {
   title: string;
   isChecked: boolean;
   onTaskChecked: (event: MouseEvent) => void;
+  onTaskDeleted: (event: MouseEvent) => void;
 };
 
-export function Task({ id, title, isChecked, onTaskChecked }: TaskProps) {
+export function Task({
+  id,
+  title,
+  isChecked,
+  onTaskChecked,
+  onTaskDeleted,
+}: TaskProps) {
   return (
     <>
-      <button className="col-span-6 bg-blue-500 text-white font-bold p-2 min-w-[280px] text-center">
+      <button
+        className="col-span-6 text-white font-bold p-2 min-w-[280px] text-center"
+        style={{
+          background: `${isChecked ? 'green' : 'blue'}`,
+        }}
+      >
         {title}
       </button>
       <button
@@ -25,7 +37,11 @@ export function Task({ id, title, isChecked, onTaskChecked }: TaskProps) {
       >
         <Check size={32} />
       </button>
-      <button className="col-span-1 text-red-500">
+      <button
+        id={id}
+        className="col-span-1 text-red-500"
+        onClick={onTaskDeleted}
+      >
         <X size={32} />
       </button>
     </>
