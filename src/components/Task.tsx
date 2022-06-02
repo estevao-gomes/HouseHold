@@ -1,9 +1,14 @@
 import { Check, X } from 'phosphor-react';
-import { TaskInterface } from '../interfaces/TaskInterface';
+import { MouseEvent } from 'react';
 
-type TaskProps = Pick<TaskInterface, 'title' | 'isChecked'>;
+type TaskProps = {
+  id: string;
+  title: string;
+  isChecked: boolean;
+  onTaskChecked: (event: MouseEvent) => void;
+};
 
-export function Task({ title, isChecked }: TaskProps) {
+export function Task({ id, title, isChecked, onTaskChecked }: TaskProps) {
   return (
     <>
       <button className="col-span-6 bg-blue-500 text-white font-bold p-2 min-w-[280px] text-center">
@@ -15,6 +20,8 @@ export function Task({ title, isChecked }: TaskProps) {
         style={{
           color: `${isChecked ? 'green' : 'gray'}`,
         }}
+        id={id}
+        onClick={onTaskChecked}
       >
         <Check size={32} />
       </button>

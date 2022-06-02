@@ -1,5 +1,5 @@
 export interface TaskInterface {
-  id: number;
+  id: string;
   title: string;
   isChecked: boolean;
   description: string;

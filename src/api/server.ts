@@ -15,18 +15,21 @@ export function makeServer({ environment = 'test' } = {}) {
         title: 'Balanço 1',
         isChecked: false,
         description: 'Task 1',
+        date: new Date(),
       });
       server.create('task', {
         id: 2,
         title: 'Balanço 2',
         isChecked: true,
         description: 'Task 2',
+        date: new Date(),
       });
       server.create('task', {
         id: 3,
         title: 'Balanço 3',
         isChecked: false,
         description: 'Task 3',
+        date: new Date('2022, 30, 04'),
       });
     },
 
@@ -37,14 +40,13 @@ export function makeServer({ environment = 'test' } = {}) {
         return schema.tasks.all();
       });
 
-      this.patch('/tasks:id', (schema, request)=>{
-        let newAttrs = JSON.parse(request.requestBody)
-        let id = request.params.id
+      this.patch('/tasks/:id', (schema, request) => {
+        let newAttrs = JSON.parse(request.requestBody);
+        let id = request.params.id;
 
-        let tasks = schema.tasks.find(id)
+        let tasks = schema.tasks.find(id);
 
-        return tasks.update(newAttrs)
-
+        return tasks.update(newAttrs);
       });
     },
   });
