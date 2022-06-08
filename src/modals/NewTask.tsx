@@ -1,6 +1,8 @@
-import { Dialog } from '@headlessui/react';
 import axios from 'axios';
 import { FormEvent, useState } from 'react';
+
+import { Dialog } from '@headlessui/react';
+import { useDate } from '../hooks/UseDate';
 import { DateListBox } from '../shared/DateListBox';
 
 interface NewTaskProps {
@@ -9,40 +11,40 @@ interface NewTaskProps {
 }
 
 export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
-  const [date, setDate] = useState(new Date(new Date().toDateString()));
+  const { UpdateDate } = useDate();
+  const [newTaskDate, setNewTaskDate] = useState(new Date(new Date().toDateString()));
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [submitDialog, setSubmitDialog] = useState(false);
 
   function handleDaySet(day: number) {
-    var newDate = new Date(date.getFullYear(), date.getMonth(), day);
-    setDate(newDate);
+    var newDate = new Date(newTaskDate.getFullYear(), newTaskDate.getMonth(), day);
+    setNewTaskDate(newDate);
   }
 
   function handleMonthSet(month: number) {
-    var newDaysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
-    setDate(
+    var newDaysInMonth = new Date(newTaskDate.getFullYear(), month + 1, 0).getDate();
+    setNewTaskDate(
       new Date(
-        date.getFullYear(),
+        newTaskDate.getFullYear(),
         month,
-        date.getDate() > newDaysInMonth ? newDaysInMonth : date.getDate()
+        newTaskDate.getDate() > newDaysInMonth ? newDaysInMonth : newTaskDate.getDate()
       )
     );
   }
 
   function handleYearSet(year: number) {
-    setDate(new Date(year, date.getMonth(), date.getDate()));
+    setNewTaskDate(new Date(year, newTaskDate.getMonth(), newTaskDate.getDate()));
   }
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    console.log(name, description, date);
+    console.log(name, description, newTaskDate);
     axios
       .post('api/tasks', {
-        date: date,
-        name: name,
+        date: newTaskDate,
+        title: name,
         description: description,
-        id: '7',
       })
       .then(function (response) {
         console.log(response);
@@ -50,6 +52,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
       .catch(function (error) {
         console.log(error);
       });
+    UpdateDate(newTaskDate);
     onNewTask();
     setSubmitDialog(true);
   }
@@ -65,7 +68,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
           <Dialog.Title>New Task</Dialog.Title>
           <Dialog.Description>Insert New Task</Dialog.Description>
           <DateListBox
-            date={date}
+            date={newTaskDate}
             handleDaySet={handleDaySet}
             handleMonthSet={handleMonthSet}
             handleYearSet={handleYearSet}

@@ -60,8 +60,8 @@ export function makeServer({ environment = 'test' } = {}) {
       this.post('/tasks', (schema, request) => {
         let attrs = JSON.parse(request.requestBody);
         attrs.id = Math.floor(Math.random() * 1000);
-
-        schema.tasks.create(attrs)
+        attrs.date = new Date(attrs.date);
+        schema.tasks.create(attrs);
         return { task: attrs };
       });
 

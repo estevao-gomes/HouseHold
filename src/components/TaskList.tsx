@@ -69,7 +69,7 @@ export function TaskList() {
   }
   console.log(tasks);
   return (
-    <div className="grid grid-cols-8 gap-4 my-8 mx-24 justify-center justify-items-center items-center">
+    <div className="grid grid-cols-8 gap-4 my-8 mx-24 justify-center justify-items-center items-center overflow-scroll scroll-smooth">
       {tasks.map((task) => {
         return (
           <Task
