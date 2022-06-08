@@ -4,17 +4,23 @@ import { MouseEvent } from 'react';
 type TaskProps = {
   id: string;
   title: string;
+  description: string;
   isChecked: boolean;
+  isClicked: boolean;
   onTaskChecked: (event: MouseEvent) => void;
   onTaskDeleted: (event: MouseEvent) => void;
+  onTaskClicked: (event: MouseEvent) => void;
 };
 
 export function Task({
   id,
   title,
+  description,
   isChecked,
+  isClicked,
   onTaskChecked,
   onTaskDeleted,
+  onTaskClicked,
 }: TaskProps) {
   return (
     <>
@@ -23,6 +29,8 @@ export function Task({
         style={{
           background: `${isChecked ? 'green' : 'blue'}`,
         }}
+        id={id}
+        onClick={onTaskClicked}
       >
         {title}
       </button>
@@ -44,6 +52,11 @@ export function Task({
       >
         <X size={32} />
       </button>
+      {isClicked && (
+        <div className="col-span-8 border-4 border-slate-300">
+          {description}
+        </div>
+      )}
     </>
   );
 }

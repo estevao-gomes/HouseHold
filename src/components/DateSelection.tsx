@@ -1,12 +1,9 @@
 import { Listbox } from '@headlessui/react';
 import { useState } from 'react';
+import { useDate } from '../hooks/UseDate';
 
-interface DateSelectionProps {
-  date: Date;
-  onDateChange: (newDate: Date) => void;
-}
-
-export function DateSelection({ date, onDateChange }: DateSelectionProps) {
+export function DateSelection() {
+  const { date, UpdateDate } = useDate();
   const [daysInMonth, setDaysInMonth] = useState(
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
   );
@@ -15,12 +12,12 @@ export function DateSelection({ date, onDateChange }: DateSelectionProps) {
 
   function handleDaySet(day: number) {
     var newDate = new Date(date.getFullYear(), date.getMonth(), day);
-    onDateChange(newDate);
+    UpdateDate(newDate);
   }
 
   function handleMonthSet(month: number) {
     var newDaysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
-    onDateChange(
+    UpdateDate(
       new Date(
         date.getFullYear(),
         month,
@@ -31,7 +28,7 @@ export function DateSelection({ date, onDateChange }: DateSelectionProps) {
   }
 
   function handleYearSet(year: number) {
-    onDateChange(new Date(year, date.getMonth(), date.getDate()));
+    UpdateDate(new Date(year, date.getMonth(), date.getDate()));
   }
 
   return (
