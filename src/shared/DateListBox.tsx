@@ -1,36 +1,32 @@
 import { Listbox } from '@headlessui/react';
-import { useState } from 'react';
-import { useDate } from '../hooks/UseDate';
+import { useEffect, useState } from 'react';
 
-export function DateSelection() {
-  const { date, UpdateDate } = useDate();
+interface DateListBoxProps {
+  date: Date;
+  handleDaySet: (day: number) => void;
+  handleMonthSet: (month: number) => void;
+  handleYearSet: (year: number) => void;
+}
+
+export function DateListBox({
+  date,
+  handleDaySet,
+  handleMonthSet,
+  handleYearSet,
+}: DateListBoxProps) {
   const [daysInMonth, setDaysInMonth] = useState(
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
   );
 
+  useEffect(
+    () =>
+      setDaysInMonth(
+        new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+      ),
+    [date]
+  );
+
   const currentYear = new Date().getFullYear();
-
-  function handleDaySet(day: number) {
-    var newDate = new Date(date.getFullYear(), date.getMonth(), day);
-    UpdateDate(newDate);
-  }
-
-  function handleMonthSet(month: number) {
-    var newDaysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
-    UpdateDate(
-      new Date(
-        date.getFullYear(),
-        month,
-        date.getDate() > newDaysInMonth ? newDaysInMonth : date.getDate()
-      )
-    );
-    setDaysInMonth(newDaysInMonth);
-  }
-
-  function handleYearSet(year: number) {
-    UpdateDate(new Date(year, date.getMonth(), date.getDate()));
-  }
-
   return (
     <div className=" mx-8 grid grid-cols-3 gap-x-4 bg-neutral-50 p-2">
       <div className="text-center">Dia</div>

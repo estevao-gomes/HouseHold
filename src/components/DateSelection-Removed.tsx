@@ -1,9 +1,13 @@
-import { Popover } from '@headlessui/react';
 import { useDate } from '../hooks/UseDate';
-import { DateListBox } from '../shared/DateListBox';
+import { DateListBox } from './DateListBox';
 
-export function DateButton() {
+export function DateSelection() {
   const { date, UpdateDate } = useDate();
+  //const [daysInMonth, setDaysInMonth] = useState(
+  //  new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+  //);
+
+  //const currentYear = new Date().getFullYear();
 
   function handleDaySet(day: number) {
     var newDate = new Date(date.getFullYear(), date.getMonth(), day);
@@ -19,24 +23,18 @@ export function DateButton() {
         date.getDate() > newDaysInMonth ? newDaysInMonth : date.getDate()
       )
     );
+    setDaysInMonth(newDaysInMonth);
   }
 
   function handleYearSet(year: number) {
     UpdateDate(new Date(year, date.getMonth(), date.getDate()));
   }
   return (
-    <Popover className="flex justify-center justify-items-center items-center">
-      <Popover.Panel className="mt-4">
-        <DateListBox
-          date={date}
-          handleDaySet={handleDaySet}
-          handleMonthSet={handleMonthSet}
-          handleYearSet={handleYearSet}
-        />
-      </Popover.Panel>
-      <Popover.Button className="mt-4 bg-blue-500 p-4 rounded-full text-white font-bold">
-        {date.toLocaleDateString('pt-BR')}
-      </Popover.Button>
-    </Popover>
+    <DateListBox
+      date={date}
+      handleDaySet={handleDaySet}
+      handleMonthSet={handleMonthSet}
+      handleYearSet={handleYearSet}
+    />
   );
 }

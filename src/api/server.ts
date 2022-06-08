@@ -57,8 +57,17 @@ export function makeServer({ environment = 'test' } = {}) {
     routes() {
       this.namespace = 'api';
 
+      this.post('/tasks', (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+        attrs.id = Math.floor(Math.random() * 1000);
+
+        schema.tasks.create(attrs)
+        return { task: attrs };
+      });
+
       this.get('/tasks', (schema, request) => {
         let dateParam = request.queryParams.date;
+        //return schema.tasks.all();
         return schema.tasks.where({ date: new Date(dateParam) });
       });
 
