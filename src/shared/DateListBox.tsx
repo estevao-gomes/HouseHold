@@ -35,10 +35,14 @@ export function DateListBox({
       <Listbox value={date.getDate()} onChange={handleDaySet}>
         <div className="relative text-center">
           <Listbox.Button>{date.getDate()}</Listbox.Button>
-          <Listbox.Options className="absolute max-h-[100px] overflow-auto bg-slate-200">
+          <Listbox.Options className="absolute max-h-[100px] overflow-auto bg-slate-200 scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100 p-2">
             {[...Array(daysInMonth).keys()].map((day) => {
               return (
-                <Listbox.Option key={day} value={day + 1}>
+                <Listbox.Option
+                  key={day}
+                  value={day + 1}
+                  className="hover:bg-slate-400 hover:cursor-pointer"
+                >
                   {day + 1}
                 </Listbox.Option>
               );
@@ -49,10 +53,14 @@ export function DateListBox({
       <Listbox value={date.getMonth()} onChange={handleMonthSet}>
         <div className="relative text-center">
           <Listbox.Button>{date.getMonth() + 1}</Listbox.Button>
-          <Listbox.Options className="absolute max-h-[100px] overflow-auto">
+          <Listbox.Options className="absolute max-h-[100px] overflow-auto bg-slate-100 scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-200 p-2">
             {[...Array(12).keys()].map((month) => {
               return (
-                <Listbox.Option key={month} value={month}>
+                <Listbox.Option
+                  key={month}
+                  value={month}
+                  className="hover:bg-slate-400 hover:cursor-pointer"
+                >
                   {month + 1}
                 </Listbox.Option>
               );
@@ -63,12 +71,16 @@ export function DateListBox({
       <Listbox value={date.getFullYear()} onChange={handleYearSet}>
         <div className="relative text-center">
           <Listbox.Button>{date.getFullYear()}</Listbox.Button>
-          <Listbox.Options className="absolute max-h-[100px] overflow-auto">
+          <Listbox.Options className="absolute max-h-[100px] overflow-auto bg-slate-100 scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100 p-2">
             {[...Array(currentYear + 1).keys()]
               .filter((year) => year > 1989)
               .map((year) => {
                 return (
-                  <Listbox.Option key={year} value={year}>
+                  <Listbox.Option
+                    key={year}
+                    value={year}
+                    className="hover:bg-slate-400 hover:cursor-pointer"
+                  >
                     {year}
                   </Listbox.Option>
                 );
