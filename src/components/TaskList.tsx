@@ -74,11 +74,7 @@ export function TaskList() {
         return (
           <Task
             key={task.id}
-            title={task.title}
-            id={task.id}
-            description={task.description}
-            isChecked={task.isChecked}
-            isClicked={task.isClicked}
+            task={task}
             onTaskChecked={handleTaskChecked}
             onTaskDeleted={handleTaskDelete}
             onTaskClicked={handleTaskClicked}
