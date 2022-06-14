@@ -60,7 +60,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
     <>
       <Dialog
         as="div"
-        className="relative z-10 bg-slate-100 text-center m-4"
+        className="absolute z-10 top-20 right-1/3 left-1/3 bg-slate-100 text-center m-4 max-w-[33%]"
         open={isOpen}
         onClose={onNewTask}
       >
@@ -88,12 +88,12 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
             ></input>
             <button type="submit">Criar</button>
           </form>
-          <button onClick={onNewTask}>Cancel</button>
+          <button onClick={onNewTask}>Cancelar</button>
         </Dialog.Panel>
       </Dialog>
       <Dialog
         as="div"
-        className="relative z-10 bg-slate-100 text-center m-4"
+        className="absolute y-1 z-10 bg-slate-100 text-center m-4"
         open={submitDialog}
         onClose={() => setSubmitDialog(false)}
       >
