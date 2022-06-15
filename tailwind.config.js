@@ -1,13 +1,26 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   content: ['./src/**/*.{html,js,ts,tsx}'],
   theme: {
     colors: {
-      'text-light': '#f3f4f6',
-      'text-dark': '#f9fafb',
-      'main-light': '#0583d2',
-      'main-dark': '#1655bf',
-      'secondary-light': '#b8e3ff',
-      'secondary-dark': '#61b0b7',
+      primary: '#06ccb0',
+      'primary-dark': '#009a81',
+      'primary-light': '#62ffe2',
+      secondary: '#cc0624',
+      'secondary-light': '#ff514d',
+      'secondary-dark': '#930000',
+      onPrimary: '#000000',
+      'onPrimary-dark': '#000000',
+      'onPrimary-light': '#000000',
+      onSecondary: '#ffffff',
+      'onSecondary-light': '#000000',
+      'onSecondary-dark': '#ffffff',
+      onChecked: '#ffffff',
+      checked: colors.green,
+      notChecked: colors.gray,
+      surface: '#ffffff',
+      onSurface: "#000000"
     },
     extend: {},
   },

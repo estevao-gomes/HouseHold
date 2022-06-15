@@ -12,9 +12,15 @@ export function Header() {
     <>
       <div className="flex align-items-center justify-center">
         <button
-          className="m-2 py-2 px-8 border-2 rounded-full min-w-[90px]"
+          className={`m-2 py-2 px-8 border-2 font-medium ${
+            isOpen
+              ? 'border-primary-light bg-surface'
+              : 'border-primary bg-primary text-onPrimary'
+          } rounded-full min-w-[90px]`}
           type="button"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setIsOpen(true);
+          }}
         >
           Novo
         </button>
@@ -23,3 +29,6 @@ export function Header() {
     </>
   );
 }
+//onKeyDown={() => {
+//  setIsOpen((oldIsOpen)=>!oldIsOpen)
+//}}

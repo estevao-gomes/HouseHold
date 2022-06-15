@@ -20,8 +20,10 @@ export function Task({
   return (
     <>
       <button
-        className={`col-span-6 text-text-dark ${
-          task.isClicked ? 'bg-main-dark' : 'bg-secondary-dark'
+        className={`col-span-6 ${
+          task.isClicked
+            ? 'bg-secondary text-onSecondary'
+            : 'bg-primary text-onPrimary'
         } font-bold p-2 min-w-[280px] text-center`}
         id={task.id}
         onClick={onTaskClicked}
@@ -30,21 +32,20 @@ export function Task({
       </button>
       <button
         type="button"
-        className="col-span-1"
-        style={{
-          color: `${task.isChecked ? 'green' : 'gray'}`,
-        }}
+        className={`col-span-1 ${
+          task.isChecked ? 'bg-checked-500 text-onChecked' : 'text-notChecked-500'
+        }`}
         id={task.id}
         onClick={onTaskChecked}
       >
-        <Check size={32} />
+        <Check size={32} className="text-green-500" />
       </button>
       <button
         id={task.id}
         className="col-span-1 text-red-500"
         onClick={onTaskDeleted}
       >
-        <X size={32} />
+        <X size={32} className="text-main" />
       </button>
       {task.isClicked && (
         <div className="col-span-8 border-4 border-slate-300 w-[90%] ml-8 p-2">
