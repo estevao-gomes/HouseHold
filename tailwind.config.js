@@ -20,7 +20,8 @@ module.exports = {
       checked: colors.green,
       notChecked: colors.gray,
       surface: '#ffffff',
-      onSurface: "#000000"
+      onSurface: '#000000',
+      error: colors.red,
     },
     extend: {},
   },
