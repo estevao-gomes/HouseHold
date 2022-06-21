@@ -41,7 +41,7 @@ export function DateListBox({
       <Listbox value={date.getDate()} onChange={handleDaySet}>
         <div className="relative flex justify-center rounded-b-md border border-t-0 border-primary">
           <Listbox.Button>{date.getDate()}</Listbox.Button>
-          <Listbox.Options className="absolute max-h-[100px] z-20 top-5 overflow-auto bg-surface scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface p-2 shador-sm">
+          <Listbox.Options className="absolute max-h-[6.25rem] z-20 top-5 overflow-auto bg-surface scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface p-2 shadow-sm">
             {[...Array(daysInMonth).keys()].map((day) => {
               return (
                 <Listbox.Option
@@ -59,7 +59,7 @@ export function DateListBox({
       <Listbox value={date.getMonth()} onChange={handleMonthSet}>
         <div className="relative flex justify-center rounded-b-md border border-t-0 border-primary">
           <Listbox.Button>{date.getMonth() + 1}</Listbox.Button>
-          <Listbox.Options className="absolute max-h-[100px] z-20 top-5 bg-surface overflow-auto bg-slate-100 scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface p-2 shadow-sm">
+          <Listbox.Options className="absolute max-h-[6.25rem] z-20 top-5 bg-surface overflow-auto bg-slate-100 scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface p-2 shadow-sm">
             {[...Array(12).keys()].map((month) => {
               return (
                 <Listbox.Option
@@ -77,7 +77,7 @@ export function DateListBox({
       <Listbox value={date.getFullYear()} onChange={handleYearSet}>
         <div className="relative flex justify-center rounded-b-md border border-t-0 border-primary">
           <Listbox.Button>{date.getFullYear()}</Listbox.Button>
-          <Listbox.Options className="absolute max-h-[100px] z-20 top-5 bg-surface overflow-auto bg-slate-100 scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface p-2 shadow-sm">
+          <Listbox.Options className="absolute max-h-[6.25rem] z-20 top-5 bg-surface overflow-auto bg-slate-100 scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface p-2 shadow-sm">
             {[...Array(currentYear + 1).keys()]
               .filter((year) => year > 1989)
               .map((year) => {
