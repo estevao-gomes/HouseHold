@@ -73,60 +73,61 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
   return (
     <>
       <Dialog
-        as="div"
-        className="absolute z-10 top-20 right-1/3 left-1/3 bg-slate-100 text-center m-4 max-w-[33%] bg-surface shadow"
+        className="fixed inset-0 z-10 top-10 flex justify-center text-center "
         open={isOpen}
         onClose={onNewTask}
       >
-        <Dialog.Panel>
-          <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
-            New Task
-          </Dialog.Title>
+        <div className="bg-slate-100 my-4 w-[345px] h-[375px] bg-surface shadow">
+          <Dialog.Panel>
+            <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
+              New Task
+            </Dialog.Title>
 
-          <form className="flex-auto" onSubmit={handleSubmit}>
-            <div className="relative grid grid-rows-2 mt-2 mx-16">
-              <label className="w-16 z-10 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
-                Nome
-              </label>
-              <input
-                className="mx-2 -mt-2 border-2 border-onSurface p-2 min-w-16"
-                type="text"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-              ></input>
-            </div>
-            <div className="flex justify-center">
-              <DateListBox
-                date={newTaskDate}
-                handleDaySet={handleDaySet}
-                handleMonthSet={handleMonthSet}
-                handleYearSet={handleYearSet}
-              />
-            </div>
-            <div className="relative grid grid-rows-3 mt-2 mx-16">
-              <label className="w-32 z-10 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
-                Descrição
-              </label>
-              <textarea
-                className="row-span-2 mx-2 -mt-2 border-2 border-onSurface p-2 min-w-16 rounded-sm scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface resize-none"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-              ></textarea>
-            </div>
-            <button
-              className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[100px] m-2"
-              type="submit"
-            >
-              Criar
-            </button>
-            <button
-              className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[100px] m-2 border-2 border-primary"
-              onClick={onNewTask}
-            >
-              Cancelar
-            </button>
-          </form>
-        </Dialog.Panel>
+            <form className="flex-auto" onSubmit={handleSubmit}>
+              <div className="relative grid grid-rows-2 mt-2 mx-16">
+                <label className="w-16 z-10 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
+                  Nome
+                </label>
+                <input
+                  className="mx-2 -mt-2 border-2 border-onSurface p-2"
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                ></input>
+              </div>
+              <div className="flex justify-center">
+                <DateListBox
+                  date={newTaskDate}
+                  handleDaySet={handleDaySet}
+                  handleMonthSet={handleMonthSet}
+                  handleYearSet={handleYearSet}
+                />
+              </div>
+              <div className="relative grid grid-rows-3 mt-2 mx-16">
+                <label className="w-32 z-10 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
+                  Descrição
+                </label>
+                <textarea
+                  className="row-span-2 mx-2 -mt-2 border-2 border-onSurface p-2 rounded-sm scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface resize-none"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                ></textarea>
+              </div>
+              <button
+                className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"
+                type="submit"
+              >
+                Criar
+              </button>
+              <button
+                className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 border-2 border-primary"
+                onClick={onNewTask}
+              >
+                Cancelar
+              </button>
+            </form>
+          </Dialog.Panel>
+        </div>
       </Dialog>
       <Dialog
         as="div"
@@ -142,7 +143,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
             Task Created Successfully
           </Dialog.Description>
           <button
-            className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[100px] m-2"
+            className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"
             onClick={() => setSubmitDialog(false)}
           >
             Close

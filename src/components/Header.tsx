@@ -13,10 +13,8 @@ export function Header() {
       <div className="flex align-items-center justify-center">
         <button
           className={`m-2 py-2 px-8 border-2 font-medium ${
-            isOpen
-              ? 'hidden'
-              : 'border-primary bg-primary-dark text-onPrimary-dark'
-          } rounded-full min-w-[90px]`}
+            isOpen ? '' : 'border-primary bg-primary-dark text-onPrimary-dark'
+          } rounded-full min-w-[5rem]`}
           type="button"
           onClick={() => {
             setIsOpen(true);
@@ -29,6 +27,3 @@ export function Header() {
     </>
   );
 }
-//onKeyDown={() => {
-//  setIsOpen((oldIsOpen)=>!oldIsOpen)
-//}}

@@ -20,11 +20,11 @@ export function Task({
   return (
     <>
       <button
-        className={`col-span-6 ${
+        className={`lg:col-span-6 md:col-span-2${
           task.isClicked
             ? 'bg-secondary text-onSecondary'
             : 'bg-primary text-onPrimary'
-        } font-bold p-2 min-w-[17.5rem] text-center`}
+        } font-bold p-2 md:min-w-[17.5rem] sm:min-w-max text-center`}
         id={task.id}
         onClick={onTaskClicked}
       >
@@ -50,7 +50,7 @@ export function Task({
         <X size={32} className="text-error" />
       </button>
       {task.isClicked && (
-        <div className="col-span-8 border-4 border-slate-300 w-[90%] ml-8 p-2">
+        <div className="col-span-8 border-4 border-slate-300 w-[90%] p-2">
           {task.description}
         </div>
       )}
