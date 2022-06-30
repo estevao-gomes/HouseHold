@@ -43,15 +43,23 @@ export function DateListBox({
           <Listbox.Button>{date.getDate()}</Listbox.Button>
           <Listbox.Options className="absolute max-h-[6.25rem] z-20 top-5 overflow-auto bg-surface scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface p-2 shadow-sm">
             {[...Array(daysInMonth).keys()].map((day) => (
-              
-                <Listbox.Option
-                  key={day}
-                  value={day + 1}
-                  className="hover:bg-primary-light hover:text-onPrimary-light hover:font-medium hover:cursor-pointer"
-                >
-                  {day + 1}
-                </Listbox.Option>
-              
+              <Listbox.Option
+                key={day}
+                value={day + 1}
+                className="hover:bg-primary-light hover:text-onPrimary-light hover:font-medium hover:cursor-pointer"
+              >
+                {({ active }) => (
+                  <li
+                    className={`${
+                      active
+                        ? 'bg-primary-light text-onPrimary-light font-medium'
+                        : 'bg-surface text-onSurface'
+                    }`}
+                  >
+                    {day + 1}
+                  </li>
+                )}
+              </Listbox.Option>
             ))}
           </Listbox.Options>
         </div>
@@ -67,7 +75,17 @@ export function DateListBox({
                   value={month}
                   className="hover:bg-primary-light hover:text-onPrimary-light hover:font-medium  hover:cursor-pointer"
                 >
-                  {month + 1}
+                  {({ active }) => (
+                    <li
+                      className={`${
+                        active
+                          ? 'bg-primary-light text-onPrimary-light font-medium'
+                          : 'bg-surface text-onSurface'
+                      }`}
+                    >
+                      {month + 1}
+                    </li>
+                  )}
                 </Listbox.Option>
               );
             })}
@@ -87,7 +105,17 @@ export function DateListBox({
                     value={year}
                     className="hover:bg-primary-light hover:text-onPrimary-light hover:font-medium  hover:cursor-pointer"
                   >
-                    {year}
+                    {({ active }) => (
+                      <li
+                        className={`${
+                          active
+                            ? 'bg-primary-light text-onPrimary-light font-medium'
+                            : 'bg-surface text-onSurface'
+                        }`}
+                      >
+                        {year}
+                      </li>
+                    )}
                   </Listbox.Option>
                 );
               })}
