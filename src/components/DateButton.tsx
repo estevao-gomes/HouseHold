@@ -11,29 +11,43 @@ export function DateButton() {
     UpdateDate(newDate);
   }
 
+  function resetNewDate() {
+    setNewDate(date);
+  }
+
   function handleDaySet(day: number) {
-    var newDate = new Date(date.getFullYear(), date.getMonth(), day);
-    setNewDate(newDate);
+    setNewDate(new Date(newDate.getFullYear(), newDate.getMonth(), day));
   }
 
   function handleMonthSet(month: number) {
-    var newDaysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
+    var newDaysInMonth = new Date(
+      newDate.getFullYear(),
+      month + 1,
+      0
+    ).getDate();
     setNewDate(
       new Date(
-        date.getFullYear(),
+        newDate.getFullYear(),
         month,
-        date.getDate() > newDaysInMonth ? newDaysInMonth : date.getDate()
+        newDate.getDate() > newDaysInMonth ? newDaysInMonth : newDate.getDate()
       )
     );
   }
 
   function handleYearSet(year: number) {
-    setNewDate(new Date(year, date.getMonth(), date.getDate()));
+    setNewDate(new Date(year, newDate.getMonth(), newDate.getDate()));
   }
   return (
     <Popover className="flex justify-center justify-items-center items-center my-4 h-14">
       {({ open }) => (
         <>
+          <Popover.Button
+            onClick={open ? updateTaskList : resetNewDate}
+            onKeyDown={open ? updateTaskList : resetNewDate}
+            className="flex bg-primary p-4 rounded-full text-onPrimary font-bold h-14 align-items-center"
+          >
+            {open ? 'Confirm' : date.toLocaleDateString('pt-BR')}
+          </Popover.Button>
           <Popover.Panel className="mx-4">
             <DateListBox
               date={newDate}
@@ -42,12 +56,6 @@ export function DateButton() {
               handleYearSet={handleYearSet}
             />
           </Popover.Panel>
-          <Popover.Button
-            onClick={updateTaskList}
-            className="flex bg-primary p-4 rounded-full text-onPrimary font-bold h-14 align-items-center"
-          >
-            {open ? 'Confirm' : date.toLocaleDateString('pt-BR')}
-          </Popover.Button>
         </>
       )}
     </Popover>

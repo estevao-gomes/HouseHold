@@ -42,8 +42,8 @@ export function DateListBox({
         <div className="relative flex justify-center rounded-b-md border border-t-0 border-primary">
           <Listbox.Button>{date.getDate()}</Listbox.Button>
           <Listbox.Options className="absolute max-h-[6.25rem] z-20 top-5 overflow-auto bg-surface scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface p-2 shadow-sm">
-            {[...Array(daysInMonth).keys()].map((day) => {
-              return (
+            {[...Array(daysInMonth).keys()].map((day) => (
+              
                 <Listbox.Option
                   key={day}
                   value={day + 1}
@@ -51,8 +51,8 @@ export function DateListBox({
                 >
                   {day + 1}
                 </Listbox.Option>
-              );
-            })}
+              
+            ))}
           </Listbox.Options>
         </div>
       </Listbox>
