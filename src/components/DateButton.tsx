@@ -44,7 +44,7 @@ export function DateButton() {
           <Popover.Button
             onClick={open ? updateTaskList : resetNewDate}
             onKeyDown={open ? updateTaskList : resetNewDate}
-            className="flex bg-primary p-4 rounded-full text-onPrimary font-bold h-14 align-items-center"
+            className="flex bg-primary p-4 rounded-full text-onPrimary font-medium h-14 align-items-center"
           >
             {open ? 'Confirm' : date.toLocaleDateString('pt-BR')}
           </Popover.Button>

@@ -11,7 +11,7 @@ export function Header() {
 
   return (
     <>
-      <div className="text-center bg-primary-dark font-medium py-4">
+      <div className="text-center bg-primary-dark text-onPrimary-dark text-xl font-bold py-4">
         Lista de Balanços
       </div>
       <div className="flex align-items-center justify-center">
