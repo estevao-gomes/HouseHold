@@ -20,11 +20,11 @@ export function Task({
   return (
     <>
       <button
-        className={`lg:col-span-6 md:col-span-2${
+        className={`col-span-6 ${
           task.isClicked
             ? 'bg-secondary text-onSecondary'
             : 'bg-primary text-onPrimary'
-        } font-bold p-2 md:min-w-[17.5rem] sm:min-w-max text-center`}
+        } font-bold p-2 w-full text-center`}
         id={task.id}
         onClick={onTaskClicked}
       >
@@ -32,7 +32,7 @@ export function Task({
       </button>
       <button
         type="button"
-        className={`col-span-1 ${
+        className={`col-span-1 rounded-md ${
           task.isChecked
             ? 'bg-checked-500 text-onChecked'
             : 'text-notChecked-500'
@@ -50,7 +50,7 @@ export function Task({
         <X size={32} className="text-error" />
       </button>
       {task.isClicked && (
-        <div className="col-span-8 border-4 border-slate-300 w-[90%] p-2">
+        <div className="col-span-8 border-2 border-primary-dark rounded-md p-2 w-full">
           {task.description}
         </div>
       )}

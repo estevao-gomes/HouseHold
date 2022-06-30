@@ -17,7 +17,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
   );
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [submitDialog, setSubmitDialog] = useState(true);
+  const [submitDialog, setSubmitDialog] = useState(false);
 
   function handleDaySet(day: number) {
     var newDate = new Date(
@@ -77,7 +77,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
         open={isOpen}
         onClose={onNewTask}
       >
-        <div className="bg-slate-100 my-4 w-[345px] h-[375px] bg-surface shadow">
+        <div className="w-[345px] h-[375px] bg-surface shadow">
           <Dialog.Panel>
             <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
               New Task
@@ -131,24 +131,26 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
       </Dialog>
       <Dialog
         as="div"
-        className="absolute z-10 top-20 right-1/3 left-1/3 bg-slate-100 text-center m-4 max-w-[33%] bg-surface shadow"
+        className="fixed flex justify-center inset-0 z-10 top-10 text-center min-w-max"
         open={submitDialog}
         onClose={() => setSubmitDialog(false)}
       >
-        <Dialog.Panel>
-          <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
-            Success
-          </Dialog.Title>
-          <Dialog.Description className="text-primary-dark m-2 font-bold">
-            Task Created Successfully
-          </Dialog.Description>
-          <button
-            className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"
-            onClick={() => setSubmitDialog(false)}
-          >
-            Close
-          </button>
-        </Dialog.Panel>
+        <div className="w-[345px] h-[175px] bg-surface shadow">
+          <Dialog.Panel>
+            <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
+              Success
+            </Dialog.Title>
+            <Dialog.Description className="text-primary-dark m-2 font-bold">
+              Task Created Successfully
+            </Dialog.Description>
+            <button
+              className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"
+              onClick={() => setSubmitDialog(false)}
+            >
+              Close
+            </button>
+          </Dialog.Panel>
+        </div>
       </Dialog>
     </>
   );

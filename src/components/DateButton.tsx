@@ -5,7 +5,7 @@ import { DateListBox } from '../shared/DateListBox';
 
 export function DateButton() {
   const { date, UpdateDate } = useDate();
-  const [newDate, setNewDate] = useState(new Date());
+  const [newDate, setNewDate] = useState(new Date(new Date().toDateString()));
 
   function updateTaskList() {
     UpdateDate(newDate);
