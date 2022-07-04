@@ -12,42 +12,42 @@ export function makeServer({ environment = 'test' } = {}) {
     seeds(server) {
       server.create('task', {
         id: '1',
-        title: 'Balanço 1',
+        title: 'Tarefa 1',
         isChecked: false,
         description: 'Task 1',
         date: new Date(new Date().toDateString()),
       });
       server.create('task', {
         id: '2',
-        title: 'Balanço 2',
+        title: 'Tarefa 2',
         isChecked: true,
         description: 'Task 2',
         date: new Date(new Date().toDateString()),
       });
       server.create('task', {
         id: '3',
-        title: 'Balanço 3',
+        title: 'Tarefa 3',
         isChecked: false,
         description: 'Task 3',
         date: new Date(new Date('2022, 04, 12').toDateString()),
       });
       server.create('task', {
         id: '4',
-        title: 'Balanço 4',
+        title: 'Tarefa 4',
         isChecked: false,
         description: 'Task 4',
         date: new Date(new Date().toDateString()),
       });
       server.create('task', {
         id: '5',
-        title: 'Balanço 5',
+        title: 'Tarefa 5',
         isChecked: true,
         description: 'Task 5',
         date: new Date(new Date().toDateString()),
       });
       server.create('task', {
         id: '6',
-        title: 'Balanço 6',
+        title: 'Tarefa 6',
         isChecked: false,
         description: 'Task 6',
         date: new Date(new Date('2021, 04, 12').toDateString()),

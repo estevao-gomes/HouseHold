@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { FormEvent, useState } from 'react';
 
-import { Dialog } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import { useDate } from '../hooks/UseDate';
 import { DateListBox } from '../shared/DateListBox';
 
@@ -87,18 +87,21 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
       return
     }
     UpdateDate(newTaskDate);
-    onNewTask();
     setErrorDialog(false)
+    onNewTask();
     setSuccessDialog(true);
   }
   return (
     <>
       <Dialog
-        className="fixed inset-0 z-10 top-10 flex justify-center text-center "
+        className="fixed inset-0 z-10 top-10 flex justify-center text-center"
         open={isOpen}
-        onClose={onNewTask}
+        onClose={() => {
+          setErrorDialog(false)
+          onNewTask()
+        }}
       >
-        <div className="w-[345px] h-[375px] bg-surface shadow">
+        <div className="w-[345px] h-[400px] bg-surface shadow">
           <Dialog.Panel>
             <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
               New Task
@@ -146,8 +149,10 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
               <button
                 className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 border-2 border-primary"
                 onClick={()=>{
-                  onNewTask()
+                  setName('')
+                  setDescription('')
                   setErrorDialog(false)
+                  onNewTask()
                 }}
               >
                 Cancelar

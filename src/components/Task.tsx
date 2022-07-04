@@ -20,11 +20,17 @@ export function Task({
   return (
     <>
       <button
-        className={`col-span-6 ${
+        className={`col-span-6 bg-surface border-4 rounded-md ${
           task.isClicked
-            ? 'bg-secondary text-onSecondary'
-            : 'bg-primary text-onPrimary'
-        } font-bold p-2 w-full text-center`}
+            ?  'border-primary-dark'
+            : 'border-primary-light'
+        } hover:border-primary font-bold text- p-2 w-full text-center
+        ${
+          task.isChecked ?
+          'text-checked-600' :
+          'text-onSurface'
+        }`
+      }
         id={task.id}
         onClick={onTaskClicked}
       >
@@ -36,7 +42,7 @@ export function Task({
           task.isChecked
             ? 'bg-checked-500 text-onChecked'
             : 'text-notChecked-500'
-        }`}
+        } hover:border-2 border-primary`}
         id={task.id}
         onClick={onTaskChecked}
       >
@@ -44,7 +50,7 @@ export function Task({
       </button>
       <button
         id={task.id}
-        className="col-span-1 text-error-500"
+        className="col-span-1 text-error-500 hover:border-2 rounded-md border-error-500"
         onClick={onTaskDeleted}
       >
         <X size={32} className="text-error" />

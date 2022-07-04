@@ -1,4 +1,4 @@
-import { Popover } from '@headlessui/react';
+import { Popover, Transition } from '@headlessui/react';
 import { useState } from 'react';
 import { useDate } from '../hooks/UseDate';
 import { DateListBox } from '../shared/DateListBox';
@@ -44,18 +44,27 @@ export function DateButton() {
           <Popover.Button
             onClick={open ? updateTaskList : resetNewDate}
             onKeyDown={open ? updateTaskList : resetNewDate}
-            className="flex bg-primary p-4 rounded-full text-onPrimary font-medium h-14 align-items-center"
+            className="flex bg-primary p-4 rounded-full text-onPrimary font-bold h-14 align-items-center hover:opacity-80 focus:opacity-80 transition-opacity"
           >
             {open ? 'Confirm' : date.toLocaleDateString('pt-BR')}
           </Popover.Button>
-          <Popover.Panel className="mx-4">
-            <DateListBox
-              date={newDate}
-              handleDaySet={handleDaySet}
-              handleMonthSet={handleMonthSet}
-              handleYearSet={handleYearSet}
-            />
-          </Popover.Panel>
+          <Transition
+            enter="transition duration-400 ease-out"
+            enterFrom="transform scale-95 opacity-0"
+            enterTo="transform scale-100 opacity-100"
+            leave="transition duration-200 ease-out"
+            leaveFrom="transform scale-100 opacity-100"
+            leaveTo="transform scale-95 opacity-0"
+          >
+            <Popover.Panel className="mx-4">
+              <DateListBox
+                date={newDate}
+                handleDaySet={handleDaySet}
+                handleMonthSet={handleMonthSet}
+                handleYearSet={handleYearSet}
+              />
+            </Popover.Panel>
+          </Transition>
         </>
       )}
     </Popover>

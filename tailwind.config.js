@@ -22,6 +22,7 @@ module.exports = {
       surface: '#ffffff',
       onSurface: '#000000',
       error: colors.red,
+      dateText: colors.slate
     },
     extend: {},
   },

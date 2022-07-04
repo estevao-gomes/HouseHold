@@ -12,19 +12,20 @@ export function Header() {
   return (
     <>
       <div className="text-center bg-primary-dark text-onPrimary-dark text-xl font-bold py-4">
-        Lista de Balanços
+        Lista de Tarefas
       </div>
       <div className="flex align-items-center justify-center">
         <button
-          className={`m-4 px-8 border-2 font-medium ${
-            isOpen ? '' : 'border-primary bg-primary-dark text-onPrimary-dark'
-          } rounded-full h-14`}
+          className={`m-4 px-8 font-bold ${
+            isOpen ? ''
+            :'bg-primary text-onPrimary-dark'
+          } rounded-full h-14 hover:opacity-80 focus:opacity-80 transition-opacity`}
           type="button"
           onClick={() => {
             setIsOpen(true);
           }}
         >
-          Novo
+          Nova
         </button>
         <DateButton />
       </div>
