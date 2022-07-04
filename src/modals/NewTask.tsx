@@ -17,7 +17,8 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
   );
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [submitDialog, setSubmitDialog] = useState(false);
+  const [successDialog, setSuccessDialog] = useState(false);
+  const [errorDialog, setErrorDialog] = useState(false);
 
   function handleDaySet(day: number) {
     var newDate = new Date(
@@ -54,11 +55,16 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     console.log(name, description, newTaskDate);
-    axios
+
+    try{
+      if(name === ""){
+        throw new Error('Empty task name');
+      }
+      axios
       .post('api/tasks', {
         date: newTaskDate,
         title: name,
-        description: description,
+        description: description ? description : "No description",
       })
       .then(function (response) {
         console.log(response);
@@ -66,9 +72,24 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
       .catch(function (error) {
         console.log(error);
       });
+    }catch(error){
+      let message
+
+      if (error instanceof Error) {
+        message = error.message
+      }
+      else message = String(error)
+
+      console.log(message)
+
+      setErrorDialog(true)
+
+      return
+    }
     UpdateDate(newTaskDate);
     onNewTask();
-    setSubmitDialog(true);
+    setErrorDialog(false)
+    setSuccessDialog(true);
   }
   return (
     <>
@@ -85,11 +106,14 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
 
             <form className="flex-auto" onSubmit={handleSubmit}>
               <div className="relative grid grid-rows-2 mt-2 mx-16">
-                <label className="w-16 z-10 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
-                  Nome
-                </label>
+                <div className='flex z-10 items-center'>
+                  <label className="w-16 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
+                    Nome
+                  </label>
+                  {errorDialog && <span className='text-xs ml-1 text-error-600'>Indique um nome</span>}
+                </div>
                 <input
-                  className="mx-2 -mt-2 border-2 border-onSurface p-2"
+                  className={`mx-2 -mt-2 border-2 ${!errorDialog ? "border-onSurface" : "border-error-600" } p-2`}
                   type="text"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
@@ -121,7 +145,10 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
               </button>
               <button
                 className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 border-2 border-primary"
-                onClick={onNewTask}
+                onClick={()=>{
+                  onNewTask()
+                  setErrorDialog(false)
+                }}
               >
                 Cancelar
               </button>
@@ -132,8 +159,8 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
       <Dialog
         as="div"
         className="fixed flex justify-center inset-0 z-10 top-10 text-center min-w-max"
-        open={submitDialog}
-        onClose={() => setSubmitDialog(false)}
+        open={successDialog}
+        onClose={() => setSuccessDialog(false)}
       >
         <div className="w-[345px] h-[175px] bg-surface shadow">
           <Dialog.Panel>
@@ -145,7 +172,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
             </Dialog.Description>
             <button
               className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"
-              onClick={() => setSubmitDialog(false)}
+              onClick={() => setSuccessDialog(false)}
             >
               Close
             </button>
