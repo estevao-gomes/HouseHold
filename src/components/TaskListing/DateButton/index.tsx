@@ -38,7 +38,7 @@ export function DateButton() {
     setNewDate(new Date(year, newDate.getMonth(), newDate.getDate()));
   }
   return (
-    <Popover className="flex justify-center justify-items-center items-center my-4 h-14">
+    <Popover className="flex justify-center justify-items-center items-center m-4 h-14">
       {({ open }) => (
         <>
           <Popover.Button
