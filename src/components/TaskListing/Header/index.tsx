@@ -17,8 +17,7 @@ export function Header() {
       <div className="flex align-items-center justify-center">
         <button
           className={`m-4 px-8 font-bold ${
-            isOpen ? ''
-            :'bg-primary text-onPrimary-dark'
+            isOpen ? '' : 'bg-primary text-onPrimary-dark'
           } rounded-full h-14 hover:opacity-80 focus:opacity-80 transition-opacity`}
           type="button"
           onClick={() => {
@@ -27,9 +26,8 @@ export function Header() {
         >
           Nova
         </button>
-        <DateButton />
       </div>
-
+      <DateButton />
       <NewTask isOpen={isOpen} onNewTask={handleNewTask} />
     </>
   );
