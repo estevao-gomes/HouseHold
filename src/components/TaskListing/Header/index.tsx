@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { NewTask } from '../modals/NewTask';
-import { DateButton } from './DateButton';
+import { NewTask } from '../../../modals/NewTask';
+import { DateButton } from '../DateButton';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);

@@ -1,7 +1,7 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { Task } from './Task';
-import { TaskInterface } from '../interfaces/TaskInterface';
-import { useDate } from '../hooks/UseDate';
+import { TaskInterface } from '../../../interfaces/TaskInterface';
+import { useDate } from '../../../hooks/UseDate';
 
 import axios from 'axios';
 
@@ -69,7 +69,7 @@ export function TaskList() {
   }
   console.log(tasks);
   return (
-    <div className="grid grid-cols-8 gap-2 justify-center justify-items-center items-center min-w-max">
+    <div className="grid grid-cols-8 gap-2 justify-center justify-items-center items-center">
       {tasks.map((task) => {
         return (
           <Task

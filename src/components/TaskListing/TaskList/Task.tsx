@@ -1,6 +1,6 @@
 import { Check, X } from 'phosphor-react';
 import { MouseEvent } from 'react';
-import { TaskInterface } from '../interfaces/TaskInterface';
+import { TaskInterface } from '../../interfaces/TaskInterface';
 
 type TaskProps = {
   task: TaskInterface;
