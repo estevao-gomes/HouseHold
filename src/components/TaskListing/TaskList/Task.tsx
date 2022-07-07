@@ -1,6 +1,6 @@
 import { Check, X } from 'phosphor-react';
 import { MouseEvent } from 'react';
-import { TaskInterface } from '../../interfaces/TaskInterface';
+import { TaskInterface } from '../../../interfaces/TaskInterface';
 
 type TaskProps = {
   task: TaskInterface;
@@ -49,7 +49,7 @@ export function Task({
         <X size={32} className="text-error" />
       </button>
       {task.isClicked && (
-        <div className="col-span-8 border-2 border-primary-dark rounded-md p-2 w-full p-1">
+        <div className="col-span-8 border-2 border-primary-dark rounded-md w-full p-1">
           {task.description}
         </div>
       )}
