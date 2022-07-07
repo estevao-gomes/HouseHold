@@ -56,49 +56,48 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
     event.preventDefault();
     console.log(name, description, newTaskDate);
 
-    try{
-      if(name === ""){
+    try {
+      if (name === '') {
         throw new Error('Empty task name');
       }
       axios
-      .post('api/tasks', {
-        date: newTaskDate,
-        title: name,
-        description: description ? description : "No description",
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }catch(error){
-      let message
+        .post('api/tasks', {
+          date: newTaskDate,
+          title: name,
+          description: description ? description : 'No description',
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (error) {
+      let message;
 
       if (error instanceof Error) {
-        message = error.message
-      }
-      else message = String(error)
+        message = error.message;
+      } else message = String(error);
 
-      console.log(message)
+      console.log(message);
 
-      setErrorDialog(true)
+      setErrorDialog(true);
 
-      return
+      return;
     }
     UpdateDate(newTaskDate);
-    setErrorDialog(false)
+    setErrorDialog(false);
     onNewTask();
     setSuccessDialog(true);
   }
   return (
     <>
       <Dialog
-        className="fixed inset-0 z-10 top-10 flex justify-center text-center"
+        className="flex justify-center fixed inset-0 z-10 top-10 text-center"
         open={isOpen}
         onClose={() => {
-          setErrorDialog(false)
-          onNewTask()
+          setErrorDialog(false);
+          onNewTask();
         }}
       >
         <div className="w-[345px] h-[400px] bg-surface shadow">
@@ -109,14 +108,20 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
 
             <form className="flex-auto" onSubmit={handleSubmit}>
               <div className="relative grid grid-rows-2 mt-2 mx-16">
-                <div className='flex z-10 items-center'>
+                <div className="flex z-10 items-center">
                   <label className="w-16 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
                     Nome
                   </label>
-                  {errorDialog && <span className='text-xs ml-1 text-error-600'>Indique um nome</span>}
+                  {errorDialog && (
+                    <span className="text-xs ml-1 text-error-600">
+                      Indique um nome
+                    </span>
+                  )}
                 </div>
                 <input
-                  className={`mx-2 -mt-2 border-2 ${!errorDialog ? "border-onSurface" : "border-error-600" } p-2`}
+                  className={`mx-2 -mt-2 border-2 ${
+                    !errorDialog ? 'border-onSurface' : 'border-error-600'
+                  } p-2`}
                   type="text"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
@@ -148,11 +153,11 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
               </button>
               <button
                 className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 border-2 border-primary"
-                onClick={()=>{
-                  setName('')
-                  setDescription('')
-                  setErrorDialog(false)
-                  onNewTask()
+                onClick={() => {
+                  setName('');
+                  setDescription('');
+                  setErrorDialog(false);
+                  onNewTask();
                 }}
               >
                 Cancelar
