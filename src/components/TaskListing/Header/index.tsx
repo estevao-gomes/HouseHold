@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NewTask } from '../../../modals/NewTask';
-import { DateButton } from '../DateButton';
+import { DateButton } from './DateButton';
 import { Plus } from 'phosphor-react';
 
 export function Header() {

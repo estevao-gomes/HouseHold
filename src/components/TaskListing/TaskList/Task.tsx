@@ -43,10 +43,10 @@ export function Task({
       </button>
       <button
         id={task.id}
-        className="col-span-1 text-error-500 hover:border-2 rounded-md border-error-500 p-1"
+        className="col-span-1 text-error-500 border-2 border-surface hover:border-error-500 rounded-md p-1"
         onClick={onTaskDeleted}
       >
-        <X size={32} className="text-error" />
+        <X size={24} className="text-error" />
       </button>
       {task.isClicked && (
         <div className="col-span-8 border-2 border-primary-dark rounded-md w-full p-1">
