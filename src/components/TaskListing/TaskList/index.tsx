@@ -4,6 +4,7 @@ import { TaskInterface } from '../../../interfaces/TaskInterface';
 import { useDate } from '../../../hooks/UseDate';
 
 import axios from 'axios';
+import { getDate } from '../../../hooks/useApi';
 
 interface apiTasks {
   tasks: TaskInterface[];
@@ -14,10 +15,7 @@ export function TaskList() {
   const { date } = useDate();
 
   useEffect(() => {
-    axios.get<apiTasks>('api/tasks', { params: { date } }).then((response) => {
-      console.log(response.data.tasks);
-      setTasks(response.data.tasks);
-    });
+    getDate({setTasks, date});
   }, [date]);
 
   function handleTaskChecked(event: MouseEvent) {
