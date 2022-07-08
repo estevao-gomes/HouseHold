@@ -1,33 +1,22 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { Task } from './Task';
+
 import { TaskInterface } from '../../../interfaces/TaskInterface';
+
 import { useDate } from '../../../hooks/UseDate';
-
-import axios from 'axios';
-import { getDate } from '../../../hooks/useApi';
-
-interface apiTasks {
-  tasks: TaskInterface[];
-}
+import { deleteTasks, getTasks, checkTask } from '../../../hooks/useApi';
 
 export function TaskList() {
   const [tasks, setTasks] = useState<TaskInterface[]>([]);
   const { date } = useDate();
 
   useEffect(() => {
-    getDate({setTasks, date});
+    getTasks({setTasks, date});
   }, [date]);
 
   function handleTaskChecked(event: MouseEvent) {
     let id = event.currentTarget.id;
-    axios
-      .patch(`api/tasks/${id}`, {
-        isChecked: !(tasks.find((task) => task.id === id) as TaskInterface)
-          .isChecked,
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    checkTask(id, tasks);
 
     setTasks((tasks) => {
       return tasks.map((task) => {
@@ -43,7 +32,7 @@ export function TaskList() {
 
   function handleTaskClicked(event: MouseEvent) {
     let id = event.currentTarget.id;
-    console.log(id);
+    //console.log(id);
     setTasks((tasks) => {
       return tasks.map((task) => {
         return task.id === id
@@ -58,14 +47,12 @@ export function TaskList() {
 
   function handleTaskDelete(event: MouseEvent) {
     let id = event.currentTarget.id;
-    axios.delete(`api/tasks/${id}`).catch((error) => {
-      console.log(error);
-    });
+    deleteTasks(id);
     setTasks((tasks) => {
       return tasks.filter((task) => task.id !== id);
     });
   }
-  console.log(tasks);
+  //console.log(tasks);
   return (
     <div className="grid grid-cols-8 gap-2 justify-center justify-items-center items-center">
       {tasks.map((task) => {
@@ -82,3 +69,5 @@ export function TaskList() {
     </div>
   );
 }
+
+
