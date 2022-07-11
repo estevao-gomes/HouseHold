@@ -8,7 +8,7 @@ interface TaskListingProps{
 
 export function TaskListing({ style }: TaskListingProps) {
   return (
-    <div className={`${style ? style : ""} flex-1 bg-white p-4`}>
+    <div className={`${style ? style : ""} flex-1 bg-white p-4 min-w-full`}>
       <DateContextProvider>
         <Header />
         <TaskList />

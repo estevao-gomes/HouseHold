@@ -11,18 +11,20 @@ export function TaskList() {
   const { date } = useDate();
 
   useEffect(() => {
-    async function CallApi(){
-      const result = await getTasks({date})
+    async function CallApi() {
+      const result = await getTasks({ date });
 
-      setTasks(result)
-    };
+      setTasks(result);
+    }
 
-    CallApi().catch(console.error)
+    CallApi().catch(console.error);
   }, [date]);
 
   async function handleTaskChecked(event: MouseEvent) {
     let id = event.currentTarget.id;
-    const newIsChecked = !(tasks.find((task) => task.id === id) as TaskInterface).isChecked 
+    const newIsChecked = !(
+      tasks.find((task) => task.id === id) as TaskInterface
+    ).isChecked;
 
     await checkTask(id, newIsChecked);
 
@@ -77,5 +79,3 @@ export function TaskList() {
     </div>
   );
 }
-
-
