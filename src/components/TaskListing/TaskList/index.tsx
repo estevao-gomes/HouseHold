@@ -11,12 +11,20 @@ export function TaskList() {
   const { date } = useDate();
 
   useEffect(() => {
-    getTasks({setTasks, date});
+    async function CallApi(){
+      const result = await getTasks({date})
+
+      setTasks(result)
+    };
+
+    CallApi().catch(console.error)
   }, [date]);
 
-  function handleTaskChecked(event: MouseEvent) {
+  async function handleTaskChecked(event: MouseEvent) {
     let id = event.currentTarget.id;
-    checkTask(id, tasks);
+    const newIsChecked = !(tasks.find((task) => task.id === id) as TaskInterface).isChecked 
+
+    await checkTask(id, newIsChecked);
 
     setTasks((tasks) => {
       return tasks.map((task) => {
@@ -45,9 +53,9 @@ export function TaskList() {
     });
   }
 
-  function handleTaskDelete(event: MouseEvent) {
+  async function handleTaskDelete(event: MouseEvent) {
     let id = event.currentTarget.id;
-    deleteTasks(id);
+    await deleteTasks(id);
     setTasks((tasks) => {
       return tasks.filter((task) => task.id !== id);
     });

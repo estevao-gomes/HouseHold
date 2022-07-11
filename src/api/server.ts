@@ -1,4 +1,5 @@
 import { createServer, Model } from 'miragejs';
+import { NoteInterface } from '../interfaces/NoteInterface';
 import { TaskInterface } from '../interfaces/TaskInterface';
 
 export function makeServer({ environment = 'test' } = {}) {
@@ -7,6 +8,7 @@ export function makeServer({ environment = 'test' } = {}) {
 
     models: {
       task: Model.extend<Partial<TaskInterface>>({}),
+      note: Model.extend<Partial<NoteInterface>>({})
     },
 
     seeds(server) {
@@ -52,6 +54,26 @@ export function makeServer({ environment = 'test' } = {}) {
         description: 'Task 6',
         date: new Date(new Date('2021, 04, 12').toDateString()),
       });
+      server.create('note',{
+        id: '1',
+        name: 'Note1 ',
+        description: 'Note 1'
+      });
+      server.create('note',{
+        id: '2',
+        name: 'Note 2',
+        description: 'Note 2'
+      });
+      server.create('note',{
+        id: '3',
+        name: 'Note 3',
+        description: 'Note 3'
+      });
+      server.create('note',{
+        id: '4',
+        name: 'Note 4',
+        description: 'Note 4'
+      })
     },
 
     routes() {
@@ -67,7 +89,6 @@ export function makeServer({ environment = 'test' } = {}) {
 
       this.get('/tasks', (schema, request) => {
         let dateParam = request.queryParams.date;
-        //return schema.tasks.all();
         return schema.tasks.where({ date: new Date(dateParam) });
       });
 
@@ -85,6 +106,10 @@ export function makeServer({ environment = 'test' } = {}) {
 
         return schema.tasks.find(id).destroy();
       });
+
+      this.get('/notes',(schema, request) => {
+        return schema.notes.all()
+      })
     },
   });
 

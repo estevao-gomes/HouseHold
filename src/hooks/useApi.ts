@@ -1,36 +1,47 @@
-import axios from "axios";
-import { TaskInterface } from "../interfaces/TaskInterface";
+import axios from 'axios';
+import { NoteInterface } from '../interfaces/NoteInterface';
+import { TaskInterface } from '../interfaces/TaskInterface';
 
 type TasksType = {
-    tasks: TaskInterface[]
+  tasks: TaskInterface[];
+};
+
+type NoteType = {
+  notes: NoteInterface[];
+};
+
+interface TasksProps {
+  date?: Date;
+  id?: string;
 }
 
-interface TasksProps{
-    setTasks: (tasks: TaskInterface[])=>void,
-    date?: Date,
-    id?: string
+export async function getTasks({ date }: TasksProps) {
+  return await axios
+    .get<TasksType>('api/tasks', { params: { date } })
+    .then((response) => {
+      //console.log(response.data.tasks);
+      return response.data.tasks;
+    });
 }
 
-export function getTasks({setTasks, date}: TasksProps){
-    axios.get<TasksType>('api/tasks', { params: { date } }).then((response) => {
-        //console.log(response.data.tasks);
-        setTasks(response.data.tasks);
+export async function deleteTasks(id: string) {
+  await axios.delete(`api/tasks/${id}`).catch((error) => {
+    console.log(error);
+  });
+}
+
+export async function checkTask(id: string, newIsChecked: boolean) {
+  await axios
+    .patch(`api/tasks/${id}`, {
+      isChecked: newIsChecked,
     })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
-export function deleteTasks(id:string){
-    axios.delete(`api/tasks/${id}`).catch((error) => {
-        console.log(error);
-      });
-}
-
-export function checkTask(id:string, tasks:TaskInterface[]){
-    axios
-      .patch(`api/tasks/${id}`, {
-        isChecked: !(tasks.find((task) => task.id === id) as TaskInterface)
-          .isChecked,
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+export async function getNotes() {
+  return await axios.get<NoteType>('api/notes').then((response) => {
+    return response.data.notes;
+  });
 }
