@@ -8,7 +8,7 @@ export function makeServer({ environment = 'test' } = {}) {
 
     models: {
       task: Model.extend<Partial<TaskInterface>>({}),
-      note: Model.extend<Partial<NoteInterface>>({})
+      note: Model.extend<Partial<NoteInterface>>({}),
     },
 
     seeds(server) {
@@ -54,26 +54,30 @@ export function makeServer({ environment = 'test' } = {}) {
         description: 'Task 6',
         date: new Date(new Date('2021, 04, 12').toDateString()),
       });
-      server.create('note',{
+      server.create('note', {
         id: '1',
         name: 'Note1 ',
-        description: 'Note 1'
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       });
-      server.create('note',{
+      server.create('note', {
         id: '2',
         name: 'Note 2',
-        description: 'Note 2'
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       });
-      server.create('note',{
+      server.create('note', {
         id: '3',
         name: 'Note 3',
-        description: 'Note 3'
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       });
-      server.create('note',{
+      server.create('note', {
         id: '4',
         name: 'Note 4',
-        description: 'Note 4'
-      })
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      });
     },
 
     routes() {
@@ -107,9 +111,9 @@ export function makeServer({ environment = 'test' } = {}) {
         return schema.tasks.find(id).destroy();
       });
 
-      this.get('/notes',(schema, request) => {
-        return schema.notes.all()
-      })
+      this.get('/notes', (schema, request) => {
+        return schema.notes.all();
+      });
     },
   });
 
