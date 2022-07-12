@@ -22,7 +22,7 @@ export function Task({
       <button
         className={`col-span-6 bg-surface border-4 rounded-md ${
           task.isClicked ? 'border-primary-dark' : 'border-primary-light'
-        } hover:border-primary font-bold text- p-2 w-full text-center
+        } hover:border-primary font-bold p-2 w-full text-center
         ${task.isChecked ? 'text-checked-600' : 'text-onSurface'}`}
         id={task.id}
         onClick={onTaskClicked}
@@ -39,7 +39,7 @@ export function Task({
         id={task.id}
         onClick={onTaskChecked}
       >
-        <Check size={32} />
+        <Check size={24} />
       </button>
       <button
         id={task.id}

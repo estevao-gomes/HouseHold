@@ -40,6 +40,25 @@ export async function checkTask(id: string, newIsChecked: boolean) {
     });
 }
 
+export async function createTask(
+  date: Date,
+  name: string,
+  description?: string
+) {
+  axios
+    .post('api/tasks', {
+      date: date,
+      title: name,
+      description: description ? description : 'No description',
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 export async function getNotes() {
   return await axios.get<NoteType>('api/notes').then((response) => {
     return response.data.notes;

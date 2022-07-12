@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { FormEvent, useState } from 'react';
 
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog } from '@headlessui/react';
 import { useDate } from '../hooks/UseDate';
 import { DateListBox } from '../shared/DateListBox';
+import { createTask } from '../hooks/useApi';
 
 interface NewTaskProps {
   isOpen: boolean;
@@ -54,24 +54,14 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    console.log(name, description, newTaskDate);
+    //console.log(name, description, newTaskDate);
 
     try {
       if (name === '') {
         throw new Error('Empty task name');
       }
-      axios
-        .post('api/tasks', {
-          date: newTaskDate,
-          title: name,
-          description: description ? description : 'No description',
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+
+      createTask(newTaskDate, name, description);
     } catch (error) {
       let message;
 
