@@ -64,7 +64,7 @@ export function Notes({ style }: NotesProps) {
           <Plus size={24} />
         </button>
       </div>
-      <div className="grid grid-cols-2 border-2 gap-2 border-error-500">
+      <div className="grid grid-cols-2 border-2 gap-2 border-error-500 max-h-[30rem] overflow-y-scroll scroll-p-6 scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
         {notes.map((note) => {
           return (
             <Note
