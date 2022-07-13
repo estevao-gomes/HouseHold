@@ -70,3 +70,17 @@ export async function deleteNotes(id: string) {
     console.log(error);
   });
 }
+
+export async function createNote(name: string, description: string) {
+  axios
+    .post('api/tasks', {
+      name: name,
+      description: description,
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}

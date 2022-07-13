@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
+import { createNote } from '../hooks/useApi';
 //import { createNote } from '../hooks/useApi';
 
 interface NewNoteProps {
@@ -14,7 +15,7 @@ export function NewNote({ isOpen, onNewNote }: NewNoteProps) {
   const [successDialog, setSuccessDialog] = useState(false);
   const [errorDialog, setErrorDialog] = useState(false);
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     //console.log(name, description, newTaskDate);
 
@@ -25,7 +26,7 @@ export function NewNote({ isOpen, onNewNote }: NewNoteProps) {
         throw new Error('Empty note');
       }
       onNewNote(name, description);
-      //createNote(name, description);
+      await createNote(name, description);
     } catch (error) {
       let message;
 

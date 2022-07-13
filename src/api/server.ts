@@ -120,6 +120,12 @@ export function makeServer({ environment = 'test' } = {}) {
 
         return schema.notes.find(id).destroy();
       });
+      this.post('/notes', (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+        attrs.id = Math.floor(Math.random() * 1000);
+        schema.tasks.create(attrs);
+        return { note: attrs };
+      });
     },
   });
 
