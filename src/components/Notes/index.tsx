@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { getNotes } from '../../hooks/useApi';
+import { useState, useEffect, MouseEvent } from 'react';
+import { getNotes, deleteNotes } from '../../hooks/useApi';
+
 import { NoteInterface } from '../../interfaces/NoteInterface';
 import { Note } from './Note';
 
@@ -20,6 +21,16 @@ export function Notes({ style }: NotesProps) {
     CallApi().catch(console.error);
   }, []);
 
+  function handleDeleteNotes(event: MouseEvent) {
+    const id = event.currentTarget.id;
+
+    setNotes((notes) => {
+      return notes.filter((note) => note.id !== id);
+    });
+
+    deleteNotes(id);
+  }
+
   return (
     <div className={`${style ? style : ''}`}>
       <div className="w-full bg-primary-dark text-onPrimary-dark text-center font-bold p-2">
@@ -27,7 +38,15 @@ export function Notes({ style }: NotesProps) {
       </div>
       <div className="grid grid-cols-2 border-2 gap-2 border-error-500">
         {notes.map((note) => {
-          return <Note name={note.name} description={note.description} />;
+          return (
+            <Note
+              key={note.id}
+              id={note.id}
+              name={note.name}
+              description={note.description}
+              onNoteDelete={handleDeleteNotes}
+            />
+          );
         })}
       </div>
     </div>

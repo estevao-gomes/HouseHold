@@ -114,6 +114,12 @@ export function makeServer({ environment = 'test' } = {}) {
       this.get('/notes', (schema, request) => {
         return schema.notes.all();
       });
+
+      this.delete('/notes/:id', (schema, request) => {
+        let id = request.params.id;
+
+        return schema.notes.find(id).destroy();
+      });
     },
   });
 

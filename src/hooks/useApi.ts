@@ -64,3 +64,9 @@ export async function getNotes() {
     return response.data.notes;
   });
 }
+
+export async function deleteNotes(id: string) {
+  return await axios.delete(`api/notes/${id}`).catch((error) => {
+    console.log(error);
+  });
+}
