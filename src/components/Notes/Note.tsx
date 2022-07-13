@@ -12,13 +12,17 @@ export function Note({ name, description, id, onNoteDelete }: NoteProps) {
     //this div will become a fragment
     <div className="border-2">
       <div className="flex items-center">
-        <div className="border border-primary-dark bg-primary-light rounded-md w-fit px-2 mb-1">
+        <div className="border border-primary-dark bg-primary-light rounded-md cursor-default w-fit px-2 mb-1">
           {name}
         </div>
         <div className="inline ml-2 underline hover:opacity-50 hover:cursor-pointer">
           Edit
         </div>
-        <button id={id} onClick={onNoteDelete} className="text-error-500 ml-auto">
+        <button
+          id={id}
+          onClick={onNoteDelete}
+          className="text-error-500 ml-auto"
+        >
           <Trash />
         </button>
       </div>
