@@ -2,6 +2,7 @@ import { Plus } from 'phosphor-react';
 import { useState, useEffect, MouseEvent } from 'react';
 
 import { NewNote } from '../../modals/NewNote';
+import { EditNote } from '../../modals/EditNote'
 
 import { getNotes, deleteNotes } from '../../hooks/useApi';
 
@@ -14,7 +15,9 @@ interface NotesProps {
 
 export function Notes({ style }: NotesProps) {
   const [notes, setNotes] = useState<NoteInterface[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [newNoteIsOpen, setNewNoteIsOpen] = useState<boolean>(false);
+  const [editNoteIsOpen, setEditNoteIsOpen] = useState<boolean>(false);
+  const [noteBeingEdited, setNoteBeingEdited] = useState<string>('');
 
   useEffect(() => {
     async function CallApi() {
@@ -37,7 +40,7 @@ export function Notes({ style }: NotesProps) {
   }
 
   function handleNewNote(name?: string, description?: string) {
-    setIsOpen(false);
+    setNewNoteIsOpen(false);
     if (name && description) {
       const newNotes = [
         ...notes,
@@ -51,13 +54,39 @@ export function Notes({ style }: NotesProps) {
     }
   }
 
+  function handleEditNote(event:MouseEvent) {
+    let id = event.currentTarget.id
+    setNoteBeingEdited(id)
+    setEditNoteIsOpen(true)
+  }
+
+  function NoteEdit(name?:string, description?:string){
+    setEditNoteIsOpen(false)
+    if (name && description) {
+      let newNotes = notes.map((note)=>{
+        if(note.id === noteBeingEdited){
+          return {
+            id:note.id,
+            name: name,
+            description:description
+          }
+        }else{
+          return note
+        }
+    })
+      setNotes(newNotes);
+    }
+  }
+
+
+
   return (
     <div className={`${style ? style : ''}`}>
       <div className="w-full bg-primary-dark text-onPrimary-dark text-center font-bold cursor-default p-2">
         Notes
         <button
           onClick={() => {
-            setIsOpen(true);
+            setNewNoteIsOpen(true);
           }}
           className="ml-auto"
         >
@@ -73,11 +102,13 @@ export function Notes({ style }: NotesProps) {
               name={note.name}
               description={note.description}
               onNoteDelete={handleDeleteNote}
+              onNoteEdit={handleEditNote}
             />
           );
         })}
       </div>
-      <NewNote isOpen={isOpen} onNewNote={handleNewNote} />
+      <NewNote newNoteIsOpen={newNoteIsOpen} onNewNote={handleNewNote} />
+      <EditNote editNoteIsOpen={editNoteIsOpen} EditNote={NoteEdit}/>
     </div>
   );
 }

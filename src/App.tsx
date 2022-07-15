@@ -1,5 +1,6 @@
 import { BillsPayment, Notes, ShoppingList, TaskListing } from './components';
-import { DateContextProvider } from './hooks/UseDate';
+import { DateContextProvider } from './contexts/DateContext';
+
 
 export function App() {
   return (

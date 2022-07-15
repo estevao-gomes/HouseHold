@@ -2,22 +2,21 @@ import { FormEvent, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
 import { createNote } from '../hooks/useApi';
-//import { createNote } from '../hooks/useApi';
 
 interface NewNoteProps {
-  isOpen: boolean;
+  newNoteIsOpen: boolean;
   onNewNote: (name?: string, description?: string) => void;
 }
 
-export function NewNote({ isOpen, onNewNote }: NewNoteProps) {
+export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [successDialog, setSuccessDialog] = useState(false);
   const [errorDialog, setErrorDialog] = useState(false);
 
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    //console.log(name, description, newTaskDate);
 
     try {
       if (name === '') {
@@ -48,7 +47,7 @@ export function NewNote({ isOpen, onNewNote }: NewNoteProps) {
     <>
       <Dialog
         className="flex justify-center fixed inset-0 z-10 top-10 text-center"
-        open={isOpen}
+        open={newNoteIsOpen}
         onClose={() => {
           setErrorDialog(false);
           onNewNote();
@@ -57,7 +56,7 @@ export function NewNote({ isOpen, onNewNote }: NewNoteProps) {
         <div className="w-[345px] h-[400px] bg-surface shadow">
           <Dialog.Panel>
             <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
-              New Task
+              New Note
             </Dialog.Title>
 
             <form className="flex-auto" onSubmit={handleSubmit}>
@@ -124,7 +123,7 @@ export function NewNote({ isOpen, onNewNote }: NewNoteProps) {
               Success
             </Dialog.Title>
             <Dialog.Description className="text-primary-dark m-2 font-bold">
-              Task Created Successfully
+              Note Created Successfully
             </Dialog.Description>
             <button
               className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"

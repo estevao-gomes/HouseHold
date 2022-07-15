@@ -1,9 +1,10 @@
 import { FormEvent, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
-import { useDate } from '../hooks/UseDate';
+
 import { DateListBox } from '../shared/DateListBox';
 import { createTask } from '../hooks/useApi';
+import { useDate } from '../contexts/DateContext';
 
 interface NewTaskProps {
   isOpen: boolean;

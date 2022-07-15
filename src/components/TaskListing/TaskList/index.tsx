@@ -3,8 +3,8 @@ import { Task } from './Task';
 
 import { TaskInterface } from '../../../interfaces/TaskInterface';
 
-import { useDate } from '../../../hooks/UseDate';
 import { deleteTasks, getTasks, checkTask } from '../../../hooks/useApi';
+import { useDate } from '../../../contexts/DateContext';
 
 export function TaskList() {
   const [tasks, setTasks] = useState<TaskInterface[]>([]);

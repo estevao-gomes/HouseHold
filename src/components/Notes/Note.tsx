@@ -6,8 +6,9 @@ interface NoteProps {
   description: string;
   id: string;
   onNoteDelete: (event: MouseEvent) => void;
+  onNoteEdit: (event:MouseEvent)=>void;
 }
-export function Note({ name, description, id, onNoteDelete }: NoteProps) {
+export function Note({ name, description, id, onNoteDelete, onNoteEdit }: NoteProps) {
   return (
     //this div will become a fragment
     <div className="border-2">
@@ -15,9 +16,9 @@ export function Note({ name, description, id, onNoteDelete }: NoteProps) {
         <div className="border border-primary-dark bg-primary-light rounded-md cursor-default w-fit px-2 mb-1">
           {name}
         </div>
-        <div className="inline ml-2 underline hover:opacity-50 hover:cursor-pointer">
+        <button id={id} onClick={onNoteEdit} className="inline ml-2 underline hover:opacity-50 hover:cursor-pointer">
           Edit
-        </div>
+        </button>
         <button
           id={id}
           onClick={onNoteDelete}
