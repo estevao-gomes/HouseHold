@@ -15,6 +15,12 @@ interface TasksProps {
   id?: string;
 }
 
+interface ItemType{
+  id:string,
+  checked:boolean,
+  name:string
+}
+
 export async function getTasks({ date }: TasksProps) {
   return await axios
     .get<TasksType>('api/tasks', { params: { date } })
@@ -83,4 +89,9 @@ export async function createNote(name: string, description: string) {
     .catch(function (error) {
       console.log(error);
     });
+}
+export async function getShoppingList(){
+  return await axios.get<ItemType>('api/items').then((response) => {
+    return response.data.items;
+  });
 }

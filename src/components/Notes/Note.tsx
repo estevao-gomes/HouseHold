@@ -11,7 +11,7 @@ interface NoteProps {
 export function Note({ name, description, id, onNoteDelete, onNoteEdit }: NoteProps) {
   return (
     //this div will become a fragment
-    <div className="border-2">
+    <div>
       <div className="flex items-center">
         <div className="border border-primary-dark bg-primary-light rounded-md cursor-default w-fit px-2 mb-1">
           {name}

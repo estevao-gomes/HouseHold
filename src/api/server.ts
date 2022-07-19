@@ -1,5 +1,6 @@
 import { createServer, Model } from 'miragejs';
 import { NoteInterface } from '../interfaces/NoteInterface';
+import { ShoppingItems } from '../interfaces/ShoppingListItemsInterface';
 import { TaskInterface } from '../interfaces/TaskInterface';
 
 export function makeServer({ environment = 'test' } = {}) {
@@ -9,6 +10,7 @@ export function makeServer({ environment = 'test' } = {}) {
     models: {
       task: Model.extend<Partial<TaskInterface>>({}),
       note: Model.extend<Partial<NoteInterface>>({}),
+      items: Model.extend<Partial<ShoppingItems>>({})
     },
 
     seeds(server) {
@@ -78,6 +80,16 @@ export function makeServer({ environment = 'test' } = {}) {
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       });
+      server.create('item', {
+        id: '1',
+        name: 'Arroz',
+        checked: false
+      });
+      server.create('item', {
+        id: '2',
+        name: 'Feijão',
+        checked:false
+      });
     },
 
     routes() {
@@ -126,6 +138,9 @@ export function makeServer({ environment = 'test' } = {}) {
         schema.tasks.create(attrs);
         return { note: attrs };
       });
+      this.get('/items', (schema, request) => {
+        return schema.items.all()
+      })
     },
   });
 
