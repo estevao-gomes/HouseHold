@@ -99,7 +99,7 @@ export function makeServer({ environment = 'test' } = {}) {
         let attrs = JSON.parse(request.requestBody);
         attrs.id = Math.floor(Math.random() * 1000);
         attrs.date = new Date(attrs.date);
-        schema.tasks.create(attrs);
+        schema.create('tasks', attrs);
         return { task: attrs };
       });
 
@@ -124,7 +124,7 @@ export function makeServer({ environment = 'test' } = {}) {
       });
 
       this.get('/notes', (schema, request) => {
-        return schema.notes.all();
+        return schema.all('notes');
       });
 
       this.delete('/notes/:id', (schema, request) => {
@@ -135,12 +135,25 @@ export function makeServer({ environment = 'test' } = {}) {
       this.post('/notes', (schema, request) => {
         let attrs = JSON.parse(request.requestBody);
         attrs.id = Math.floor(Math.random() * 1000);
-        schema.tasks.create(attrs);
+        schema.create('tasks', attrs);
         return { note: attrs };
       });
       this.get('/items', (schema, request) => {
-        return schema.items.all()
+        return schema.all('items');
       })
+      this.delete('/items/:id', (schema, request) => {
+        let id = request.params.id;
+
+        return schema.items.find(id).destroy();
+      });
+      this.patch('/items/:id', (schema, request) => {
+        let newAttrs = JSON.parse(request.requestBody);
+        let id = request.params.id;
+
+        let tasks = schema.items.find(id);
+
+        return tasks.update(newAttrs);
+      });
     },
   });
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { NoteInterface } from '../interfaces/NoteInterface';
+import { ShoppingItems } from '../interfaces/ShoppingListItemsInterface';
 import { TaskInterface } from '../interfaces/TaskInterface';
 
 type TasksType = {
@@ -16,9 +17,7 @@ interface TasksProps {
 }
 
 interface ItemType{
-  id:string,
-  checked:boolean,
-  name:string
+  items: ShoppingItems[];
 }
 
 export async function getTasks({ date }: TasksProps) {
@@ -94,4 +93,20 @@ export async function getShoppingList(){
   return await axios.get<ItemType>('api/items').then((response) => {
     return response.data.items;
   });
+}
+
+export async function deleteItem(id:string){
+  return await axios.delete(`api/items/${id}`).catch((error) => {
+    console.log(error);
+  });
+}
+
+export async function checkItem(id:string, newIsChecked:boolean){
+  await axios
+    .patch(`api/items/${id}`, {
+      isChecked: newIsChecked,
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
