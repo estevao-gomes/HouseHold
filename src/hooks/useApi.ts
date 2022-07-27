@@ -101,10 +101,10 @@ export async function deleteItem(id:string){
   });
 }
 
-export async function checkItem(id:string, newIsChecked:boolean){
+export async function checkItem(id:string, newChecked:boolean){
   await axios
     .patch(`api/items/${id}`, {
-      isChecked: newIsChecked,
+      checked: newChecked,
     })
     .catch((error) => {
       console.log(error);

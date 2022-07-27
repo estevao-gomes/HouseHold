@@ -88,7 +88,7 @@ export function makeServer({ environment = 'test' } = {}) {
       server.create('item', {
         id: '2',
         name: 'Feijão',
-        checked:false
+        checked:true
       });
     },
 
@@ -124,7 +124,7 @@ export function makeServer({ environment = 'test' } = {}) {
       });
 
       this.get('/notes', (schema, request) => {
-        return schema.all('notes');
+        return schema.notes.all();
       });
 
       this.delete('/notes/:id', (schema, request) => {
@@ -132,12 +132,14 @@ export function makeServer({ environment = 'test' } = {}) {
 
         return schema.notes.find(id).destroy();
       });
+
       this.post('/notes', (schema, request) => {
         let attrs = JSON.parse(request.requestBody);
         attrs.id = Math.floor(Math.random() * 1000);
         schema.create('tasks', attrs);
         return { note: attrs };
       });
+
       this.get('/items', (schema, request) => {
         return schema.all('items');
       })
