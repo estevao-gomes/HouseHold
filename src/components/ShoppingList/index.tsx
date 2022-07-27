@@ -23,12 +23,33 @@ export function ShoppingList({ style }: ShoppingListProps){
     async function handleDeleteItem(event: MouseEvent){
         let id = event.currentTarget.parentElement?.id as string 
 
+        const newShoppingItems = shoppingItems?.filter((item)=>item.id !== id)
+
+        setShoppingItems(newShoppingItems)
         console.log(id)
         
         deleteItem(id)
     }
 
-    async function handleCheckItem(event:MouseEvent){}
+    async function handleCheckItem(event:MouseEvent){
+        let id = event.currentTarget.parentElement?.id as string
+        let newChecked = !shoppingItems?.find(item => item.id === id)?.checked
+        
+        const newShoppingItems = shoppingItems?.map((item)=>{
+            if(item.id !== id){
+                return item
+            }else{
+                return {
+                    ...item,
+                    checked: newChecked
+                }
+            }           
+        })
+
+        setShoppingItems(newShoppingItems)
+
+        checkItem(id, newChecked)
+    }
 
     return(
         <div>
@@ -43,7 +64,7 @@ export function ShoppingList({ style }: ShoppingListProps){
                 {shoppingItems?.map((item)=>{
                     return(
                         <div id={item.id} className="flex gap-2 items-center w-2/3 mx-auto mt-8 border-2 border-primary rounded-md">
-                            <input className="ml-2" type="checkbox"></input>
+                            <input onClick={handleCheckItem} className="ml-2" type="checkbox" checked={item.checked}></input>
                             <h1 className="text-xl font-semibold text-primary-dark flex-1">{item.name}</h1>
                             <button onClick={handleDeleteItem} className="mr-2"><Trash className="text-error-500"/></button>
                         </div>
