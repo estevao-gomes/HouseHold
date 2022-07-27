@@ -6,9 +6,9 @@ export function App() {
   return (
     <DateContextProvider>
       <div className='md:grid md:grid-cols-3'>
-        <TaskListing style="mx-auto mt-4 min-h-[30rem] max-h-full overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface " />
-        <Notes style="border-4 border-primary"/>
-        <ShoppingList style="border-4 border-primary"/>
+        <TaskListing style="border-2 border-primary mt-4 mx-2 rounded-lg shadow-xl min-h-[30rem] max-h-full" />
+        <Notes style=""/>
+        <ShoppingList style="border-2 border-primary mt-4 mb-2 mx-2 rounded-lg shadow-xl"/>
         {/* <BillsPayment style="md:col-span-full border-4 border-primary"/> */}
       </div>
     </DateContextProvider>

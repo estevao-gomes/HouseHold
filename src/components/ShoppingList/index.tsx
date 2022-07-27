@@ -52,15 +52,15 @@ export function ShoppingList({ style }: ShoppingListProps){
     }
 
     return(
-        <div>
-            <div className={`${style? style : ""}`}>
+        <div className={`${style? style : ""}`}>
+            <div className="bg-primary text-center font-bold p-2">
                 Shopping List
             </div>
             <div className="flex justify-center">
-                <input placeholder="Insira um item" className="p-2 mx-2 border-b-2 border-b-primaryDark"></input>
+                <input placeholder="Insira um item" className="w-1/2 shrink p-2 mx-2 border-b-2 border-b-primaryDark"></input>
                 <button className="bg-primary text-onPrimary rounded-md p-2 m-2 hover:opacity-60">Inserir</button>
             </div>
-            <div>
+            <div className="last:mb-2">
                 {shoppingItems?.map((item)=>{
                     return(
                         <div id={item.id} className="flex gap-2 items-center w-2/3 mx-auto mt-8 border-2 border-primary rounded-md">

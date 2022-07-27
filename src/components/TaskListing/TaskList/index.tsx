@@ -64,7 +64,7 @@ export function TaskList() {
   }
   //console.log(tasks);
   return (
-    <div className="grid grid-cols-8 justify-center justify-items-center items-center max-h-72 overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
+    <div className="grid grid-cols-8 justify-center justify-items-center items-center mx-1 max-h-72 overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
       {tasks.map((task) => {
         return (
           <Task

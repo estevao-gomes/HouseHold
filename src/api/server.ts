@@ -99,7 +99,7 @@ export function makeServer({ environment = 'test' } = {}) {
         let attrs = JSON.parse(request.requestBody);
         attrs.id = Math.floor(Math.random() * 1000);
         attrs.date = new Date(attrs.date);
-        schema.create('tasks', attrs);
+        schema.tasks.create(attrs);
         return { task: attrs };
       });
 
@@ -136,12 +136,12 @@ export function makeServer({ environment = 'test' } = {}) {
       this.post('/notes', (schema, request) => {
         let attrs = JSON.parse(request.requestBody);
         attrs.id = Math.floor(Math.random() * 1000);
-        schema.create('tasks', attrs);
+        schema.notes.create(attrs);
         return { note: attrs };
       });
 
       this.get('/items', (schema, request) => {
-        return schema.all('items');
+        return schema.items.all();
       })
       this.delete('/items/:id', (schema, request) => {
         let id = request.params.id;

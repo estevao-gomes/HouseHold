@@ -82,15 +82,16 @@ export function Notes({ style }: NotesProps) {
 
   return (
     <div className={`${style ? style : ''}`}>
-      <div className="w-full bg-primary-dark text-onPrimary-dark text-center font-bold cursor-default p-2">
-        Notes
+      <div className="flex w-full justify-between font-bold cursor-default p-2">
+        <span className="text-onSurface"> Notes</span>
         <button
           onClick={() => {
             setNewNoteIsOpen(true);
           }}
-          className="ml-auto"
+          className="align-baseline bg-primary rounded-3xl p-2"
         >
-          <Plus size={24} />
+          <span>Nova Nota</span> 
+          <Plus className='inline' size={16} />
         </button>
       </div>
       <div className="grid grid-cols-2 gap-2 max-h-[30rem] overflow-y-scroll scroll-p-6 scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
