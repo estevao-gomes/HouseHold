@@ -110,3 +110,16 @@ export async function checkItem(id:string, newChecked:boolean){
       console.log(error);
     });
 }
+
+export async function createItem(name:string){
+  axios
+    .post('api/items', {
+      name: name,
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}

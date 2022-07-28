@@ -1,7 +1,8 @@
-import { useEffect, useState, MouseEvent } from "react"
-import { getShoppingList, deleteItem, checkItem } from "../../hooks/useApi"
+import { useEffect, useState, MouseEvent, FormEvent, useRef } from "react"
+import { getShoppingList, deleteItem, checkItem, createItem } from "../../hooks/useApi"
 import { ShoppingItems } from "../../interfaces/ShoppingListItemsInterface"
 import { Trash } from 'phosphor-react'
+
 
 interface ShoppingListProps{
     style?:string
@@ -10,13 +11,15 @@ interface ShoppingListProps{
 
 export function ShoppingList({ style }: ShoppingListProps){
     const [shoppingItems, setShoppingItems] = useState<ShoppingItems[]>()
+    const inputRef = useRef<HTMLInputElement>(null)
 
-    useEffect(()=>{
-        async function getItems(){
-            let response = await getShoppingList()
-            console.log(response)
-            setShoppingItems(response)
-        }
+    async function getItems(){
+        let response = await getShoppingList()
+        console.log(response)
+        setShoppingItems(response)
+    }
+
+    useEffect(()=>{    
         getItems();
     }, [])
 
@@ -51,14 +54,33 @@ export function ShoppingList({ style }: ShoppingListProps){
         checkItem(id, newChecked)
     }
 
+    function handleNewItem(event: FormEvent){
+        event.preventDefault()
+        
+        let newItemName = inputRef.current ? inputRef.current.value : ""
+
+        createItem(newItemName)
+
+        getItems()
+    }
+
     return(
         <div className={`${style? style : ""}`}>
             <div className="bg-primary text-center font-bold p-2">
                 Shopping List
             </div>
             <div className="flex justify-center">
-                <input placeholder="Insira um item" className="w-1/2 shrink p-2 mx-2 border-b-2 border-b-primaryDark"></input>
-                <button className="bg-primary text-onPrimary rounded-md p-2 m-2 hover:opacity-60">Inserir</button>
+                <form onSubmit={handleNewItem}>
+                    <label htmlFor="Novo-Item">Insira um item</label>
+                    <input 
+                        ref={inputRef}
+                        id="Novo-Item" 
+                        placeholder="Insira um item" 
+                        className="w-1/2 shrink p-2 mx-2 border-b-2 border-b-primaryDark"
+                    >
+                    </input>
+                    <button className="bg-primary text-onPrimary rounded-md p-2 m-2 hover:opacity-60">Inserir</button>
+                </form>
             </div>
             <div className="last:mb-2">
                 {shoppingItems?.map((item)=>{

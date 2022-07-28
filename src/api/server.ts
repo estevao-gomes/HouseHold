@@ -156,6 +156,13 @@ export function makeServer({ environment = 'test' } = {}) {
 
         return tasks.update(newAttrs);
       });
+      this.post('/items', (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+        attrs.id = Math.floor(Math.random() * 1000);
+        attrs.checked = false;
+        schema.items.create(attrs);
+        return { note: attrs };
+      });
     },
   });
 
