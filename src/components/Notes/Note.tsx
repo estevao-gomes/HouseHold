@@ -27,7 +27,7 @@ export function Note({ name, description, id, onNoteDelete, onNoteEdit }: NotePr
           <Trash />
         </button>
       </div>
-      <div className="w-full border-2 p-2 border-primary-light bg-surface rounded-md max-h-[12rem] overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
+      <div className="scrollbar-thumb-round w-full border-2 p-2 border-primary-light bg-surface rounded-md max-h-[12rem] overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
         {description}
       </div>
     </div>

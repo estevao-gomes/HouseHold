@@ -83,7 +83,7 @@ export function Notes({ style }: NotesProps) {
   return (
     <div className={`${style ? style : ''}`}>
       <div className="flex w-full justify-between font-bold cursor-default p-2">
-        <span className="text-onSurface"> Notes</span>
+        <span className="text-onSurface">Notas</span>
         <button
           onClick={() => {
             setNewNoteIsOpen(true);

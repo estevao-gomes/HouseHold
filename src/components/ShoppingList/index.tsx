@@ -67,7 +67,7 @@ export function ShoppingList({ style }: ShoppingListProps){
     return(
         <div className={`${style? style : ""}`}>
             <div className="bg-primary text-center font-bold p-2">
-                Shopping List
+                Lista de Compras
             </div>
             <div className="flex justify-center">
                 <form onSubmit={handleNewItem}>

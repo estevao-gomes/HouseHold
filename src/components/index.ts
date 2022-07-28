@@ -1,6 +1,6 @@
 import { TaskListing } from './TaskListing'
 import { Notes } from './Notes'
 import { ShoppingList } from './ShoppingList'
-import { BillsPayment } from './BillsPayment'
+import { Header } from './Header'
 
-export { TaskListing, Notes, ShoppingList, BillsPayment }
+export { TaskListing, Notes, ShoppingList, Header }
