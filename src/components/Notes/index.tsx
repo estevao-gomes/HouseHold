@@ -4,7 +4,8 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { NewNote } from '../../modals/NewNote';
 import { EditNote } from '../../modals/EditNote';
 
-import { getNotes, deleteNotes } from '../../hooks/useApi';
+import { getNotes, deleteNotes, createNote } from '../../hooks/useApi';
+import { useUser } from '../../contexts/UserContext';
 
 import { NoteInterface } from '../../interfaces/NoteInterface';
 import { Note } from './Note';
@@ -21,17 +22,15 @@ export function Notes({ style }: NotesProps) {
   const [editNoteIsOpen, setEditNoteIsOpen] = useState<boolean>(false);
   const [noteBeingEdited, setNoteBeingEdited] = useState<string>('');
 
+  const { uid } = useUser();
+
   useEffect(() => {
     async function CallApi() {
-      const response = await getNotes();
-
-      // snapshot.forEach((doc) => {
-      //   console.log(`${doc.id} => ${doc.data().name}`);
-      // });
-
-      setNotes(response);
+      const response = await getNotes({
+        uid,
+        setNotes,
+      });
     }
-
     CallApi().catch(console.error);
   }, []);
 
@@ -45,19 +44,9 @@ export function Notes({ style }: NotesProps) {
     deleteNotes(id);
   }
 
-  function handleNewNote(name?: string, description?: string) {
+  function handleNewNote(name: string, description: string) {
     setNewNoteIsOpen(false);
-    if (name && description) {
-      const newNotes = [
-        ...notes,
-        {
-          name: name,
-          description: description,
-        } as NoteInterface,
-      ];
-
-      setNotes(newNotes);
-    }
+    createNote(name, description, uid);
   }
 
   function handleEditNote(event: MouseEvent) {

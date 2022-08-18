@@ -7,17 +7,13 @@ import {
   updateDoc,
   doc,
   deleteDoc,
-  onSnapshot
+  onSnapshot,
 } from 'firebase/firestore';
 import { db } from '../api/firebase';
 import axios from 'axios';
 import { NoteInterface } from '../interfaces/NoteInterface';
 import { ShoppingItems } from '../interfaces/ShoppingListItemsInterface';
 import { TaskInterface } from '../interfaces/TaskInterface';
-
-type TasksType = {
-  tasks: TaskInterface[];
-};
 
 type NoteType = {
   notes: NoteInterface[];
@@ -26,7 +22,12 @@ type NoteType = {
 interface TasksProps {
   date?: Date;
   uid?: string;
-  setTasks: (newTasks: TaskInterface[])=>void;
+  setTasks: (newTasks: TaskInterface[]) => void;
+}
+
+interface NotesProps {
+  uid: string;
+  setNotes: (newNotes: NoteInterface[]) => void;
 }
 
 interface ItemType {
@@ -34,8 +35,12 @@ interface ItemType {
 }
 
 export async function getTasks({ date, uid, setTasks }: TasksProps) {
-  const q = query(collection(db, 'tasks'), where('uid', '==', uid));
-  const unsubscribe = onSnapshot(q, (querySnapshot)=>{
+  const q = query(
+    collection(db, 'tasks'),
+    where('uid', '==', uid),
+    where('date', '==', date)
+  );
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
     let result = <TaskInterface[]>[];
 
     querySnapshot.forEach((doc) => {
@@ -50,34 +55,15 @@ export async function getTasks({ date, uid, setTasks }: TasksProps) {
     console.log(result);
 
     setTasks(result);
-
   });
 
-  return unsubscribe
-
-  // let result = <TaskInterface[]>[];
-
-  // snapshot.forEach((doc) => {
-  //   result.push({
-  //     ...doc.data(),
-  //     id: doc.id,
-  //     date: doc.data().date.toDate(),
-  //     isClicked: false,
-  //   } as TaskInterface);
-  // });
-
-  // console.log(result);
-
-  // return result;
+  return unsubscribe;
 }
 
 export async function deleteTasks(id: string) {
   const docRef = doc(db, 'tasks', id);
 
   await deleteDoc(docRef);
-  // await axios.delete(`api/tasks/${id}`).catch((error) => {
-  //   console.log(error);
-  // });
 }
 
 export async function checkTask(id: string, newIsChecked: boolean) {
@@ -103,10 +89,25 @@ export async function createTask(
   });
 }
 
-export async function getNotes() {
-  return await axios.get<NoteType>('api/notes').then((response) => {
-    return response.data.notes;
+export async function getNotes({ uid, setNotes }: NotesProps) {
+  const q = query(collection(db, 'notes'), where('uid', '==', uid));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    let result = <NoteInterface[]>[];
+
+    querySnapshot.forEach((doc) => {
+      result.push({
+        ...doc.data(),
+        id: doc.id,
+      } as NoteInterface);
+    });
+
+    console.log(result);
+    console.log('watcher');
+
+    setNotes(result);
   });
+
+  return unsubscribe;
 }
 
 export async function deleteNotes(id: string) {
@@ -115,18 +116,16 @@ export async function deleteNotes(id: string) {
   });
 }
 
-export async function createNote(name: string, description: string) {
-  axios
-    .post('api/tasks', {
-      name: name,
-      description: description,
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+export async function createNote(
+  name: string,
+  description: string,
+  uid: string
+) {
+  await addDoc(collection(db, 'notes'), {
+    name: name,
+    description: description,
+    uid: uid,
+  });
 }
 export async function getShoppingList() {
   return await axios.get<ItemType>('api/items').then((response) => {
