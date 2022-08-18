@@ -9,6 +9,8 @@ import { getNotes, deleteNotes } from '../../hooks/useApi';
 import { NoteInterface } from '../../interfaces/NoteInterface';
 import { Note } from './Note';
 
+import { snapshot } from '../../api/firebase'
+
 interface NotesProps {
   style?: string;
 }
@@ -22,6 +24,10 @@ export function Notes({ style }: NotesProps) {
   useEffect(() => {
     async function CallApi() {
       const response = await getNotes();
+
+      snapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data().name}`);
+      });
 
       setNotes(response);
     }
