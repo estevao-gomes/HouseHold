@@ -17,8 +17,8 @@ export function TaskList() {
       const result = await getTasks({
         date,
         uid,
+        setTasks,
       });
-      setTasks(result);
     }
 
     CallApi().catch(console.error);

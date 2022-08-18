@@ -7,6 +7,7 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  onSnapshot
 } from 'firebase/firestore';
 import { db } from '../api/firebase';
 import axios from 'axios';
@@ -25,30 +26,49 @@ type NoteType = {
 interface TasksProps {
   date?: Date;
   uid?: string;
+  setTasks: (newTasks: TaskInterface[])=>void;
 }
 
 interface ItemType {
   items: ShoppingItems[];
 }
 
-export async function getTasks({ date, uid }: TasksProps) {
+export async function getTasks({ date, uid, setTasks }: TasksProps) {
   const q = query(collection(db, 'tasks'), where('uid', '==', uid));
-  const snapshot = await getDocs(q);
+  const unsubscribe = onSnapshot(q, (querySnapshot)=>{
+    let result = <TaskInterface[]>[];
 
-  let result = <TaskInterface[]>[];
+    querySnapshot.forEach((doc) => {
+      result.push({
+        ...doc.data(),
+        id: doc.id,
+        date: doc.data().date.toDate(),
+        isClicked: false,
+      } as TaskInterface);
+    });
 
-  snapshot.forEach((doc) => {
-    result.push({
-      ...doc.data(),
-      id: doc.id,
-      date: doc.data().date.toDate(),
-      isClicked: false,
-    } as TaskInterface);
+    console.log(result);
+
+    setTasks(result);
+
   });
 
-  console.log(result);
+  return unsubscribe
 
-  return result;
+  // let result = <TaskInterface[]>[];
+
+  // snapshot.forEach((doc) => {
+  //   result.push({
+  //     ...doc.data(),
+  //     id: doc.id,
+  //     date: doc.data().date.toDate(),
+  //     isClicked: false,
+  //   } as TaskInterface);
+  // });
+
+  // console.log(result);
+
+  // return result;
 }
 
 export async function deleteTasks(id: string) {
