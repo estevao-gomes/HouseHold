@@ -5,20 +5,24 @@ import { TaskInterface } from '../../../interfaces/TaskInterface';
 
 import { deleteTasks, getTasks, checkTask } from '../../../hooks/useApi';
 import { useDate } from '../../../contexts/DateContext';
+import { useUser } from '../../../contexts/UserContext';
 
 export function TaskList() {
   const [tasks, setTasks] = useState<TaskInterface[]>([]);
   const { date } = useDate();
+  const { uid } = useUser();
 
   useEffect(() => {
     async function CallApi() {
-      const result = await getTasks({ date });
-
+      const result = await getTasks({
+        date,
+        uid,
+      });
       setTasks(result);
     }
 
     CallApi().catch(console.error);
-  }, [date]);
+  }, [date, uid]);
 
   async function handleTaskChecked(event: MouseEvent) {
     let id = event.currentTarget.id;
@@ -64,7 +68,7 @@ export function TaskList() {
   }
   //console.log(tasks);
   return (
-    <div className="grid grid-cols-8 justify-center justify-items-center items-center mx-1 max-h-72 overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
+    <div className="grid grid-cols-8 justify-center justify-items-center items-center mx-1 max-h-72 overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
       {tasks.map((task) => {
         return (
           <Task

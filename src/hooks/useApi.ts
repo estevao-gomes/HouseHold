@@ -1,3 +1,14 @@
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  deleteDoc,
+} from 'firebase/firestore';
+import { db } from '../api/firebase';
 import axios from 'axios';
 import { NoteInterface } from '../interfaces/NoteInterface';
 import { ShoppingItems } from '../interfaces/ShoppingListItemsInterface';
@@ -13,55 +24,63 @@ type NoteType = {
 
 interface TasksProps {
   date?: Date;
-  id?: string;
+  uid?: string;
 }
 
-interface ItemType{
+interface ItemType {
   items: ShoppingItems[];
 }
 
-export async function getTasks({ date }: TasksProps) {
-  return await axios
-    .get<TasksType>('api/tasks', { params: { date } })
-    .then((response) => {
-      //console.log(response.data.tasks);
-      return response.data.tasks;
-    });
+export async function getTasks({ date, uid }: TasksProps) {
+  const q = query(collection(db, 'tasks'), where('uid', '==', uid));
+  const snapshot = await getDocs(q);
+
+  let result = <TaskInterface[]>[];
+
+  snapshot.forEach((doc) => {
+    result.push({
+      ...doc.data(),
+      id: doc.id,
+      date: doc.data().date.toDate(),
+      isClicked: false,
+    } as TaskInterface);
+  });
+
+  console.log(result);
+
+  return result;
 }
 
 export async function deleteTasks(id: string) {
-  await axios.delete(`api/tasks/${id}`).catch((error) => {
-    console.log(error);
-  });
+  const docRef = doc(db, 'tasks', id);
+
+  await deleteDoc(docRef);
+  // await axios.delete(`api/tasks/${id}`).catch((error) => {
+  //   console.log(error);
+  // });
 }
 
 export async function checkTask(id: string, newIsChecked: boolean) {
-  await axios
-    .patch(`api/tasks/${id}`, {
-      isChecked: newIsChecked,
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const docRef = doc(db, 'tasks', id);
+
+  await updateDoc(docRef, {
+    isChecked: newIsChecked,
+  });
 }
 
 export async function createTask(
   date: Date,
   name: string,
+  uid: string,
   description?: string
 ) {
-  axios
-    .post('api/tasks', {
-      date: date,
-      title: name,
-      description: description ? description : 'No description',
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  await addDoc(collection(db, 'tasks'), {
+    title: name,
+    description: description ? description : name + 'description',
+    date: date,
+    uid: uid,
+    isChecked: false,
+  });
 }
 
 export async function getNotes() {
@@ -89,19 +108,19 @@ export async function createNote(name: string, description: string) {
       console.log(error);
     });
 }
-export async function getShoppingList(){
+export async function getShoppingList() {
   return await axios.get<ItemType>('api/items').then((response) => {
     return response.data.items;
   });
 }
 
-export async function deleteItem(id:string){
+export async function deleteItem(id: string) {
   return await axios.delete(`api/items/${id}`).catch((error) => {
     console.log(error);
   });
 }
 
-export async function checkItem(id:string, newChecked:boolean){
+export async function checkItem(id: string, newChecked: boolean) {
   await axios
     .patch(`api/items/${id}`, {
       checked: newChecked,
@@ -111,7 +130,7 @@ export async function checkItem(id:string, newChecked:boolean){
     });
 }
 
-export async function createItem(name:string){
+export async function createItem(name: string) {
   axios
     .post('api/items', {
       name: name,
