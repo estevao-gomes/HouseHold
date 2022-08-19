@@ -48,7 +48,7 @@ export function ShoppingList({ style }: ShoppingListProps){
             </div>
             <div className="flex justify-center">
                 <form onSubmit={handleNewItem}>
-                    <label htmlFor="Novo-Item">Insira um item</label>
+                    {/* <label htmlFor="Novo-Item">Insira um item</label> */}
                     <input 
                         ref={inputRef}
                         id="Novo-Item" 

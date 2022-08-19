@@ -11,7 +11,6 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { db } from '../api/firebase';
-import axios from 'axios';
 import { NoteInterface } from '../interfaces/NoteInterface';
 import { ShoppingItems } from '../interfaces/ShoppingListItemsInterface';
 import { TaskInterface } from '../interfaces/TaskInterface';
@@ -105,12 +104,12 @@ export function getNotes({ uid, setNotes }: NotesProps) {
       } as NoteInterface);
     });
 
-    console.log(result);
-    console.log('watcher');
+    // console.log(result);
+    // console.log('watcher');
 
     setNotes(result);
   }, (error)=>{
-    console.log(error.message)
+    alert(error.message)
   });
 
   return unsubscribe;
@@ -157,12 +156,12 @@ export async function getShoppingList({uid, setShoppingItems}: ItemProps) {
       } as ShoppingItems);
     });
 
-    console.log(result);
-    console.log('watcher');
+    // console.log(result);
+    // console.log('watcher');
 
     setShoppingItems(result);
   }, (error)=>{
-    console.log(error.message)
+    alert(error.message)
   });
 
   return unsubscribe;
@@ -172,9 +171,6 @@ export async function deleteItem(id: string) {
   const docRef = doc(db, 'shoppingList', id)
 
   await deleteDoc(docRef)
-  // return await axios.delete(`api/items/${id}`).catch((error) => {
-  //   console.log(error);
-  // });
 }
 
 export async function checkItem(id: string, newChecked: boolean) {
@@ -191,14 +187,4 @@ export async function createItem(name: string, uid: string) {
     checked: false,
     uid: uid
   })
-  // axios
-  //   .post('api/items', {
-  //     name: name,
-  //   })
-  //   .then(function (response) {
-  //     console.log(response);
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
 }
