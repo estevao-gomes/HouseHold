@@ -7,6 +7,7 @@ interface TaskListingProps {
 }
 
 export function TaskListing({ style }: TaskListingProps) {
+  
   return (
     <div className={`${style ? style : ''} flex-1 bg-white`}>
       <DateContextProvider>

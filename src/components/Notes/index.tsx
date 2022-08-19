@@ -4,7 +4,7 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { NewNote } from '../../modals/NewNote';
 import { EditNote } from '../../modals/EditNote';
 
-import { getNotes, deleteNotes, createNote } from '../../hooks/useApi';
+import { getNotes, deleteNotes, createNote, editNote } from '../../hooks/useApi';
 import { useUser } from '../../contexts/UserContext';
 
 import { NoteInterface } from '../../interfaces/NoteInterface';
@@ -26,20 +26,16 @@ export function Notes({ style }: NotesProps) {
 
   useEffect(() => {
     async function CallApi() {
-      const response = await getNotes({
+      const result = getNotes({
         uid,
         setNotes,
       });
     }
     CallApi().catch(console.error);
-  }, []);
+  }, [uid]);
 
   function handleDeleteNote(event: MouseEvent) {
     const id = event.currentTarget.id;
-
-    setNotes((notes) => {
-      return notes.filter((note) => note.id !== id);
-    });
 
     deleteNotes(id);
   }
@@ -55,22 +51,25 @@ export function Notes({ style }: NotesProps) {
     setEditNoteIsOpen(true);
   }
 
-  function NoteEdit(name?: string, description?: string) {
+  async function NoteEdit(name?: string, description?: string) {
     setEditNoteIsOpen(false);
-    if (name && description) {
-      let newNotes = notes.map((note) => {
-        if (note.id === noteBeingEdited) {
-          return {
-            id: note.id,
-            name: name,
-            description: description,
-          };
-        } else {
-          return note;
-        }
-      });
-      setNotes(newNotes);
+    if(name && description){
+      await editNote(name, description, noteBeingEdited)
     }
+    // if (name && description) {
+    //   let newNotes = notes.map((note) => {
+    //     if (note.id === noteBeingEdited) {
+    //       return {
+    //         id: note.id,
+    //         name: name,
+    //         description: description,
+    //       };
+    //     } else {
+    //       return note;
+    //     }
+    //   });
+    //   setNotes(newNotes);
+    // }
   }
 
   return (

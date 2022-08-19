@@ -17,7 +17,9 @@ export function Header() {
         .then((result) => {
           console.log(result.user);
           setUid(result.user.uid);
-          setUsername(result.user.displayName);
+          if(result.user.displayName){
+            setUsername(result.user.displayName);
+          }
         })
         .catch((error) => {
           console.log(error.message);

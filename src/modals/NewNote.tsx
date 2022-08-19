@@ -38,7 +38,6 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
       return;
     }
     setErrorDialog(false);
-    //onNewNote(name, description);
     setSuccessDialog(true);
     setDescription('');
     setName('');
