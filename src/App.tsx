@@ -1,16 +1,18 @@
-import { BillsPayment, Notes, ShoppingList, TaskListing } from './components';
+import { Notes, ShoppingList, TaskListing, Header } from './components';
 import { DateContextProvider } from './contexts/DateContext';
-
+import { UserContextProvider } from './contexts/UserContext';
 
 export function App() {
   return (
-    <DateContextProvider>
-      <div className='md:grid md:grid-cols-3'>
-        <TaskListing style="mx-auto mt-4 min-h-[30rem] max-h-full overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface " />
-        <Notes style="border-4 border-primary"/>
-        <ShoppingList style="border-4 border-primary"/>
-        {/* <BillsPayment style="md:col-span-full border-4 border-primary"/> */}
+    <UserContextProvider>
+      <Header />
+      <div className="md:grid md:grid-cols-4">
+        <DateContextProvider>
+          <TaskListing style="border-2 border-primary mt-4 mx-2 rounded-lg shadow-md min-h-max h-full" />
+        </DateContextProvider>
+        <Notes style="col-span-2 border-2 border-primary mt-4 mx-2 rounded-lg shadow-md h-full p-2" />
+        <ShoppingList style="border-2 border-primary mt-4 mb-2 mx-2 rounded-lg shadow-md h-full" />
       </div>
-    </DateContextProvider>
+    </UserContextProvider>
   );
 }

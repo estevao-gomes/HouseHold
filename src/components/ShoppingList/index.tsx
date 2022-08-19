@@ -1,7 +1,9 @@
-import { useEffect, useState, MouseEvent } from "react"
-import { getShoppingList, deleteItem, checkItem } from "../../hooks/useApi"
+import { useEffect, useState, MouseEvent, FormEvent, useRef } from "react"
+import { getShoppingList, deleteItem, checkItem, createItem } from "../../hooks/useApi"
 import { ShoppingItems } from "../../interfaces/ShoppingListItemsInterface"
 import { Trash } from 'phosphor-react'
+import { useUser } from "../../contexts/UserContext"
+
 
 interface ShoppingListProps{
     style?:string
@@ -10,23 +12,16 @@ interface ShoppingListProps{
 
 export function ShoppingList({ style }: ShoppingListProps){
     const [shoppingItems, setShoppingItems] = useState<ShoppingItems[]>()
+    const inputRef = useRef<HTMLInputElement>(null)
 
-    useEffect(()=>{
-        async function getItems(){
-            let response = await getShoppingList()
-            console.log(response)
-            setShoppingItems(response)
-        }
-        getItems();
+    const { uid } = useUser();
+
+    useEffect(()=>{    
+        getShoppingList({uid, setShoppingItems});
     }, [])
 
     async function handleDeleteItem(event: MouseEvent){
         let id = event.currentTarget.parentElement?.id as string 
-
-        const newShoppingItems = shoppingItems?.filter((item)=>item.id !== id)
-
-        setShoppingItems(newShoppingItems)
-        console.log(id)
         
         deleteItem(id)
     }
@@ -34,37 +29,41 @@ export function ShoppingList({ style }: ShoppingListProps){
     async function handleCheckItem(event:MouseEvent){
         let id = event.currentTarget.parentElement?.id as string
         let newChecked = !shoppingItems?.find(item => item.id === id)?.checked
-        
-        const newShoppingItems = shoppingItems?.map((item)=>{
-            if(item.id !== id){
-                return item
-            }else{
-                return {
-                    ...item,
-                    checked: newChecked
-                }
-            }           
-        })
-
-        setShoppingItems(newShoppingItems)
 
         checkItem(id, newChecked)
     }
 
+    function handleNewItem(event: FormEvent){
+        event.preventDefault()
+        
+        let newItemName = inputRef.current ? inputRef.current.value : ""
+
+        createItem(newItemName, uid)
+    }
+
     return(
-        <div>
-            <div className={`${style? style : ""}`}>
-                Shopping List
+        <div className={`${style? style : ""}`}>
+            <div className="bg-primary text-center font-bold p-2">
+                Lista de Compras
             </div>
             <div className="flex justify-center">
-                <input placeholder="Insira um item" className="p-2 mx-2 border-b-2 border-b-primaryDark"></input>
-                <button className="bg-primary text-onPrimary rounded-md p-2 m-2 hover:opacity-60">Inserir</button>
+                <form onSubmit={handleNewItem}>
+                    {/* <label htmlFor="Novo-Item">Insira um item</label> */}
+                    <input 
+                        ref={inputRef}
+                        id="Novo-Item" 
+                        placeholder="Insira um item" 
+                        className="w-1/2 shrink p-2 mx-2 border-b-2 border-b-primaryDark"
+                    >
+                    </input>
+                    <button className="bg-primary text-onPrimary rounded-md p-2 m-2 hover:opacity-60">Inserir</button>
+                </form>
             </div>
-            <div>
+            <div className="last:mb-2">
                 {shoppingItems?.map((item)=>{
                     return(
                         <div id={item.id} className="flex gap-2 items-center w-2/3 mx-auto mt-8 border-2 border-primary rounded-md">
-                            <input onClick={handleCheckItem} className="ml-2" type="checkbox" checked={item.checked}></input>
+                            <input onClick={handleCheckItem} className="ml-2" type="checkbox" defaultChecked={item.checked}></input>
                             <h1 className="text-xl font-semibold text-primary-dark flex-1">{item.name}</h1>
                             <button onClick={handleDeleteItem} className="mr-2"><Trash className="text-error-500"/></button>
                         </div>

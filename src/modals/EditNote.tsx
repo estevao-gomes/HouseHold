@@ -40,8 +40,9 @@ export function EditNote({ editNoteIsOpen, EditNote }: EditNoteProps) {
       return;
     }
     setErrorDialog(false);
-    //EditNote(name, description);
     setSuccessDialog(true);
+    setName('')
+    setDescription('')
   }
   return (
     <>
@@ -50,7 +51,6 @@ export function EditNote({ editNoteIsOpen, EditNote }: EditNoteProps) {
         open={editNoteIsOpen}
         onClose={() => {
           setErrorDialog(false);
-          EditNote();
         }}
       >
         <div className="w-[345px] h-[400px] bg-surface shadow">

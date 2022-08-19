@@ -5,20 +5,25 @@ import { TaskInterface } from '../../../interfaces/TaskInterface';
 
 import { deleteTasks, getTasks, checkTask } from '../../../hooks/useApi';
 import { useDate } from '../../../contexts/DateContext';
+import { useUser } from '../../../contexts/UserContext';
 
 export function TaskList() {
   const [tasks, setTasks] = useState<TaskInterface[]>([]);
   const { date } = useDate();
+  const { uid } = useUser();
 
   useEffect(() => {
     async function CallApi() {
-      const result = await getTasks({ date });
-
-      setTasks(result);
+      const result = await getTasks({
+        date,
+        uid,
+        setTasks,
+      });
     }
 
+
     CallApi().catch(console.error);
-  }, [date]);
+  }, [date, uid]);
 
   async function handleTaskChecked(event: MouseEvent) {
     let id = event.currentTarget.id;
@@ -28,16 +33,16 @@ export function TaskList() {
 
     await checkTask(id, newIsChecked);
 
-    setTasks((tasks) => {
-      return tasks.map((task) => {
-        return task.id === id
-          ? {
-              ...task,
-              isChecked: !task.isChecked,
-            }
-          : task;
-      });
-    });
+    // setTasks((tasks) => {
+    //   return tasks.map((task) => {
+    //     return task.id === id
+    //       ? {
+    //           ...task,
+    //           isChecked: !task.isChecked,
+    //         }
+    //       : task;
+    //   });
+    // });
   }
 
   function handleTaskClicked(event: MouseEvent) {
@@ -58,13 +63,13 @@ export function TaskList() {
   async function handleTaskDelete(event: MouseEvent) {
     let id = event.currentTarget.id;
     await deleteTasks(id);
-    setTasks((tasks) => {
-      return tasks.filter((task) => task.id !== id);
-    });
+    // setTasks((tasks) => {
+    //   return tasks.filter((task) => task.id !== id);
+    // });
   }
   //console.log(tasks);
   return (
-    <div className="grid grid-cols-8 justify-center justify-items-center items-center max-h-72 overflow-y-scroll scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
+    <div className="grid grid-cols-8 justify-center justify-items-center items-center mx-1 max-h-72 overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
       {tasks.map((task) => {
         return (
           <Task

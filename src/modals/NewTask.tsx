@@ -61,8 +61,8 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
       if (name === '') {
         throw new Error('Empty task name');
       }
-
-      createTask(newTaskDate, name, description);
+      const uid = 'Muk1SBQ9JNefPsQM9mqoP3Y8ffx2';
+      createTask(newTaskDate, name, uid, description);
     } catch (error) {
       let message;
 
@@ -80,6 +80,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
     setErrorDialog(false);
     onNewTask();
     setSuccessDialog(true);
+    setDescription('');
   }
   return (
     <>

@@ -5,7 +5,7 @@ import { createNote } from '../hooks/useApi';
 
 interface NewNoteProps {
   newNoteIsOpen: boolean;
-  onNewNote: (name?: string, description?: string) => void;
+  onNewNote: (name: string, description: string) => void;
 }
 
 export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
@@ -13,7 +13,6 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
   const [description, setDescription] = useState('');
   const [successDialog, setSuccessDialog] = useState(false);
   const [errorDialog, setErrorDialog] = useState(false);
-
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -25,7 +24,6 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
         throw new Error('Empty note');
       }
       onNewNote(name, description);
-      await createNote(name, description);
     } catch (error) {
       let message;
 
@@ -40,8 +38,9 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
       return;
     }
     setErrorDialog(false);
-    //onNewNote(name, description);
     setSuccessDialog(true);
+    setDescription('');
+    setName('');
   }
   return (
     <>
@@ -50,7 +49,6 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
         open={newNoteIsOpen}
         onClose={() => {
           setErrorDialog(false);
-          onNewNote();
         }}
       >
         <div className="w-[345px] h-[400px] bg-surface shadow">
@@ -102,7 +100,6 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
                   setName('');
                   setDescription('');
                   setErrorDialog(false);
-                  onNewNote();
                 }}
               >
                 Cancelar
