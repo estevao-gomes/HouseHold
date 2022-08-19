@@ -156,9 +156,6 @@ export async function getShoppingList({uid, setShoppingItems}: ItemProps) {
       } as ShoppingItems);
     });
 
-    // console.log(result);
-    // console.log('watcher');
-
     setShoppingItems(result);
   }, (error)=>{
     alert(error.message)

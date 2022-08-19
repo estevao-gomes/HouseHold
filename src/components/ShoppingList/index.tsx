@@ -16,8 +16,11 @@ export function ShoppingList({ style }: ShoppingListProps){
 
     const { uid } = useUser();
 
-    useEffect(()=>{    
-        getShoppingList({uid, setShoppingItems});
+    useEffect(()=>{
+        function callApi(){
+            getShoppingList({uid, setShoppingItems});
+        }
+        callApi()        
     }, [])
 
     async function handleDeleteItem(event: MouseEvent){
@@ -62,7 +65,7 @@ export function ShoppingList({ style }: ShoppingListProps){
             <div className="last:mb-2">
                 {shoppingItems?.map((item)=>{
                     return(
-                        <div id={item.id} className="flex gap-2 items-center w-2/3 mx-auto mt-8 border-2 border-primary rounded-md">
+                        <div key={item.id} id={item.id} className="flex gap-2 items-center w-2/3 mx-auto mt-8 border-2 border-primary rounded-md">
                             <input onClick={handleCheckItem} className="ml-2" type="checkbox" defaultChecked={item.checked}></input>
                             <h1 className="text-xl font-semibold text-primary-dark flex-1">{item.name}</h1>
                             <button onClick={handleDeleteItem} className="mr-2"><Trash className="text-error-500"/></button>
