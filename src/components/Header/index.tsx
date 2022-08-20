@@ -45,7 +45,7 @@ export function Header() {
       <button
         onClick={handleSignIn}
         type="button"
-        className="flex absolute w-fit bg-primary-dark p-2 rounded-xl items-center right-32 hover:bg-opacity-80 hover:ring-primary-light hover:ring-2"
+        className="flex md:absolute w-fit bg-primary-dark p-2 rounded-xl items-center md:right-32 hover:bg-opacity-80 hover:ring-primary-light hover:ring-2"
       >
         <GoogleLogo size={32} />
         {username ? username : 'Sign in'}
