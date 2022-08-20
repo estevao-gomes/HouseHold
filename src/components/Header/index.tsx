@@ -1,13 +1,13 @@
-import { signInWithPopup, signOut, User } from 'firebase/auth';
-import { auth, provider } from '../../api/firebase';
+import { signInWithPopup, signOut, User } from "firebase/auth";
+import { auth, provider } from "../../api/firebase";
 
-import { GoogleLogo } from 'phosphor-react';
-import { useState } from 'react';
+import { GoogleLogo } from "phosphor-react";
+import { useState } from "react";
 
-import { useUser } from '../../contexts/UserContext';
+import { useUser } from "../../contexts/UserContext";
 
 export function Header() {
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>("");
 
   const { setUid } = useUser();
 
@@ -17,7 +17,7 @@ export function Header() {
         .then((result) => {
           console.log(result.user);
           setUid(result.user.uid);
-          if(result.user.displayName){
+          if (result.user.displayName) {
             setUsername(result.user.displayName);
           }
         })
@@ -27,28 +27,24 @@ export function Header() {
     } else {
       await signOut(auth)
         .then((result) => {
-          setUsername('');
-          setUid('');
-          console.log('Log Out successful');
+          setUsername("");
+          setUid("");
+          console.log("Log Out successful");
         })
         .catch((err) => console.log(err));
     }
   }
   return (
-    <header className="flex relative justify-center items-center w-full bg-primary">
-      <img
-        className="w-[6rem] my-2"
-        src="\assets\house.png"
-        alt="House Icon"
-      />
-      <h1 className="mx-2 font-bold text-2xl">HouseHold</h1>
+    <header className="relative flex w-full items-center justify-center bg-primary">
+      <img className="my-2 w-[6rem]" src="\assets\house.png" alt="House Icon" />
+      <h1 className="mx-2 text-2xl font-bold">HouseHold</h1>
       <button
         onClick={handleSignIn}
         type="button"
-        className="flex md:absolute w-fit bg-primary-dark p-2 rounded-xl items-center md:right-32 hover:bg-opacity-80 hover:ring-primary-light hover:ring-2"
+        className="flex w-fit items-center rounded-xl bg-primary-dark p-2 hover:bg-opacity-80 hover:ring-2 hover:ring-primary-light md:absolute md:right-32"
       >
         <GoogleLogo size={32} />
-        {username ? username : 'Sign in'}
+        {username ? username : "Sign in"}
       </button>
     </header>
   );

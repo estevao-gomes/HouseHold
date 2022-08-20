@@ -155,7 +155,7 @@ export async function getShoppingList({uid, setShoppingItems}: ItemProps) {
         id: doc.id,
       } as ShoppingItems);
     });
-
+    console.log('chamado')
     setShoppingItems(result);
   }, (error)=>{
     alert(error.message)

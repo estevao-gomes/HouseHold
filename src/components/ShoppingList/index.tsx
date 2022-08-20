@@ -21,7 +21,7 @@ export function ShoppingList({ style }: ShoppingListProps){
             getShoppingList({uid, setShoppingItems});
         }
         callApi()        
-    }, [])
+    }, [uid])
 
     async function handleDeleteItem(event: MouseEvent){
         let id = event.currentTarget.parentElement?.id as string 
