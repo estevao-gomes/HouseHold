@@ -1,68 +1,29 @@
 import { FormEvent, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
+import { createNote } from '../hooks/useApi';
 
-import { DateListBox } from '../shared/DateListBox';
-import { createTask } from '../hooks/useApi';
-import { useDate } from '../contexts/DateContext';
-
-interface NewTaskProps {
-  isOpen: boolean;
-  onNewTask: () => void;
+interface NewNoteProps {
+  newNoteIsOpen: boolean;
+  onNewNote: (name: string, description: string) => void;
 }
 
-export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
-  const { UpdateDate } = useDate();
-  const [newTaskDate, setNewTaskDate] = useState(
-    new Date(new Date().toDateString())
-  );
+export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [successDialog, setSuccessDialog] = useState(false);
   const [errorDialog, setErrorDialog] = useState(false);
 
-  function handleDaySet(day: number) {
-    var newDate = new Date(
-      newTaskDate.getFullYear(),
-      newTaskDate.getMonth(),
-      day
-    );
-    setNewTaskDate(newDate);
-  }
-
-  function handleMonthSet(month: number) {
-    var newDaysInMonth = new Date(
-      newTaskDate.getFullYear(),
-      month + 1,
-      0
-    ).getDate();
-    setNewTaskDate(
-      new Date(
-        newTaskDate.getFullYear(),
-        month,
-        newTaskDate.getDate() > newDaysInMonth
-          ? newDaysInMonth
-          : newTaskDate.getDate()
-      )
-    );
-  }
-
-  function handleYearSet(year: number) {
-    setNewTaskDate(
-      new Date(year, newTaskDate.getMonth(), newTaskDate.getDate())
-    );
-  }
-
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    //console.log(name, description, newTaskDate);
 
     try {
       if (name === '') {
         throw new Error('Empty task name');
+      } else if (description === '') {
+        throw new Error('Empty note');
       }
-      const uid = 'Muk1SBQ9JNefPsQM9mqoP3Y8ffx2';
-      createTask(newTaskDate, name, uid, description);
+      onNewNote(name, description);
     } catch (error) {
       let message;
 
@@ -76,26 +37,24 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
 
       return;
     }
-    UpdateDate(newTaskDate);
     setErrorDialog(false);
-    onNewTask();
     setSuccessDialog(true);
     setDescription('');
+    setName('');
   }
   return (
     <>
       <Dialog
         className="flex justify-center fixed inset-0 z-10 top-10 text-center"
-        open={isOpen}
+        open={newNoteIsOpen}
         onClose={() => {
           setErrorDialog(false);
-          onNewTask();
         }}
       >
         <div className="w-[345px] h-[400px] bg-surface shadow">
           <Dialog.Panel>
             <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
-              New Task
+              New Note
             </Dialog.Title>
 
             <form className="flex-auto" onSubmit={handleSubmit}>
@@ -105,8 +64,8 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
                     Nome
                   </label>
                   {errorDialog && (
-                    <span className="text-xs ml-1 text-error-600">
-                      Indique um nome
+                    <span className="text-xs ml-1 mb-2 text-error-600">
+                      Nome e/ou descrição vazios.
                     </span>
                   )}
                 </div>
@@ -118,14 +77,6 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                 ></input>
-              </div>
-              <div className="flex justify-center">
-                <DateListBox
-                  date={newTaskDate}
-                  handleDaySet={handleDaySet}
-                  handleMonthSet={handleMonthSet}
-                  handleYearSet={handleYearSet}
-                />
               </div>
               <div className="relative grid grid-rows-3 mt-2 mx-16">
                 <label className="w-32 z-10 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
@@ -149,7 +100,6 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
                   setName('');
                   setDescription('');
                   setErrorDialog(false);
-                  onNewTask();
                 }}
               >
                 Cancelar
@@ -170,7 +120,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
               Success
             </Dialog.Title>
             <Dialog.Description className="text-primary-dark m-2 font-bold">
-              Task Created Successfully
+              Note Created Successfully
             </Dialog.Description>
             <button
               className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"
