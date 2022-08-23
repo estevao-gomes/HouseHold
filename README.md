@@ -15,5 +15,5 @@ Right now, the project includes the task management, Notes and Shopping List com
   <li>TailwindCSS</li>
   <li>Vite</li>
   <li>@Headless/ui</li>
-  <li>MirageJS</li>
+  <li>Firebase</li>
 </ul>
