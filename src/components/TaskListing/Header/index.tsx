@@ -18,16 +18,15 @@ export function Header() {
       <DateButton />
       <div className="flex align-items-center justify-center">
         <button
-          className={
-            isOpen ? 'mb-2 h-8' : 'btn-primary mb-2'
-          }
+          className="btn-primary mb-2"
           type="button"
           onClick={() => {
             setIsOpen(true);
           }}
           disabled={isOpen}
         >
-          {isOpen ? "" : <Plus size={16} />}
+          <span className="pr-1 font-medium">Nova tarefa</span>
+          <Plus size={16} />
         </button>
       </div>
       <NewTask isOpen={isOpen} onNewTask={handleNewTask} />

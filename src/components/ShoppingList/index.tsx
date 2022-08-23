@@ -8,6 +8,7 @@ import {
 import { ShoppingItems } from '../../interfaces/ShoppingListItemsInterface';
 import { Trash } from 'phosphor-react';
 import { useUser } from '../../contexts/UserContext';
+import { auth } from '../../api/firebase'
 
 interface ShoppingListProps {
   style?: string;
@@ -18,16 +19,18 @@ export function ShoppingList({ style }: ShoppingListProps) {
   const [inputValue, setInputValue] = useState<string>('');
   //const inputRef = useRef<HTMLInputElement>(null);
 
-  const { uid } = useUser();
 
   useEffect(() => {
     function callApi() {
-      if (uid) {
-        getShoppingList({ uid, setShoppingItems });
-      }
-    }
+      auth.onAuthStateChanged((user)=>{
+        if (user) {
+          let uid = user.uid
+          getShoppingList({ uid, setShoppingItems });
+        }
+      })
+     }
     callApi();
-  }, [uid]);
+  }, []);
 
   async function handleDeleteItem(event: MouseEvent) {
     let id = event.currentTarget.parentElement?.id as string;
