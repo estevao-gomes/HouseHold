@@ -50,16 +50,16 @@ export function ShoppingList({ style }: ShoppingListProps){
                 Lista de Compras
             </div>
             <div className="flex justify-center">
-                <form onSubmit={handleNewItem}>
+                <form onSubmit={handleNewItem} className="flex mt-2 justify-center">
                     {/* <label htmlFor="Novo-Item">Insira um item</label> */}
                     <input 
                         ref={inputRef}
                         id="Novo-Item" 
                         placeholder="Insira um item" 
-                        className="w-1/2 shrink p-2 mx-2 border-b-2 border-b-primaryDark"
+                        className="flex w-1/2 shrink p-2 mx-2 border-b-2 border-b-primaryDark"
                     >
                     </input>
-                    <button className="bg-primary text-onPrimary rounded-md p-2 m-2 hover:opacity-60">Inserir</button>
+                    <button className="btn-primary ">Inserir</button>
                 </form>
             </div>
             <div className="last:mb-2">

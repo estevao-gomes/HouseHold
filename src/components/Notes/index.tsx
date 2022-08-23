@@ -80,9 +80,9 @@ export function Notes({ style }: NotesProps) {
           onClick={() => {
             setNewNoteIsOpen(true);
           }}
-          className="align-baseline bg-primary rounded-3xl p-2"
+          className="btn-primary"
         >
-          <span>Nova Nota</span>
+          <span className='mr-2'>Nova Nota</span>
           <Plus className="inline" size={16} />
         </button>
       </div>
