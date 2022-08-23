@@ -14,13 +14,14 @@ export function TaskList() {
 
   useEffect(() => {
     async function CallApi() {
-      const result = await getTasks({
-        date,
-        uid,
-        setTasks,
-      });
+      if (uid) {
+        const result = await getTasks({
+          date,
+          uid,
+          setTasks,
+        });
+      }
     }
-
 
     CallApi().catch(console.error);
   }, [date, uid]);
@@ -32,17 +33,6 @@ export function TaskList() {
     ).isChecked;
 
     await checkTask(id, newIsChecked);
-
-    // setTasks((tasks) => {
-    //   return tasks.map((task) => {
-    //     return task.id === id
-    //       ? {
-    //           ...task,
-    //           isChecked: !task.isChecked,
-    //         }
-    //       : task;
-    //   });
-    // });
   }
 
   function handleTaskClicked(event: MouseEvent) {
@@ -63,11 +53,8 @@ export function TaskList() {
   async function handleTaskDelete(event: MouseEvent) {
     let id = event.currentTarget.id;
     await deleteTasks(id);
-    // setTasks((tasks) => {
-    //   return tasks.filter((task) => task.id !== id);
-    // });
   }
-  //console.log(tasks);
+
   return (
     <div className="grid grid-cols-8 justify-center justify-items-center items-center mx-1 max-h-72 overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
       {tasks.map((task) => {

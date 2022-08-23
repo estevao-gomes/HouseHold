@@ -26,10 +26,12 @@ export function Notes({ style }: NotesProps) {
 
   useEffect(() => {
     async function CallApi() {
-      const result = getNotes({
-        uid,
-        setNotes,
-      });
+      if(uid){
+        const result = getNotes({
+          uid,
+          setNotes,
+        });
+      }
     }
     CallApi().catch(console.error);
   }, [uid]);
