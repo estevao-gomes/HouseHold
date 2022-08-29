@@ -4,19 +4,15 @@ import { auth, provider } from "../../api/firebase";
 import { GoogleLogo } from "phosphor-react";
 import { useState } from "react";
 
-import { useUser } from "../../contexts/UserContext";
 import { logOut } from "../../hooks/useApi";
 
 export function Header() {
   const [username, setUsername] = useState<string>(auth.currentUser?.displayName ? auth.currentUser.displayName : "");
 
-  const { setUid } = useUser();
-
   async function handleSignIn() {
     if (!auth.currentUser) {
       await signInWithPopup(auth, provider)
         .then((result) => {
-          setUid(result.user.uid);
           if (result.user.displayName) {
             setUsername(result.user.displayName);
           }
@@ -28,7 +24,6 @@ export function Header() {
       await logOut()
         .then((result) => {
           setUsername("");
-          setUid("");
           console.log("Log Out successful");
         })
         .catch((err) => console.log(err));
