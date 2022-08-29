@@ -23,6 +23,8 @@ export function TaskList() {
               uid,
               setTasks,
             });
+          }else{
+            setTasks([])
           }
         })
       }catch(error){

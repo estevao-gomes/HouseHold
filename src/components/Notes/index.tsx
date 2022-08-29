@@ -33,6 +33,8 @@ export function Notes({ style }: NotesProps) {
               uid,
               setNotes,
             });
+          }else{
+            setNotes([])
           }
         })
       }catch(error){
