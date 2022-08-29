@@ -5,7 +5,6 @@ import { NewNote } from '../../modals/NewNote';
 import { EditNote } from '../../modals/EditNote';
 
 import { getNotes, deleteNotes, createNote, editNote } from '../../hooks/useApi';
-import { useUser } from '../../contexts/UserContext';
 
 import { NoteInterface } from '../../interfaces/NoteInterface';
 import { Note } from './Note';
