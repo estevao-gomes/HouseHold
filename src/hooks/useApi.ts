@@ -1,3 +1,4 @@
+import { signOut } from 'firebase/auth';
 import {
   collection,
   query,
@@ -9,8 +10,9 @@ import {
   deleteDoc,
   onSnapshot,
   Timestamp,
+  Unsubscribe,
 } from 'firebase/firestore';
-import { db } from '../api/firebase';
+import { db, auth } from '../api/firebase';
 import { NoteInterface } from '../interfaces/NoteInterface';
 import { ShoppingItems } from '../interfaces/ShoppingListItemsInterface';
 import { TaskInterface } from '../interfaces/TaskInterface';
@@ -30,9 +32,8 @@ interface ItemProps {
   uid: string;
   setShoppingItems: (newItems: ShoppingItems[]) => void;
 }
-interface ItemType {
-  items: ShoppingItems[];
-}
+
+const detatchers = <Unsubscribe[]>[]
 
 export async function getTasks({ date, uid, setTasks }: TasksProps) {
   const q = query(
@@ -56,7 +57,11 @@ export async function getTasks({ date, uid, setTasks }: TasksProps) {
 
     setTasks(result);
 
+  }, (error)=>{
+    alert(`Erro ao obter tarefas:  ${error.message}`)
   });
+  
+  detatchers.push(unsubscribe);
 
   return unsubscribe;
 }
@@ -104,13 +109,12 @@ export function getNotes({ uid, setNotes }: NotesProps) {
       } as NoteInterface);
     });
 
-    // console.log(result);
-    // console.log('watcher');
-
     setNotes(result);
   }, (error)=>{
-    alert(error.message)
+    alert(`Erro ao obter notas:  ${error.message}`)
   });
+
+  detatchers.push(unsubscribe);
 
   return unsubscribe;
 }
@@ -144,6 +148,7 @@ export async function editNote(name: string, description: string, id: string){
 }
 export async function getShoppingList({uid, setShoppingItems}: ItemProps) {
   const q = query(collection(db, 'shoppingList'), where('uid', '==', uid));
+  
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     let result = <ShoppingItems[]>[];
     
@@ -155,11 +160,13 @@ export async function getShoppingList({uid, setShoppingItems}: ItemProps) {
         id: doc.id,
       } as ShoppingItems);
     });
-    console.log('chamado')
+
     setShoppingItems(result);
   }, (error)=>{
-    alert(error.message)
+    alert(`Erro ao obter lista de compras:  ${error.message}`)
   });
+
+  detatchers.push(unsubscribe)
 
   return unsubscribe;
 }
@@ -184,4 +191,17 @@ export async function createItem(name: string, uid: string) {
     checked: false,
     uid: uid
   })
+}
+
+export async function logOut() {
+  detatchers.forEach((detatcher)=>{
+    detatcher();
+  })
+
+  return await signOut(auth).then(
+    (result)=>{
+      return result
+    }
+  );
+  
 }

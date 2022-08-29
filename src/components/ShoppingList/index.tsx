@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent, FormEvent, useRef } from 'react';
+import { useEffect, useState, MouseEvent, FormEvent } from 'react';
 import {
   getShoppingList,
   deleteItem,
@@ -7,7 +7,6 @@ import {
 } from '../../hooks/useApi';
 import { ShoppingItems } from '../../interfaces/ShoppingListItemsInterface';
 import { Trash } from 'phosphor-react';
-import { useUser } from '../../contexts/UserContext';
 import { auth } from '../../api/firebase'
 
 interface ShoppingListProps {
@@ -17,18 +16,24 @@ interface ShoppingListProps {
 export function ShoppingList({ style }: ShoppingListProps) {
   const [shoppingItems, setShoppingItems] = useState<ShoppingItems[]>();
   const [inputValue, setInputValue] = useState<string>('');
-  //const inputRef = useRef<HTMLInputElement>(null);
-
 
   useEffect(() => {
     function callApi() {
-      auth.onAuthStateChanged((user)=>{
-        if (user) {
-          let uid = user.uid
-          getShoppingList({ uid, setShoppingItems });
-        }
-      })
-     }
+      try{
+        auth.onAuthStateChanged((user)=>{
+          if (user) {
+            let uid = user.uid
+
+            return getShoppingList({ uid, setShoppingItems });
+
+          }else{
+            setShoppingItems([] as ShoppingItems[])
+          }
+        })
+      }catch(err){
+        console.log(err)    
+      }
+    }     
     callApi();
   }, []);
 
@@ -48,10 +53,8 @@ export function ShoppingList({ style }: ShoppingListProps) {
   function handleNewItem(event: FormEvent) {
     event.preventDefault();
 
-    //let newItemName = inputRef.current ? inputRef.current.value : ""
-
-    if (inputValue) {
-      createItem(inputValue, uid);
+    if (inputValue && auth.currentUser) {
+      createItem(inputValue, auth.currentUser.uid);
       setInputValue('');
     }
   }

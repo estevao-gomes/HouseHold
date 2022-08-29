@@ -9,8 +9,8 @@ import { useUser } from '../../contexts/UserContext';
 
 import { NoteInterface } from '../../interfaces/NoteInterface';
 import { Note } from './Note';
+import { auth } from '../../api/firebase';
 
-//import { snapshot } from '../../api/firebase'
 
 interface NotesProps {
   style?: string;
@@ -22,19 +22,27 @@ export function Notes({ style }: NotesProps) {
   const [editNoteIsOpen, setEditNoteIsOpen] = useState<boolean>(false);
   const [noteBeingEdited, setNoteBeingEdited] = useState<string>('');
 
-  const { uid } = useUser();
+  //const { uid } = useUser();
 
   useEffect(() => {
     async function CallApi() {
-      if(uid){
-        const result = getNotes({
-          uid,
-          setNotes,
-        });
+      try{
+        auth.onAuthStateChanged((user)=>{
+          if(user){
+            let uid = user.uid
+            return getNotes({
+              uid,
+              setNotes,
+            });
+          }
+        })
+      }catch(error){
+        alert(`Erro ao obter notas: ${error}`)
       }
+      
     }
-    CallApi().catch(console.error);
-  }, [uid]);
+    CallApi();
+  }, []);
 
   function handleDeleteNote(event: MouseEvent) {
     const id = event.currentTarget.id;
@@ -43,8 +51,10 @@ export function Notes({ style }: NotesProps) {
   }
 
   function handleNewNote(name: string, description: string) {
-    setNewNoteIsOpen(false);
-    createNote(name, description, uid);
+    if(auth.currentUser){
+      setNewNoteIsOpen(false);
+      createNote(name, description, auth.currentUser.uid);
+    }
   }
 
   function handleEditNote(event: MouseEvent) {
@@ -58,20 +68,6 @@ export function Notes({ style }: NotesProps) {
     if(name && description){
       await editNote(name, description, noteBeingEdited)
     }
-    // if (name && description) {
-    //   let newNotes = notes.map((note) => {
-    //     if (note.id === noteBeingEdited) {
-    //       return {
-    //         id: note.id,
-    //         name: name,
-    //         description: description,
-    //       };
-    //     } else {
-    //       return note;
-    //     }
-    //   });
-    //   setNotes(newNotes);
-    // }
   }
 
   return (

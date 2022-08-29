@@ -5,26 +5,33 @@ import { TaskInterface } from '../../../interfaces/TaskInterface';
 
 import { deleteTasks, getTasks, checkTask } from '../../../hooks/useApi';
 import { useDate } from '../../../contexts/DateContext';
-import { useUser } from '../../../contexts/UserContext';
+import { auth } from '../../../api/firebase';
 
 export function TaskList() {
   const [tasks, setTasks] = useState<TaskInterface[]>([]);
   const { date } = useDate();
-  const { uid } = useUser();
+
 
   useEffect(() => {
     async function CallApi() {
-      if (uid) {
-        const result = await getTasks({
-          date,
-          uid,
-          setTasks,
-        });
+      try{
+        auth.onAuthStateChanged((user)=>{
+          if(user){
+            let uid = user.uid
+            return getTasks({
+              date,
+              uid,
+              setTasks,
+            });
+          }
+        })
+      }catch(error){
+        alert(`Erro ao obter tarefas: ${error}`)
       }
     }
 
-    CallApi().catch(console.error);
-  }, [date, uid]);
+    CallApi();
+  }, [date]);
 
   async function handleTaskChecked(event: MouseEvent) {
     let id = event.currentTarget.id;

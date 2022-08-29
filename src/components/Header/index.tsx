@@ -5,17 +5,17 @@ import { GoogleLogo } from "phosphor-react";
 import { useState } from "react";
 
 import { useUser } from "../../contexts/UserContext";
+import { logOut } from "../../hooks/useApi";
 
 export function Header() {
-  const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState<string>(auth.currentUser?.displayName ? auth.currentUser.displayName : "");
 
   const { setUid } = useUser();
 
   async function handleSignIn() {
-    if (!username) {
+    if (!auth.currentUser) {
       await signInWithPopup(auth, provider)
         .then((result) => {
-          console.log(result.user);
           setUid(result.user.uid);
           if (result.user.displayName) {
             setUsername(result.user.displayName);
@@ -25,7 +25,7 @@ export function Header() {
           console.log(error.message);
         });
     } else {
-      await signOut(auth)
+      await logOut()
         .then((result) => {
           setUsername("");
           setUid("");
