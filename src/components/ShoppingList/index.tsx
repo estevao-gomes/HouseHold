@@ -17,6 +17,7 @@ export function ShoppingList({ style }: ShoppingListProps) {
   const [shoppingItems, setShoppingItems] = useState<ShoppingItems[]>();
   const [inputValue, setInputValue] = useState<string>('');
 
+  //Sets watcher for auth state changes and get shopping list if user is logged in. Else, empties shopping list.
   useEffect(() => {
     function callApi() {
       try {
@@ -36,12 +37,14 @@ export function ShoppingList({ style }: ShoppingListProps) {
     callApi();
   }, []);
 
+  //Deletes item from shopping list from given id.
   async function handleDeleteItem(event: MouseEvent) {
     let id = event.currentTarget.parentElement?.id as string;
 
     deleteItem(id);
   }
 
+  //Changes checked value from shopping list item
   async function handleCheckItem(event: MouseEvent) {
     let id = event.currentTarget.parentElement?.id as string;
     let newChecked = !shoppingItems?.find((item) => item.id === id)?.checked;
@@ -49,6 +52,7 @@ export function ShoppingList({ style }: ShoppingListProps) {
     checkItem(id, newChecked);
   }
 
+  //Creates new shopping list item if there is an inputValue and user logged in, then empties value on the input.
   function handleNewItem(event: FormEvent) {
     event.preventDefault();
 
@@ -65,7 +69,10 @@ export function ShoppingList({ style }: ShoppingListProps) {
       </div>
       <div className="flex justify-center">
         <form onSubmit={handleNewItem} className="flex mt-2 justify-center">
-          {/* <label htmlFor="Novo-Item">Insira um item</label> */}
+          {/* Invisible label for new item input, for screen readers */}
+          <label className="sr-only" htmlFor="Novo-Item">
+            Insira um item
+          </label>
           <input
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}

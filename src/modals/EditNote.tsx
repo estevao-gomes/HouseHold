@@ -22,6 +22,7 @@ export function EditNote({
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
+    //Checks if inputs references are set correctly. If they are, checks if the values are empty, if they are, throws error. Else, edits note on Firebase with given values.
     try {
       if (nameRef.current && descriptionRef.current) {
         if (nameRef.current.value === '') {
@@ -48,6 +49,8 @@ export function EditNote({
     }
     setErrorDialog(false);
   }
+
+  //Inputs are uncontrolled due to needing to have a default value dependent on props. Having controlled inputs would require derived states, causing double rendering of component.
   return (
     <Dialog
       className="flex justify-center fixed inset-0 z-10 top-10 text-center"

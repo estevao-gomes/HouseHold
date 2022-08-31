@@ -2,9 +2,10 @@ import { FormEvent, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
 
+import { auth } from '../../api/firebase';
+
 import { DateListBox } from './DateListBox';
 import { createTask } from '../../hooks/useApi';
-import { useDate } from '../../contexts/DateContext';
 
 interface NewTaskProps {
   isOpen: boolean;
@@ -12,7 +13,6 @@ interface NewTaskProps {
 }
 
 export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
-  const { UpdateDate } = useDate();
   const [newTaskDate, setNewTaskDate] = useState(
     new Date(new Date().toDateString())
   );
@@ -20,6 +20,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
   const [description, setDescription] = useState('');
   const [errorDialog, setErrorDialog] = useState(false);
 
+  //Handles changes on day dropdown.
   function handleDaySet(day: number) {
     var newDate = new Date(
       newTaskDate.getFullYear(),
@@ -29,6 +30,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
     setNewTaskDate(newDate);
   }
 
+  //Handles changes on month dropdown. NewDaysInMonth variable defines if day is going to keep same value, or change. Day changes if previus date has last day of the month, and month is changed from 31 days' month to 30 days one, vice versa.
   function handleMonthSet(month: number) {
     var newDaysInMonth = new Date(
       newTaskDate.getFullYear(),
@@ -46,12 +48,14 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
     );
   }
 
+  //Handles changes on year dropdown.
   function handleYearSet(year: number) {
     setNewTaskDate(
       new Date(year, newTaskDate.getMonth(), newTaskDate.getDate())
     );
   }
 
+  //Cheks if there is an user logged in and creates task if there is at least a task name. If there is no task name, creates error dialog (message that appears beside label).
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
@@ -59,8 +63,11 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
       if (name === '') {
         throw new Error('Empty task name');
       }
-      const uid = 'Muk1SBQ9JNefPsQM9mqoP3Y8ffx2';
-      createTask(newTaskDate, name, uid, description);
+      if (auth.currentUser) {
+        createTask(newTaskDate, name, auth.currentUser.uid, description);
+      } else {
+        throw new Error('No user logged in');
+      }
     } catch (error) {
       let message;
 
@@ -74,12 +81,12 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
 
       return;
     }
-    UpdateDate(newTaskDate);
     setErrorDialog(false);
     onNewTask();
     setDescription('');
   }
   return (
+    //On closing submits dialog content (if there is content to submit) and sets error dialog to false if is previously set.
     <Dialog
       className="flex justify-center fixed inset-0 z-10 top-10 text-center"
       open={isOpen}
@@ -91,7 +98,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
       <div className="w-[345px] h-fit bg-surface shadow">
         <Dialog.Panel>
           <Dialog.Title className="p-2 bg-primary-dark text-onPrimary font-medium">
-            New Task
+            Nova Tarefa
           </Dialog.Title>
 
           <form className="flex-auto" onSubmit={handleSubmit}>
@@ -147,6 +154,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
             >
               Criar
             </button>
+            {/* Empties name and description states on operation canceling */}
             <button
               className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 hover:border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-opacity-100"
               onClick={() => {

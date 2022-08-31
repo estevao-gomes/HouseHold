@@ -10,12 +10,12 @@ interface NewNoteProps {
 export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  //const [successDialog, setSuccessDialog] = useState(false);
   const [errorDialog, setErrorDialog] = useState(false);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
+    //Checks if name or description are empty, if they are, throws error, else creates note from given values and empties name and description fields.
     try {
       if (name === '') {
         throw new Error('Empty task name');
@@ -37,7 +37,6 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
       return;
     }
     setErrorDialog(false);
-    //setSuccessDialog(true);
     setDescription('');
     setName('');
   }

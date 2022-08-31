@@ -9,8 +9,6 @@ type TaskProps = {
   onTaskClicked: (event: MouseEvent) => void;
 };
 
-const buttonStyle = {};
-
 const today = new Date();
 
 export function Task({
@@ -21,6 +19,7 @@ export function Task({
 }: TaskProps) {
   return (
     <>
+      {/* Styles color of text according to due date. If task is checked, color is green, else, if past due, color is red. If neither, text is black. */}
       <button
         className={`col-span-6 bg-surface border-4 rounded-md ${
           task.isClicked ? 'border-primary-dark' : 'border-primary-light'
@@ -66,6 +65,7 @@ export function Task({
                 task.date < today ? 'text-error-500' : 'text-onSurface'
               }
             >
+              {/* Formats date for BR locale and "short" style (no hour). */}
               {task.date.toLocaleString('pt-BR', {
                 timezone: 'GMT-3',
                 dateStyle: 'short',

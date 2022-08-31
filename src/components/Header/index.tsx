@@ -1,15 +1,19 @@
-import { signInWithPopup, signOut, User } from "firebase/auth";
-import { auth, provider } from "../../api/firebase";
+import { signInWithPopup, signOut, User } from 'firebase/auth';
+import { auth, provider } from '../../api/firebase';
 
-import { GoogleLogo } from "phosphor-react";
-import { useState } from "react";
+import { GoogleLogo } from 'phosphor-react';
+import { useState } from 'react';
 
-import { logOut } from "../../hooks/useApi";
+import { logOut } from '../../hooks/useApi';
 
 export function Header() {
-  const [username, setUsername] = useState<string>(auth.currentUser?.displayName ? auth.currentUser.displayName : "");
+  const [username, setUsername] = useState<string>(
+    auth.currentUser?.displayName ? auth.currentUser.displayName : ''
+  );
 
+  //Handles sign in option with popup, using google authentication
   async function handleSignIn() {
+    //Checks if the user is already logged in before attempting to perform action
     if (!auth.currentUser) {
       await signInWithPopup(auth, provider)
         .then((result) => {
@@ -21,10 +25,11 @@ export function Header() {
           console.log(error.message);
         });
     } else {
+      //If user already logged in, performs log out
       await logOut()
         .then((result) => {
-          setUsername("");
-          console.log("Log Out successful");
+          setUsername('');
+          console.log('Log Out successful');
         })
         .catch((err) => console.log(err));
     }
@@ -38,7 +43,7 @@ export function Header() {
         className="btn-primary md:absolute md:right-32"
       >
         <GoogleLogo size={32} />
-        {username ? username : "Sign in"}
+        {username ? username : 'Sign in'}
       </button>
     </header>
   );

@@ -8,6 +8,7 @@ interface NoteProps {
   onNoteDelete: (event: MouseEvent) => void;
   onNoteEdit: (event: MouseEvent) => void;
 }
+
 export function Note({
   name,
   description,
@@ -16,7 +17,6 @@ export function Note({
   onNoteEdit,
 }: NoteProps) {
   return (
-    //this div will become a fragment
     <div>
       <div className="flex items-center">
         <div className="bg-primary rounded-md cursor-default w-fit px-2 mb-1">

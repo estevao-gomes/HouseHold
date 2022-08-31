@@ -15,6 +15,7 @@ export function DateListBox({
   handleMonthSet,
   handleYearSet,
 }: DateListBoxProps) {
+  //Month in state has to have + 1 added to it due to 0-11 indexing.
   const [daysInMonth, setDaysInMonth] = useState(
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
   );
@@ -55,6 +56,7 @@ export function DateListBox({
                 value={day + 1}
                 className="hover:bg-primary-light hover:text-onPrimary-light hover:font-medium hover:cursor-pointer"
               >
+                {/* If option is active, changes background color */}
                 {({ active }) => (
                   <li
                     className={`${
@@ -85,6 +87,7 @@ export function DateListBox({
                   value={month}
                   className="hover:bg-primary-light hover:text-onPrimary-light hover:font-medium  hover:cursor-pointer"
                 >
+                  {/* If option is active, changes background color */}
                   {({ active }) => (
                     <li
                       className={`${
@@ -118,6 +121,7 @@ export function DateListBox({
                     value={year}
                     className="hover:bg-primary-light hover:text-onPrimary-light hover:font-medium  hover:cursor-pointer"
                   >
+                    {/* If option is active, changes background color */}
                     {({ active }) => (
                       <li
                         className={`${

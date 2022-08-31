@@ -18,7 +18,6 @@ import { ShoppingItems } from '../interfaces/ShoppingListItemsInterface';
 import { TaskInterface } from '../interfaces/TaskInterface';
 
 interface TasksProps {
-  date?: Date;
   uid?: string;
   setTasks: (newTasks: TaskInterface[]) => void;
 }
@@ -33,8 +32,11 @@ interface ItemProps {
   setShoppingItems: (newItems: ShoppingItems[]) => void;
 }
 
+//Array storing return values from Firebase listeners to be executed on log out, detatching such listeners.
 const detatchers = <Unsubscribe[]>[];
 
+//Functions to manipulate information for Task list.
+//Queries database based on user id and creates watcher for changes on database for tasks collection. Sets Tasks state based on data from Firebase, while also creating "isClicked" value (not existing on database).
 export async function getTasks({ uid, setTasks }: TasksProps) {
   const q = query(collection(db, 'tasks'), where('uid', '==', uid));
 
@@ -64,12 +66,14 @@ export async function getTasks({ uid, setTasks }: TasksProps) {
   return unsubscribe;
 }
 
+//Delete task with given id from database. 
 export async function deleteTasks(id: string) {
   const docRef = doc(db, 'tasks', id);
 
   await deleteDoc(docRef);
 }
 
+//Changes value of 'isChecked' propertie of task with given id.
 export async function checkTask(id: string, newIsChecked: boolean) {
   const docRef = doc(db, 'tasks', id);
 
@@ -78,6 +82,7 @@ export async function checkTask(id: string, newIsChecked: boolean) {
   });
 }
 
+//Creates task with values of date, name and description given. Description field has an default value if not given. Creates "isChecked" value with false.
 export async function createTask(
   date: Date,
   name: string,
@@ -93,6 +98,9 @@ export async function createTask(
   });
 }
 
+
+//Functions to manipulate data related to Notes.
+//
 export function getNotes({ uid, setNotes }: NotesProps) {
   const q = query(
     collection(db, 'notes'),
@@ -152,6 +160,9 @@ export async function editNote(name: string, description: string, id: string) {
     description: description,
   });
 }
+
+
+//Functions to manipulate data related to shopping list items.
 export async function getShoppingList({ uid, setShoppingItems }: ItemProps) {
   const q = query(collection(db, 'shoppingList'), where('uid', '==', uid));
 
@@ -203,6 +214,7 @@ export async function createItem(name: string, uid: string) {
   });
 }
 
+//Function to execute unsubscriptions on log out.
 export async function logOut() {
   detatchers.forEach((detatcher) => {
     detatcher();

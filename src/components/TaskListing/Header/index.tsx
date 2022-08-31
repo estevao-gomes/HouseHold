@@ -5,6 +5,7 @@ import { Plus } from 'phosphor-react';
 export function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  //Closes new task modal
   function handleNewTask() {
     setIsOpen(false);
   }
