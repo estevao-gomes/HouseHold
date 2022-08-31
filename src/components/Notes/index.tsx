@@ -23,9 +23,7 @@ export function Notes({ style }: NotesProps) {
   const [notes, setNotes] = useState<NoteInterface[]>([]);
   const [newNoteIsOpen, setNewNoteIsOpen] = useState<boolean>(false);
   const [editNoteIsOpen, setEditNoteIsOpen] = useState<boolean>(false);
-  const [noteBeingEdited, setNoteBeingEdited] = useState<string>('');
-
-  //const { uid } = useUser();
+  const [noteBeingEdited, setNoteBeingEdited] = useState<NoteInterface>('');
 
   useEffect(() => {
     async function CallApi() {
@@ -65,14 +63,16 @@ export function Notes({ style }: NotesProps) {
 
   function handleEditNote(event: MouseEvent) {
     let id = event.currentTarget.id;
-    setNoteBeingEdited(id);
+    const noteFromId = notes.find((note) => note.id === id);
+    setNoteBeingEdited(noteFromId as NoteInterface);
     setEditNoteIsOpen(true);
   }
 
   async function NoteEdit(name?: string, description?: string) {
+    console.log(name, description);
     setEditNoteIsOpen(false);
     if (name && description) {
-      await editNote(name, description, noteBeingEdited);
+      await editNote(name, description, noteBeingEdited.id);
     }
   }
 
@@ -105,7 +105,11 @@ export function Notes({ style }: NotesProps) {
         })}
       </div>
       <NewNote newNoteIsOpen={newNoteIsOpen} onNewNote={handleNewNote} />
-      <EditNote editNoteIsOpen={editNoteIsOpen} EditNote={NoteEdit} />
+      <EditNote
+        editNoteIsOpen={editNoteIsOpen}
+        EditNote={NoteEdit}
+        noteBeingEdited={noteBeingEdited}
+      />
     </div>
   );
 }

@@ -18,7 +18,6 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
   );
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [successDialog, setSuccessDialog] = useState(false);
   const [errorDialog, setErrorDialog] = useState(false);
 
   function handleDaySet(day: number) {
@@ -55,7 +54,6 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    //console.log(name, description, newTaskDate);
 
     try {
       if (name === '') {
@@ -79,116 +77,90 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
     UpdateDate(newTaskDate);
     setErrorDialog(false);
     onNewTask();
-    setSuccessDialog(true);
     setDescription('');
   }
   return (
-    <>
-      <Dialog
-        className="flex justify-center fixed inset-0 z-10 top-10 text-center"
-        open={isOpen}
-        onClose={() => {
-          setErrorDialog(false);
-          onNewTask();
-        }}
-      >
-        <div className="w-[345px] h-fit bg-surface shadow">
-          <Dialog.Panel>
-            <Dialog.Title className="p-2 bg-primary-dark text-onPrimary font-medium">
-              New Task
-            </Dialog.Title>
+    <Dialog
+      className="flex justify-center fixed inset-0 z-10 top-10 text-center"
+      open={isOpen}
+      onClose={() => {
+        setErrorDialog(false);
+        onNewTask();
+      }}
+    >
+      <div className="w-[345px] h-fit bg-surface shadow">
+        <Dialog.Panel>
+          <Dialog.Title className="p-2 bg-primary-dark text-onPrimary font-medium">
+            New Task
+          </Dialog.Title>
 
-            <form className="flex-auto" onSubmit={handleSubmit}>
-              <div className="relative grid grid-rows-2 mt-2 mx-16">
-                <div className="flex z-10 items-center">
-                  <label
-                    htmlFor="taskName"
-                    className="w-16 bg-primary text-onPrimary rounded-md p-2 font-medium"
-                  >
-                    Nome
-                  </label>
-                  {errorDialog && (
-                    <span className="text-xs ml-1 text-error-600">
-                      Indique um nome
-                    </span>
-                  )}
-                </div>
-                <input
-                  id="taskName"
-                  className={`mx-2 -mt-2 border-2 ${
-                    !errorDialog ? 'border-onSurface' : 'border-error-600'
-                  } p-2`}
-                  type="text"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                ></input>
-              </div>
-              <div className="flex justify-center">
-                <DateListBox
-                  date={newTaskDate}
-                  handleDaySet={handleDaySet}
-                  handleMonthSet={handleMonthSet}
-                  handleYearSet={handleYearSet}
-                />
-              </div>
-              <div className="relative grid grid-rows-3 mt-2 mx-16">
+          <form className="flex-auto" onSubmit={handleSubmit}>
+            <div className="relative grid grid-rows-2 mt-2 mx-16">
+              <div className="flex z-10 items-center">
                 <label
-                  htmlFor="taskDescription"
-                  className="w-32 z-10 bg-primary text-onPrimary-light rounded-md p-2 font-medium"
+                  htmlFor="taskName"
+                  className="w-16 bg-primary text-onPrimary rounded-md p-2 font-medium"
                 >
-                  Descrição
+                  Nome
                 </label>
-                <textarea
-                  id="taskDescription"
-                  className="row-span-2 mx-2 -mt-2 border-2 border-onSurface p-2 rounded-sm scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface resize-none"
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                ></textarea>
+                {errorDialog && (
+                  <span className="text-xs ml-1 text-error-600">
+                    Indique um nome
+                  </span>
+                )}
               </div>
-              <button
-                className="btn-primary inline font-medium min-w-[6rem] m-2"
-                type="submit"
+              <input
+                id="taskName"
+                className={`mx-2 -mt-2 border-2 ${
+                  !errorDialog ? 'border-onSurface' : 'border-error-600'
+                } p-2`}
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              ></input>
+            </div>
+            <div className="flex justify-center">
+              <DateListBox
+                date={newTaskDate}
+                handleDaySet={handleDaySet}
+                handleMonthSet={handleMonthSet}
+                handleYearSet={handleYearSet}
+              />
+            </div>
+            <div className="relative grid grid-rows-3 mt-2 mx-16">
+              <label
+                htmlFor="taskDescription"
+                className="w-32 z-10 bg-primary text-onPrimary-light rounded-md p-2 font-medium"
               >
-                Criar
-              </button>
-              <button
-                className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 hover:border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-opacity-100"
-                onClick={() => {
-                  setName('');
-                  setDescription('');
-                  setErrorDialog(false);
-                  onNewTask();
-                }}
-              >
-                Cancelar
-              </button>
-            </form>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
-      <Dialog
-        as="div"
-        className="fixed flex justify-center inset-0 z-10 top-10 text-center min-w-max"
-        open={successDialog}
-        onClose={() => setSuccessDialog(false)}
-      >
-        <div className="w-[345px] h-[175px] bg-surface shadow">
-          <Dialog.Panel>
-            <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
-              Success
-            </Dialog.Title>
-            <Dialog.Description className="text-primary-dark m-2 font-bold">
-              Task Created Successfully
-            </Dialog.Description>
+                Descrição
+              </label>
+              <textarea
+                id="taskDescription"
+                className="row-span-2 mx-2 -mt-2 border-2 border-onSurface p-2 rounded-sm scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface resize-none"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+              ></textarea>
+            </div>
             <button
-              className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"
-              onClick={() => setSuccessDialog(false)}
+              className="btn-primary inline font-medium min-w-[6rem] m-2"
+              type="submit"
             >
-              Close
+              Criar
             </button>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
-    </>
+            <button
+              className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 hover:border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-opacity-100"
+              onClick={() => {
+                setName('');
+                setDescription('');
+                setErrorDialog(false);
+                onNewTask();
+              }}
+            >
+              Cancelar
+            </button>
+          </form>
+        </Dialog.Panel>
+      </div>
+    </Dialog>
   );
 }

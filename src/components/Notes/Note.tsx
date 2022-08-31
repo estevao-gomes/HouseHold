@@ -27,7 +27,7 @@ export function Note({
           onClick={onNoteEdit}
           className="inline ml-2 underline hover:opacity-50 hover:cursor-pointer"
         >
-          Edit
+          Editar
         </button>
         <button
           id={id}
