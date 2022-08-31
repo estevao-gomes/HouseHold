@@ -11,6 +11,8 @@ type TaskProps = {
 
 const buttonStyle = {};
 
+const today = new Date();
+
 export function Task({
   task,
   onTaskChecked,
@@ -23,7 +25,13 @@ export function Task({
         className={`col-span-6 bg-surface border-4 rounded-md ${
           task.isClicked ? 'border-primary-dark' : 'border-primary-light'
         } hover:border-primary focus:border-primary font-bold p-2 w-full text-center
-        ${task.isChecked ? 'text-checked-600' : 'text-onSurface'}`}
+        ${
+          task.isChecked
+            ? 'text-checked-600'
+            : task.date < today
+            ? 'text-error-500'
+            : 'text-onSurface'
+        }`}
         id={task.id}
         onClick={onTaskClicked}
       >
@@ -50,7 +58,20 @@ export function Task({
       </button>
       {task.isClicked && (
         <div className="col-span-8 border-2 border-primary-dark rounded-md w-full p-1">
-          {task.description}
+          <div>{task.description}</div>
+          <div>
+            Due date:{' '}
+            <span
+              className={
+                task.date < today ? 'text-error-500' : 'text-onSurface'
+              }
+            >
+              {task.date.toLocaleString('pt-BR', {
+                timezone: 'GMT-3',
+                dateStyle: 'short',
+              })}
+            </span>
+          </div>
         </div>
       )}
     </>

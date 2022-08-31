@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { NewTask } from '../../../modals/NewTask';
-import { DateButton } from './DateButton';
 import { Plus } from 'phosphor-react';
 
 export function Header() {
@@ -15,10 +14,10 @@ export function Header() {
       <div className="text-center bg-primary-dark text-onPrimary-dark text-xl font-bold py-2">
         Lista de Tarefas
       </div>
-      <DateButton />
+      {/* <DateButton /> */}
       <div className="flex align-items-center justify-center">
         <button
-          className="btn-primary mb-2"
+          className="btn-primary my-2"
           type="button"
           onClick={() => {
             setIsOpen(true);

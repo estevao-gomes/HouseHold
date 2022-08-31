@@ -33,34 +33,32 @@ interface ItemProps {
   setShoppingItems: (newItems: ShoppingItems[]) => void;
 }
 
-const detatchers = <Unsubscribe[]>[]
+const detatchers = <Unsubscribe[]>[];
 
-export async function getTasks({ date, uid, setTasks }: TasksProps) {
-  const q = query(
-    collection(db, 'tasks'),
-    where('uid', '==', uid),
-    where('date', '==', date)
+export async function getTasks({ uid, setTasks }: TasksProps) {
+  const q = query(collection(db, 'tasks'), where('uid', '==', uid));
+
+  const unsubscribe = onSnapshot(
+    q,
+    (querySnapshot) => {
+      let result = <TaskInterface[]>[];
+
+      querySnapshot.forEach((doc) => {
+        result.push({
+          ...doc.data(),
+          id: doc.id,
+          date: doc.data().date.toDate(),
+          isClicked: false,
+        } as TaskInterface);
+      });
+
+      setTasks(result);
+    },
+    (error) => {
+      alert(`Erro ao obter tarefas:  ${error.message}`);
+    }
   );
 
-
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    let result = <TaskInterface[]>[];
-
-    querySnapshot.forEach((doc) => {
-      result.push({
-        ...doc.data(),
-        id: doc.id,
-        date: doc.data().date.toDate(),
-        isClicked: false,
-      } as TaskInterface);
-    });
-
-    setTasks(result);
-
-  }, (error)=>{
-    alert(`Erro ao obter tarefas:  ${error.message}`)
-  });
-  
   detatchers.push(unsubscribe);
 
   return unsubscribe;
@@ -96,23 +94,31 @@ export async function createTask(
 }
 
 export function getNotes({ uid, setNotes }: NotesProps) {
-  const q = query(collection(db, 'notes'), where('uid', '==', uid), orderBy('time'));
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    let result = <NoteInterface[]>[];
+  const q = query(
+    collection(db, 'notes'),
+    where('uid', '==', uid),
+    orderBy('time')
+  );
+  const unsubscribe = onSnapshot(
+    q,
+    (querySnapshot) => {
+      let result = <NoteInterface[]>[];
 
-    querySnapshot.forEach((doc) => {
-      const {name, description} = doc.data()
-      result.push({
-        name,
-        description,
-        id: doc.id,
-      } as NoteInterface);
-    });
+      querySnapshot.forEach((doc) => {
+        const { name, description } = doc.data();
+        result.push({
+          name,
+          description,
+          id: doc.id,
+        } as NoteInterface);
+      });
 
-    setNotes(result);
-  }, (error)=>{
-    alert(`Erro ao obter notas:  ${error.message}`)
-  });
+      setNotes(result);
+    },
+    (error) => {
+      alert(`Erro ao obter notas:  ${error.message}`);
+    }
+  );
 
   detatchers.push(unsubscribe);
 
@@ -134,74 +140,75 @@ export async function createNote(
     name: name,
     description: description,
     uid: uid,
-    time: Timestamp.fromDate(new Date())
+    time: Timestamp.fromDate(new Date()),
   });
 }
 
-export async function editNote(name: string, description: string, id: string){
+export async function editNote(name: string, description: string, id: string) {
   const docRef = doc(db, 'notes', id);
 
   await updateDoc(docRef, {
     name: name,
-    description: description
+    description: description,
   });
 }
-export async function getShoppingList({uid, setShoppingItems}: ItemProps) {
+export async function getShoppingList({ uid, setShoppingItems }: ItemProps) {
   const q = query(collection(db, 'shoppingList'), where('uid', '==', uid));
-  
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    let result = <ShoppingItems[]>[];
-    
-    querySnapshot.forEach((doc) => {
-      const { name, checked } = doc.data(); 
-      result.push({
-        name,
-        checked,
-        id: doc.id,
-      } as ShoppingItems);
-    });
 
-    setShoppingItems(result);
-  }, (error)=>{
-    alert(`Erro ao obter lista de compras:  ${error.message}`)
-  });
+  const unsubscribe = onSnapshot(
+    q,
+    (querySnapshot) => {
+      let result = <ShoppingItems[]>[];
 
-  detatchers.push(unsubscribe)
+      querySnapshot.forEach((doc) => {
+        const { name, checked } = doc.data();
+        result.push({
+          name,
+          checked,
+          id: doc.id,
+        } as ShoppingItems);
+      });
+
+      setShoppingItems(result);
+    },
+    (error) => {
+      alert(`Erro ao obter lista de compras:  ${error.message}`);
+    }
+  );
+
+  detatchers.push(unsubscribe);
 
   return unsubscribe;
 }
 
 export async function deleteItem(id: string) {
-  const docRef = doc(db, 'shoppingList', id)
+  const docRef = doc(db, 'shoppingList', id);
 
-  await deleteDoc(docRef)
+  await deleteDoc(docRef);
 }
 
 export async function checkItem(id: string, newChecked: boolean) {
-  const docRef = doc(db, 'shoppingList', id)
+  const docRef = doc(db, 'shoppingList', id);
 
   await updateDoc(docRef, {
-    checked: newChecked
-  })
+    checked: newChecked,
+  });
 }
 
 export async function createItem(name: string, uid: string) {
   await addDoc(collection(db, 'shoppingList'), {
     name: name,
     checked: false,
-    uid: uid
-  })
+    uid: uid,
+  });
 }
 
 export async function logOut() {
-  detatchers.forEach((detatcher)=>{
+  detatchers.forEach((detatcher) => {
     detatcher();
-  })
+  });
 
-  return await signOut(auth).then(
-    (result)=>{
-      return result
-    }
-  );
-  
+  return await signOut(auth).then((result) => {
+    return result;
+  });
 }
