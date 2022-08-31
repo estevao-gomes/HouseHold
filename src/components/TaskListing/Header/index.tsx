@@ -14,7 +14,6 @@ export function Header() {
       <div className="text-center bg-primary-dark text-onPrimary-dark text-xl font-bold py-2">
         Lista de Tarefas
       </div>
-      {/* <DateButton /> */}
       <div className="flex align-items-center justify-center">
         <button
           className="btn-primary my-2"

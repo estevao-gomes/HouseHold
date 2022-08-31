@@ -4,12 +4,16 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { NewNote } from '../../modals/NewNote';
 import { EditNote } from '../../modals/EditNote';
 
-import { getNotes, deleteNotes, createNote, editNote } from '../../hooks/useApi';
+import {
+  getNotes,
+  deleteNotes,
+  createNote,
+  editNote,
+} from '../../hooks/useApi';
 
 import { NoteInterface } from '../../interfaces/NoteInterface';
 import { Note } from './Note';
 import { auth } from '../../api/firebase';
-
 
 interface NotesProps {
   style?: string;
@@ -25,22 +29,21 @@ export function Notes({ style }: NotesProps) {
 
   useEffect(() => {
     async function CallApi() {
-      try{
-        auth.onAuthStateChanged((user)=>{
-          if(user){
-            let uid = user.uid
+      try {
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            let uid = user.uid;
             return getNotes({
               uid,
               setNotes,
             });
-          }else{
-            setNotes([])
+          } else {
+            setNotes([]);
           }
-        })
-      }catch(error){
-        alert(`Erro ao obter notas: ${error}`)
+        });
+      } catch (error) {
+        alert(`Erro ao obter notas: ${error}`);
       }
-      
     }
     CallApi();
   }, []);
@@ -51,10 +54,12 @@ export function Notes({ style }: NotesProps) {
     deleteNotes(id);
   }
 
-  function handleNewNote(name: string, description: string) {
-    if(auth.currentUser){
+  function handleNewNote(name?: string, description?: string) {
+    if (auth.currentUser) {
       setNewNoteIsOpen(false);
-      createNote(name, description, auth.currentUser.uid);
+      if (name && description) {
+        createNote(name, description, auth.currentUser.uid);
+      }
     }
   }
 
@@ -66,8 +71,8 @@ export function Notes({ style }: NotesProps) {
 
   async function NoteEdit(name?: string, description?: string) {
     setEditNoteIsOpen(false);
-    if(name && description){
-      await editNote(name, description, noteBeingEdited)
+    if (name && description) {
+      await editNote(name, description, noteBeingEdited);
     }
   }
 
@@ -81,7 +86,7 @@ export function Notes({ style }: NotesProps) {
           }}
           className="btn-primary"
         >
-          <span className='mr-2'>Nova Nota</span>
+          <span className="mr-2">Nova Nota</span>
           <Plus className="inline" size={16} />
         </button>
       </div>

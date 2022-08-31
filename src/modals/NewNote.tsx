@@ -1,11 +1,10 @@
 import { FormEvent, useState } from 'react';
 
 import { Dialog } from '@headlessui/react';
-import { createNote } from '../hooks/useApi';
 
 interface NewNoteProps {
   newNoteIsOpen: boolean;
-  onNewNote: (name: string, description: string) => void;
+  onNewNote: (name?: string, description?: string) => void;
 }
 
 export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
@@ -100,6 +99,7 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
                   setName('');
                   setDescription('');
                   setErrorDialog(false);
+                  onNewNote();
                 }}
               >
                 Cancelar
