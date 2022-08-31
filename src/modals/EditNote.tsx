@@ -23,12 +23,16 @@ export function EditNote({
     event.preventDefault();
 
     try {
-      if (nameRef.current.value === '') {
-        throw new Error('Empty task name');
-      } else if (descriptionRef.current.value === '') {
-        throw new Error('Empty note');
+      if (nameRef.current && descriptionRef.current) {
+        if (nameRef.current.value === '') {
+          throw new Error('Empty task name');
+        } else if (descriptionRef.current.value === '') {
+          throw new Error('Empty note');
+        }
+        EditNote(nameRef.current.value, descriptionRef.current.value);
+      } else {
+        throw new Error('Unknown Error');
       }
-      EditNote(nameRef.current.value, descriptionRef.current.value);
     } catch (error) {
       let message;
 
