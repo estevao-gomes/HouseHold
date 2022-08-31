@@ -7,7 +7,7 @@ import {
 } from '../../hooks/useApi';
 import { ShoppingItems } from '../../interfaces/ShoppingListItemsInterface';
 import { Trash } from 'phosphor-react';
-import { auth } from '../../api/firebase'
+import { auth } from '../../api/firebase';
 
 interface ShoppingListProps {
   style?: string;
@@ -19,21 +19,20 @@ export function ShoppingList({ style }: ShoppingListProps) {
 
   useEffect(() => {
     function callApi() {
-      try{
-        auth.onAuthStateChanged((user)=>{
+      try {
+        auth.onAuthStateChanged((user) => {
           if (user) {
-            let uid = user.uid
+            let uid = user.uid;
 
             return getShoppingList({ uid, setShoppingItems });
-
-          }else{
-            setShoppingItems([] as ShoppingItems[])
+          } else {
+            setShoppingItems([] as ShoppingItems[]);
           }
-        })
-      }catch(err){
-        console.log(err)    
+        });
+      } catch (err) {
+        console.log(err);
       }
-    }     
+    }
     callApi();
   }, []);
 
@@ -61,7 +60,7 @@ export function ShoppingList({ style }: ShoppingListProps) {
 
   return (
     <div className={`${style ? style : ''}`}>
-      <div className="bg-primary text-center font-bold p-2">
+      <div className="bg-primary rounded-t-md mt-0 text-center font-bold p-2">
         Lista de Compras
       </div>
       <div className="flex justify-center">
