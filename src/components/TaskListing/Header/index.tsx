@@ -11,7 +11,7 @@ export function Header() {
 
   return (
     <>
-      <div className="text-center bg-primary-dark text-onPrimary-dark text-xl font-bold py-2">
+      <div className="text-center bg-primary text-onPrimary text-xl font-bold py-2">
         Lista de Tarefas
       </div>
       <div className="flex align-items-center justify-center">

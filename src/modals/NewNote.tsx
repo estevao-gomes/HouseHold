@@ -50,16 +50,16 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
           setErrorDialog(false);
         }}
       >
-        <div className="w-[345px] h-[400px] bg-surface shadow">
+        <div className="w-[345px] h-fit bg-surface shadow">
           <Dialog.Panel>
-            <Dialog.Title className="p-2 bg-primary text-onPrimary font-medium">
-              New Note
+            <Dialog.Title className="p-2 bg-primary-dark text-onPrimary font-medium">
+              Nova Nota
             </Dialog.Title>
 
             <form className="flex-auto" onSubmit={handleSubmit}>
               <div className="relative grid grid-rows-2 mt-2 mx-16">
                 <div className="flex z-10 items-center">
-                  <label className="w-16 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
+                  <label className="w-16 bg-primary text-onPrimary-light rounded-md p-2 font-medium">
                     Nome
                   </label>
                   {errorDialog && (
@@ -78,7 +78,7 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
                 ></input>
               </div>
               <div className="relative grid grid-rows-3 mt-2 mx-16">
-                <label className="w-32 z-10 bg-primary-light text-onPrimary-light rounded-md p-2 font-medium">
+                <label className="w-32 z-10 bg-primary text-onPrimary-light rounded-md p-2 font-medium">
                   Descrição
                 </label>
                 <textarea
@@ -88,13 +88,13 @@ export function NewNote({ newNoteIsOpen, onNewNote }: NewNoteProps) {
                 ></textarea>
               </div>
               <button
-                className="bg-primary text-onPrimary font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2"
+                className="btn-primary inline font-medium min-w-[6rem] m-2"
                 type="submit"
               >
                 Criar
               </button>
               <button
-                className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 border-2 border-primary"
+                className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 hover:border-2 border-primary"
                 onClick={() => {
                   setName('');
                   setDescription('');
