@@ -15,8 +15,8 @@ export function EditNote({
   EditNote,
   noteBeingEdited,
 }: EditNoteProps) {
-  const nameRef = useRef(null);
-  const descriptionRef = useRef(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const [errorDialog, setErrorDialog] = useState<boolean>(false);
 
   async function handleSubmit(event: FormEvent) {
