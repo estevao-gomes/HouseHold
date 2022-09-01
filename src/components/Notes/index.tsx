@@ -8,6 +8,7 @@ import { getNotes, deleteNotes, createNote, editNote } from '../../hooks/useApi'
 
 import { NoteInterface } from '../../interfaces/NoteInterface';
 import { Note } from './Note';
+
 import { auth } from '../../api/firebase';
 
 
@@ -21,7 +22,7 @@ export function Notes({ style }: NotesProps) {
   const [editNoteIsOpen, setEditNoteIsOpen] = useState<boolean>(false);
   const [noteBeingEdited, setNoteBeingEdited] = useState<string>('');
 
-  //const { uid } = useUser();
+ 
 
   useEffect(() => {
     async function CallApi() {
