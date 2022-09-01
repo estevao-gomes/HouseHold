@@ -67,7 +67,6 @@ export function Task({
             >
               {/* Formats date for BR locale and "short" style (no hour). */}
               {task.date.toLocaleString('pt-BR', {
-                timeZone: 'GMT-3',
                 dateStyle: 'short',
               })}
             </span>
