@@ -83,13 +83,13 @@ export function ShoppingList({ style }: ShoppingListProps) {
           <button className="btn-primary ">Inserir</button>
         </form>
       </div>
-      <div className="last:mb-2">
+      <div className="">
         {shoppingItems?.map((item) => {
           return (
             <div
               key={item.id}
               id={item.id}
-              className="flex gap-2 items-center w-2/3 mx-auto mt-8 border-2 border-primary rounded-md"
+              className="flex gap-2 items-center w-2/3 mx-auto mt-8 border-2 border-primary rounded-md last:mb-2"
             >
               <input
                 onClick={handleCheckItem}
