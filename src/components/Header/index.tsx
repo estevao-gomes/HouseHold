@@ -1,4 +1,4 @@
-import { signInWithPopup, signOut, User } from 'firebase/auth';
+import { signInAnonymously, signInWithPopup, signOut, User } from 'firebase/auth';
 import { auth, provider } from '../../api/firebase';
 
 import { GoogleLogo } from 'phosphor-react';
@@ -9,6 +9,7 @@ import { logOut } from '../../hooks/useApi';
 export function Header() {
   const [username, setUsername] = useState<string>('');
 
+  //Sets up displayname showing in case of user already logged ing (persistent log in)
   useEffect(()=>{
     auth.onAuthStateChanged(()=>{
       if(auth.currentUser?.displayName){
@@ -18,7 +19,7 @@ export function Header() {
   }, [])
 
   //Handles sign in option with popup, using google authentication
-  async function handleSignIn() {
+  async function handleGoogleSignIn() {
     //Checks if the user is already logged in before attempting to perform action
     if (!auth.currentUser) {
       await signInWithPopup(auth, provider)
@@ -35,7 +36,26 @@ export function Header() {
       await logOut()
         .then((result) => {
           setUsername('');
-          console.log('Log Out successful');
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+  async function handleAnonymousSignIn() {
+    //Checks if the user is already logged in before attempting to perform action
+    if (!auth.currentUser) {
+      await signInAnonymously(auth)
+        .then((result) => {
+          console.log(result)
+            setUsername('Anônimo');
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } else {
+      //If user already logged in, performs log out
+      await logOut()
+        .then((result) => {
+          setUsername('');
         })
         .catch((err) => console.log(err));
     }
@@ -45,11 +65,19 @@ export function Header() {
       <img className="my-2 w-[6rem]" src="\assets\house.png" alt="House Icon" />
       <h1 className="mx-2 text-2xl font-bold">HouseHold</h1>
       <button
-        onClick={handleSignIn}
-        className="btn-primary md:absolute md:right-32"
+        onClick={handleAnonymousSignIn}
+        className="btn-primary md:absolute md:right-64 h-12 group"
+      >
+        <span className='group-hover:invisible'>{username ? username : 'Sign in Anônimo'}</span>
+        <span className='absolute group-hover:visible invisible'>Log Out</span>
+      </button>
+      <button
+        onClick={handleGoogleSignIn}
+        className="btn-primary md:absolute md:right-32 group"
       >
         <GoogleLogo size={32} />
-        {username ? username : 'Sign in'}
+        <span className='group-hover:invisible'>{username ? username : 'Sign in'}</span>
+        <span className='absolute left-12 group-hover:visible invisible'>Log Out</span>
       </button>
     </header>
   );

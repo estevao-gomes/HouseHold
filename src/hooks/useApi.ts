@@ -220,7 +220,10 @@ export async function logOut() {
     detatcher();
   });
 
-  return await signOut(auth).then((result) => {
-    return result;
-  });
+  //Does not log out if user is anonymous. Logging out anonymous users creates new uid on login.
+  if(!auth.currentUser?.isAnonymous){
+    return await signOut(auth).then((result) => {
+      return result;
+    });
+  }
 }
