@@ -4,7 +4,7 @@
 Right now, the project includes the task management, Notes and Shopping List components.
 </p>
 
-<img src="https://i.imgur.com/i3Y4dCp.png" alt="Application image" />
+<img src="https://i.imgur.com/RMctPlQ.png" alt="Application image" />
 
 <h2>This project uses the following technologies: </h3>
 <ul>
@@ -15,5 +15,6 @@ Right now, the project includes the task management, Notes and Shopping List com
   <li>TailwindCSS</li>
   <li>Vite</li>
   <li>@Headless/ui</li>
+  <li>Phosphor-React</li>
   <li>Firebase</li>
 </ul>
