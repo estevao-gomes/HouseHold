@@ -1,7 +1,7 @@
 import { signInAnonymously, signInWithPopup, signOut, User } from 'firebase/auth';
 import { auth, provider } from '../../api/firebase';
 
-import { GoogleLogo } from 'phosphor-react';
+import { GoogleLogo, House } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 
 import { logOut } from '../../hooks/useApi';
@@ -62,7 +62,7 @@ export function Header() {
   }
   return (
     <header className="relative flex w-full items-center justify-center bg-primary">
-      <img className="my-2 w-[6rem]" src="\assets\house.png" alt="House Icon" />
+      <House size={96} className="text-onSecondary" weight='bold'/>
       <h1 className="mx-2 text-2xl font-bold">HouseHold</h1>
       <button
         onClick={handleAnonymousSignIn}
