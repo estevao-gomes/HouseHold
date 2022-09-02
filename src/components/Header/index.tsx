@@ -2,14 +2,20 @@ import { signInWithPopup, signOut, User } from 'firebase/auth';
 import { auth, provider } from '../../api/firebase';
 
 import { GoogleLogo } from 'phosphor-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { logOut } from '../../hooks/useApi';
 
 export function Header() {
-  const [username, setUsername] = useState<string>(
-    auth.currentUser?.displayName ? auth.currentUser.displayName : ''
-  );
+  const [username, setUsername] = useState<string>('');
+
+  useEffect(()=>{
+    auth.onAuthStateChanged(()=>{
+      if(auth.currentUser?.displayName){
+        setUsername(auth.currentUser.displayName)
+      }
+      })  
+  }, [])
 
   //Handles sign in option with popup, using google authentication
   async function handleSignIn() {
