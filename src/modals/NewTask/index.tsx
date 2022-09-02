@@ -21,7 +21,10 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
   const [newTaskDate, setNewTaskDate] = useState(
     new Date(new Date().toDateString())
   );
-  const [taskData, setTaskData] = useState<TaskDataType>({} as TaskDataType)
+  const [taskData, setTaskData] = useState<TaskDataType>({
+    name: '',
+    description: ''
+  })
   const [errorDialog, setErrorDialog] = useState(false);
 
   //Clears Task data on operation cancel/submition

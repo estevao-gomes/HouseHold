@@ -58,15 +58,15 @@ export function DateListBox({
               >
                 {/* If option is active, changes background color */}
                 {({ active }) => (
-                  <li
+                  <span
                     className={`${
                       active
                         ? 'bg-primary-light text-onPrimary-light font-medium'
                         : 'bg-surface text-onSurface'
-                    }`}
+                    } w-full`}
                   >
                     {day + 1}
-                  </li>
+                  </span>
                 )}
               </Listbox.Option>
             ))}
@@ -89,7 +89,7 @@ export function DateListBox({
                 >
                   {/* If option is active, changes background color */}
                   {({ active }) => (
-                    <li
+                    <span
                       className={`${
                         active
                           ? 'bg-primary-light text-onPrimary-light font-medium'
@@ -97,7 +97,7 @@ export function DateListBox({
                       }`}
                     >
                       {month + 1}
-                    </li>
+                    </span>
                   )}
                 </Listbox.Option>
               );
@@ -123,7 +123,7 @@ export function DateListBox({
                   >
                     {/* If option is active, changes background color */}
                     {({ active }) => (
-                      <li
+                      <span
                         className={`${
                           active
                             ? 'bg-primary-light text-onPrimary-light font-medium'
@@ -131,7 +131,7 @@ export function DateListBox({
                         }`}
                       >
                         {year}
-                      </li>
+                      </span>
                     )}
                   </Listbox.Option>
                 );
