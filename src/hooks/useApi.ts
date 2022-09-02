@@ -221,9 +221,8 @@ export async function logOut() {
   });
 
   //Does not log out if user is anonymous. Logging out anonymous users creates new uid on login.
-  if(!auth.currentUser?.isAnonymous){
-    return await signOut(auth).then((result) => {
-      return result;
-    });
-  }
+
+  return await signOut(auth).then((result) => {
+    return result;
+  });
 }

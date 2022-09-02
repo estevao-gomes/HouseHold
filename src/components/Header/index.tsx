@@ -12,8 +12,8 @@ export function Header() {
   //Sets up displayname showing in case of user already logged ing (persistent log in)
   useEffect(()=>{
     auth.onAuthStateChanged(()=>{
-      if(auth.currentUser?.displayName){
-        setUsername(auth.currentUser.displayName)
+      if(auth.currentUser){
+        setUsername(auth.currentUser.displayName ? auth.currentUser.displayName : "Anônimo")
       }
       })  
   }, [])
@@ -68,16 +68,18 @@ export function Header() {
         onClick={handleAnonymousSignIn}
         className="btn-primary md:absolute md:right-64 h-12 group"
       >
-        <span className='group-hover:invisible'>{username ? username : 'Sign in Anônimo'}</span>
-        <span className='absolute group-hover:visible invisible'>Log Out</span>
+        {!auth.currentUser && <span>Sign in Anônimo</span>}
+        {auth.currentUser && <span className='group-hover:invisible group-focus:invisible'>{username ? username : 'Sign in Anônimo'}</span>}
+        {auth.currentUser && <span className='absolute group-hover:visible group-focus:visible invisible'>Log Out</span>}
       </button>
       <button
         onClick={handleGoogleSignIn}
         className="btn-primary md:absolute md:right-32 group"
       >
         <GoogleLogo size={32} />
-        <span className='group-hover:invisible'>{username ? username : 'Sign in'}</span>
-        <span className='absolute left-12 group-hover:visible invisible'>Log Out</span>
+        {!auth.currentUser && <span>Sign in</span>}
+        {auth.currentUser && <span className='group-hover:invisible group-focus:invisible'>{username ? username : 'Sign in'}</span>}
+        {auth.currentUser && <span className='absolute left-12 group-hover:visible group-focus:visible invisible'>Log Out</span>}
       </button>
     </header>
   );
