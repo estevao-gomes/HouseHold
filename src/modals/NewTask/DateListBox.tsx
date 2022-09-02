@@ -32,7 +32,7 @@ export function DateListBox({
   return (
     <div className="grid grid-cols-3 gap-x-4 bg-surface p-2 max-w-[13rem]">
       <p className="w-fit col-span-3 bg-primary text-onPrimary-light rounded-md p-2 font-medium text-sm mb-1 -ml-3">
-        Due Date
+        Prazo
       </p>
       <div className="text-center bg-primary text-onPrimary-light font-medium px-2 rounded-t-md border border-b-0 border-primary">
         Dia

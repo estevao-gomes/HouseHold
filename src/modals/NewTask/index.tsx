@@ -12,13 +12,22 @@ interface NewTaskProps {
   onNewTask: () => void;
 }
 
+interface TaskDataType {
+  name: string;
+  description: string;
+}
+
 export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
   const [newTaskDate, setNewTaskDate] = useState(
     new Date(new Date().toDateString())
   );
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [taskData, setTaskData] = useState<TaskDataType>({} as TaskDataType)
   const [errorDialog, setErrorDialog] = useState(false);
+
+  //Clears Task data on operation cancel/submition
+  function clearTaskData(){
+    setTaskData({} as TaskDataType)
+  }
 
   //Handles changes on day dropdown.
   function handleDaySet(day: number) {
@@ -60,11 +69,11 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
     event.preventDefault();
 
     try {
-      if (name === '') {
+      if (taskData.name === '') {
         throw new Error('Empty task name');
       }
       if (auth.currentUser) {
-        createTask(newTaskDate, name, auth.currentUser.uid, description);
+        createTask(newTaskDate, taskData.name, auth.currentUser.uid, taskData.description);
       } else {
         throw new Error('No user logged in');
       }
@@ -83,7 +92,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
     }
     setErrorDialog(false);
     onNewTask();
-    setDescription('');
+    clearTaskData()
   }
   return (
     //On closing submits dialog content (if there is content to submit) and sets error dialog to false if is previously set.
@@ -122,8 +131,12 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
                   !errorDialog ? 'border-onSurface' : 'border-error-600'
                 } p-2`}
                 type="text"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
+                value={taskData.name}
+                onChange={(event) => setTaskData((taskData)=>{
+                  return{
+                  ...taskData,
+                  name: event.target.value
+                }})}
               ></input>
             </div>
             <div className="flex justify-center">
@@ -144,8 +157,12 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
               <textarea
                 id="taskDescription"
                 className="row-span-2 mx-2 -mt-2 border-2 border-onSurface p-2 rounded-sm scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface resize-none"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
+                value={taskData.description}
+                onChange={(event) => setTaskData((taskData)=>{
+                  return{
+                  ...taskData,
+                  description: event.target.value
+                }})}
               ></textarea>
             </div>
             <button
@@ -158,8 +175,7 @@ export function NewTask({ isOpen, onNewTask }: NewTaskProps) {
             <button
               className="bg-surface text-error-400 font-medium rounded-xl px-2 py-1 min-w-[6rem] m-2 hover:border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-opacity-100"
               onClick={() => {
-                setName('');
-                setDescription('');
+                clearTaskData()
                 setErrorDialog(false);
                 onNewTask();
               }}

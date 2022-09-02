@@ -59,7 +59,7 @@ export function Task({
         <div className="col-span-8 border-2 border-primary-dark rounded-md w-full p-1">
           <div>{task.description}</div>
           <div>
-            Due date:{' '}
+            Prazo:{' '}
             <span
               className={
                 task.date < today ? 'text-error-500' : 'text-onSurface'
