@@ -4,7 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
-// Your web app's Firebase configuration
+// web app's Firebase configuration
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCpKO5j-xf53c7-oU7V_5_gjIqjvLwO98M',
@@ -23,6 +23,7 @@ const app = initializeApp(firebaseConfig);
 // Initialize Realtime Database and get a reference to the service
 export const db = getFirestore(app);
 
+// Initialize provider and auth object for google authentication
 export const provider = new GoogleAuthProvider();
 
 export const auth = getAuth(app);

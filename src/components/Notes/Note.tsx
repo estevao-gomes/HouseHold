@@ -6,18 +6,28 @@ interface NoteProps {
   description: string;
   id: string;
   onNoteDelete: (event: MouseEvent) => void;
-  onNoteEdit: (event:MouseEvent)=>void;
+  onNoteEdit: (event: MouseEvent) => void;
 }
-export function Note({ name, description, id, onNoteDelete, onNoteEdit }: NoteProps) {
+
+export function Note({
+  name,
+  description,
+  id,
+  onNoteDelete,
+  onNoteEdit,
+}: NoteProps) {
   return (
-    //this div will become a fragment
     <div>
       <div className="flex items-center">
-        <div className="border border-primary-dark bg-primary-light rounded-md cursor-default w-fit px-2 mb-1">
+        <div className="bg-primary rounded-md cursor-default w-fit px-2 mb-1">
           {name}
         </div>
-        <button id={id} onClick={onNoteEdit} className="inline ml-2 underline hover:opacity-50 hover:cursor-pointer">
-          Edit
+        <button
+          id={id}
+          onClick={onNoteEdit}
+          className="inline ml-2 underline hover:opacity-50 hover:cursor-pointer"
+        >
+          Editar
         </button>
         <button
           id={id}

@@ -4,27 +4,34 @@ import { Task } from './Task';
 import { TaskInterface } from '../../../interfaces/TaskInterface';
 
 import { deleteTasks, getTasks, checkTask } from '../../../hooks/useApi';
-import { useDate } from '../../../contexts/DateContext';
-import { useUser } from '../../../contexts/UserContext';
+import { auth } from '../../../api/firebase';
 
 export function TaskList() {
   const [tasks, setTasks] = useState<TaskInterface[]>([]);
-  const { date } = useDate();
-  const { uid } = useUser();
 
+  //Creates watcher for auth state changing. Gets task listing if user is logged in, else, resets Task list state. Changes
   useEffect(() => {
     async function CallApi() {
-      const result = await getTasks({
-        date,
-        uid,
-        setTasks,
-      });
+      try {
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            let uid = user.uid;
+            return getTasks({
+              uid,
+              setTasks,
+            });
+          } else {
+            setTasks([]);
+          }
+        });
+      } catch (error) {
+        alert(`Erro ao obter tarefas: ${error}`);
+      }
     }
+    CallApi();
+  }, []);
 
-
-    CallApi().catch(console.error);
-  }, [date, uid]);
-
+  //Checks task on Firebase with given id
   async function handleTaskChecked(event: MouseEvent) {
     let id = event.currentTarget.id;
     const newIsChecked = !(
@@ -32,22 +39,11 @@ export function TaskList() {
     ).isChecked;
 
     await checkTask(id, newIsChecked);
-
-    // setTasks((tasks) => {
-    //   return tasks.map((task) => {
-    //     return task.id === id
-    //       ? {
-    //           ...task,
-    //           isChecked: !task.isChecked,
-    //         }
-    //       : task;
-    //   });
-    // });
   }
 
+  //Changes "isClicked" value for task with given id on tasks state.
   function handleTaskClicked(event: MouseEvent) {
     let id = event.currentTarget.id;
-    //console.log(id);
     setTasks((tasks) => {
       return tasks.map((task) => {
         return task.id === id
@@ -60,14 +56,12 @@ export function TaskList() {
     });
   }
 
+  //Deletes task with given id
   async function handleTaskDelete(event: MouseEvent) {
     let id = event.currentTarget.id;
     await deleteTasks(id);
-    // setTasks((tasks) => {
-    //   return tasks.filter((task) => task.id !== id);
-    // });
   }
-  //console.log(tasks);
+
   return (
     <div className="grid grid-cols-8 justify-center justify-items-center items-center mx-1 max-h-72 overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-surface">
       {tasks.map((task) => {
