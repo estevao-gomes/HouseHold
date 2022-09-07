@@ -3,7 +3,7 @@
 <p>Household is a project made to help people take care of their domestic activities. Task management, Note taking and shopping list. All of these can be done in this app Log in with your google account to save your data, or log in anonymously and save everything in your browser.
 Try it out! Chek it in the link bellow:
 
-<a href="https://house-hold.vercel.app/>HouseHold</a>
+<a href="https://house-hold.vercel.app">HouseHold</a>
 
 </p>
 
