@@ -1,7 +1,10 @@
 <h1>HOUSEHOLD</h1>
 
-<p>Household is a project made to help people take care of their domestic activities. Task management, controlling bills' payments, shopping list. All of these will be done by this app. It will also include a dashboard to show how many activities are pending and how is the state of the activites for a pre determined period of time.
-Right now, the project includes the task management, Notes and Shopping List components.
+<p>Household is a project made to help people take care of their domestic activities. Task management, Note taking and shopping list. All of these can be done in this app Log in with your google account to save your data, or log in anonymously and save everything in your browser.
+Try it out! Chek it in the link bellow:
+
+<a href="https://house-hold.vercel.app/>HouseHold</a>
+
 </p>
 
 <img src="https://i.imgur.com/RMctPlQ.png" alt="Application image" />
