@@ -14,8 +14,9 @@ export function Header() {
     auth.onAuthStateChanged(()=>{
       if(auth.currentUser){
         setUsername(auth.currentUser.displayName ? auth.currentUser.displayName : "Anônimo")
-      }
-      })  
+      }else{
+        return
+      }})  
   }, [])
 
   //Handles sign in option with popup, using google authentication
@@ -61,26 +62,30 @@ export function Header() {
     }
   }
   return (
-    <header className="relative flex w-full items-center justify-center bg-primary">
-      <House size={96} className="text-onSecondary" weight='bold'/>
-      <h1 className="mx-2 text-2xl font-bold">HouseHold</h1>
-      <button
-        onClick={handleAnonymousSignIn}
-        className="btn-primary md:absolute md:right-64 h-12 group"
-      >
-        {!auth.currentUser && <span>Sign in Anônimo</span>}
-        {auth.currentUser && <span className='group-hover:invisible group-focus:invisible'>{username ? username : 'Sign in Anônimo'}</span>}
-        {auth.currentUser && <span className='absolute group-hover:visible group-focus:visible invisible'>Log Out</span>}
-      </button>
-      <button
-        onClick={handleGoogleSignIn}
-        className="btn-primary md:absolute md:right-32 group"
-      >
-        <GoogleLogo size={32} />
-        {!auth.currentUser && <span>Sign in</span>}
-        {auth.currentUser && <span className='group-hover:invisible group-focus:invisible'>{username ? username : 'Sign in'}</span>}
-        {auth.currentUser && <span className='absolute left-12 group-hover:visible group-focus:visible invisible'>Log Out</span>}
-      </button>
+    <header className="py-1 md:py-0 relative flex w-full min-h-fit items-center justify-center bg-primary">
+      <div className='flex items-center ml-2'>
+        <House className="md:text-8xl text-5xl text-onSecondary" weight='bold'/>
+        <h1 className="mx-2 text-2xl font-bold">HouseHold</h1>
+      </div>
+      <div className='flex justify-end mr-2 w-full '> 
+        <button
+          onClick={handleAnonymousSignIn}
+          className="mx-1 md:text-base text-sm btn-primary h-12 group"
+        >
+          {!auth.currentUser && <span className=''>Login Anônimo</span>}
+          {auth.currentUser && <span className='group-hover:invisible group-focus:invisible'>{username ? username : 'Sign in Anônimo'}</span>}
+          {auth.currentUser && <span className='absolute group-hover:visible group-focus:visible invisible'>Log Out</span>}
+        </button>
+        <button
+          onClick={handleGoogleSignIn}
+          className="btn-primary group"
+        >
+          <GoogleLogo size={32} />
+          {!auth.currentUser && <span>Login</span>}
+          {auth.currentUser && <span className='group-hover:invisible group-focus:invisible'>{username ? username : 'Sign in'}</span>}
+          {auth.currentUser && <span className='absolute left-12 group-hover:visible group-focus:visible invisible'>Log Out</span>}
+        </button>
+        </div>  
     </header>
   );
 }

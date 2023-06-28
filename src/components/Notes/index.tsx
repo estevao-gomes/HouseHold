@@ -93,7 +93,7 @@ export function Notes({ style }: NotesProps) {
           }}
           className="btn-primary"
         >
-          <span className="mr-2">Nova Nota</span>
+          <span className="mr-2 font-medium">Nova Nota</span>
           <Plus className="inline" size={16} />
         </button>
       </div>
